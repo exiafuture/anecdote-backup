@@ -1,0 +1,175 @@
+.navbar {
+    background-color: rgb(210,220,230);
+    position: fixed;
+    padding: 15px 6px;
+    z-index: 8;
+    left: 0;
+    height: 4.4rem;
+    right: 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    transition: background-color 0.1s ease;
+}
+
+.dark .navbar {
+    background-color: #1e293b;
+}
+
+.burger {
+    display: none;
+}
+
+.nav-icon {
+    display: flex;
+    font-weight: bold;
+    align-items:center;
+    margin-left: 1.5rem;
+}
+
+.nav-name {
+    margin-left: 0.44rem;
+    font-size: 1.5rem;
+    font-style: italic;
+}
+
+.nav-links {
+    float: left;
+    display: flex;
+    margin-right: 1.5rem;
+    align-items: center;
+    list-style-type: none;
+}
+
+.toggle-button-theme {
+    border-radius: 10px;
+    padding: 6.2px;
+    margin-left:0.5rem;
+    background-color: rgba(187,193,201,0.8);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    cursor: pointer; 
+    height: 35px; 
+    line-height: 1; 
+}
+
+.nav-link {
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    font-size: 17px;
+    padding: 0 8px;
+    color: var(--foreground-light);
+}
+
+.dark .nav-link {
+    color: var(--foreground-dark);
+}
+
+.mobile-home {
+    display: none;
+}
+
+.backdrop {
+    display: none;
+}
+
+@media only screen and (max-width: 933px) {
+    .navbar {
+        position: fixed;
+        z-index: 17;
+        bottom:0;
+        justify-content: space-evenly;
+    }
+
+    .dark .navbar {
+        background-color: #1e293b;
+    }
+
+    .toggle-button-theme {
+        display: none;
+    }
+
+    .burger {
+        display: block;
+        font-size: 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        margin-left: 0.5rem;
+        z-index: 14;
+    }
+
+    .dark .burger {
+        color: white;
+    }
+    
+    .nav-icon {
+        display: none;
+    }
+
+    .nav-link {
+        padding-left: 4.5px;
+        padding-right: 4.5px;
+    }
+
+    .mobile-home {
+        display: block;
+    }
+
+    .burger-link {
+        display: none;
+    }
+
+    .drop-up-menu {
+        width: 100%; /* Full width */
+        height: 100%;
+        margin-top: 4rem;
+        z-index: 20; /* Ensure it sits above the backdrop */
+        display: flex; /* Use flexbox for centering */
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center-align items */
+    }
+
+    .drop-up-menu li {
+        margin-bottom: 5rem;
+    }
+
+    .drop-up-menu li:last-child {
+        margin-bottom: 0rem;
+    }
+
+    .drop-up-item button {
+        border:none;
+        font-size: 2.5rem;
+        font-weight: 600;
+        font-style: italic;
+        background: transparent;
+        color: white;
+    }
+
+    .dark .drop-up-item button {
+        color: #000;
+    }
+
+    .backdrop {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent background */
+        z-index: 10; /* Ensure it's below the navbar */
+        display: flex;
+        justify-content: center; /* Center the menu */
+        align-items: flex-start; /* Align the menu at the top */
+        padding: 6rem; /* Add padding to ensure it doesn't overlap the navbar */
+    }
+
+    .dark .backdrop {
+        background-color: rgba(255,255,255,0.9);
+    }
+}

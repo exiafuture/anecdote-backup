@@ -1,0 +1,24 @@
+.page {
+    padding: 20px;
+    text-align: center;
+    display: grid;
+    place-items: center;
+}
+
+.header {
+    margin-bottom: 30px;
+    margin-top: 5rem;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+}
+
+.header p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.dark .header p {
+    color: floralwhite;
+}

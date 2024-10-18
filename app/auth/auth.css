@@ -1,0 +1,214 @@
+.creator-page {
+    padding: 20px;
+    text-align: center;
+    display: grid;
+    place-items: center;
+}
+
+.creator-header {
+    margin-bottom: 30px;
+    margin-top: 5rem;
+}
+
+.creator-header h1 {
+    font-size: 2.5rem;
+}
+
+.creator-header p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.dark .creator-header p {
+    color: floralwhite;
+}
+
+.creator-toggle-assistance {
+    display: flex;
+    margin-top: 15px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.creator-toggle-assistance button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #c1cacb;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
+}
+
+.creator-toggle-assistance button.active {
+    background-color: #59ab74;
+    color: white;
+}
+
+.creator-toggle-assistance button.inactive {
+    background-color: #eee3d4;
+    color: grey;
+    font-weight: bold;
+}
+
+.creator-toggle-assistance button:hover {
+    background-color: #31ddbb;
+    color: white;
+    font-weight: bold;
+}
+
+.creator-card {
+    border-radius: 10px;
+    padding: 20px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.creator-card button {
+    margin-top: auto;
+    align-self: center;
+    padding: 10px 20px;
+    border: none;
+    width: 18rem;
+    border-radius: 0.35rem;
+    background-color: #ef7327;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.dark .creator-card button {
+    background-color: #969a66;
+    color: rgb(219, 235, 235);
+}
+
+.creator-card button strong {
+    color: white;
+}
+
+.dark .creator-card button strong {
+    color: lightgrey;
+}
+
+.creator-card button:hover {
+    background-color: #a9c520;
+}
+
+.dark .creator-card button:hover {
+    background-color: #819de5;
+}
+
+.creator-card p {
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+.checkin {
+    max-width: 35rem;
+    margin-top: 2rem;
+    padding: 45px;
+    background-color: #f9f9f9;
+    align-self: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 24px 16px rgba(75, 74, 74, 0.31);
+}
+
+.dark .checkin {
+    box-shadow: 0px 14px 36px 0px rgba(227, 227, 227, 0.71);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+input::placeholder {
+    color: #888;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+@media (min-width: 1200px) {
+    .creator-card {
+        width: 50%;
+        height: 45vh;
+        margin-bottom: 3.5rem;
+    }
+}
+
+@media (min-width: 1445px) {
+    .creator-card {
+        width: 40%;
+        height: 50vh;
+        margin-bottom: 3rem;
+    }
+}
+
+@media (min-width: 934px) {
+    .creator-card {
+        width: 65%;
+        height: 57vh;
+        margin-bottom: 10rem;
+    }
+}
+
+@media (max-width: 933px) {
+    .creator-header {
+        margin-top: 0rem;
+        margin-bottom: 0px;
+    }
+
+    .creator-card {
+        width: 100%;
+        padding: 4rem;
+        height: 55vh;
+        margin-bottom: 3rem;
+        margin-top: 0rem;
+    }
+
+    .creator-card button {
+        width: 40vw;
+    }
+
+    .creator-toggle-assistance {
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 400px) {
+    .creator-header {
+        margin-top: 0rem;
+        margin-bottom: 0px;
+    }
+
+    .creator-card {
+        width: 100%;
+        height: 75vh;
+        margin-bottom: 3rem;
+        margin-top: 0rem;
+    }
+
+    .creator-card button {
+        width: 45vw;
+    }
+
+    .checkin {
+        height: 100%;
+    }
+
+    .creator-toggle-assistance {
+        margin-bottom: 5px;
+    }
+}

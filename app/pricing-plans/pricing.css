@@ -1,0 +1,319 @@
+.page {
+  padding: 20px;
+  text-align: center;
+}
+
+.header {
+  margin-bottom: 30px;
+  margin-top: 5rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+}
+
+.header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.dark .header p {
+  color: floralwhite;
+}
+
+.toggle-assistance {
+  display: flex;
+  margin-top: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.toggle-assistance button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0 5px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-assistance button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.toggle-assistance button.inactive {
+  background-color: #f0ebdd;
+  color: grey;
+  font-weight: bold;
+}
+
+.toggle-assistance button:hover {
+  background-color: #0056b3;
+  color: white;
+  font-weight: bold;
+}
+
+.cards {
+  display: grid;
+  gap: 26px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-bottom: 44px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+}
+
+.card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.dark .card h1 {
+  color: slategrey;
+}
+
+.dark .card .price {
+  color: #221211;
+}
+
+.card .price {
+  font-weight: 800;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom:8px;
+}
+
+.card ul li {
+  text-align: start;
+  margin: 10px 0;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.dark .card ul li {
+  color: #314222;
+}
+
+.card button {
+  margin-top: auto;
+  align-self: center;
+  padding: 10px 20px;
+  border: none;
+  width: 18rem;
+  border-radius: 0.35rem;
+  background-color: #eecc42;
+  color: green;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.dark .card button {
+  background-color: #12321d;
+  color: cyan;
+}
+
+.card button strong {
+  color: white;
+}
+
+.dark .card button strong {
+  color: lightgrey;
+}
+
+.card button:hover {
+  background-color: #eccc8f;
+}
+
+.dark .card button:hover {
+  background-color: #12621d;
+}
+
+.popular {
+  border: 3px solid #e32b31;
+}
+
+.dark .popular {
+  border: 3px solid #b86206;
+}
+
+.comparison-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.comparison-table table td:first-child {
+  text-align: left;
+  width: 20%;
+}
+
+.comparison-table h2 {
+  margin-bottom: 1.2rem;
+  font-weight:800;
+}
+
+.comparison-table th, .comparison-table td {
+  padding: 15px;
+  border: 1px solid #000000;
+}
+
+.dark .comparison-table th {
+  background-color: #133c6e;
+}
+
+.comparison-table th {
+  background-color: #edfef8;
+}
+
+.comparison-table td {
+  text-align: center;
+}
+
+.dark .comparison-table td small {
+  color: #d4d4d4;
+}
+
+.comparison-table td small {
+  color: #787878;
+}
+
+.comparison-mobile-view {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .cards {
+    margin-left: 5rem;
+    margin-right: 5rem;
+  }
+
+  .comparison-table {
+    margin-right: 5rem;
+    margin-left: 5rem;
+  }
+}
+
+@media (min-width: 1445px) {
+  .cards {
+    margin-left: 12rem;
+    margin-right: 12rem;
+  }
+
+  .comparison-table {
+    margin-left: 12rem;
+    margin-right: 12rem;
+  }
+}
+
+@media (max-width: 933px) {
+  .pricing-header h1 {
+    font-size: 2rem;
+  }
+
+  .pricing-header p {
+    font-size: 1rem;
+  }
+
+  .header {
+    margin-top: 0rem;
+  }
+
+  .card h1 {
+    font-size: 1.5rem;
+  }
+
+  .card .price {
+    font-size: 1.3rem;
+  }
+  
+  table {
+    display: none;
+  }
+
+  .comparison-mobile-view { 
+    display: block;
+    margin-bottom: 2.2rem;
+  }
+
+  .plan-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .plan-selector button {
+    padding: 15px;
+    margin: 0 10px;
+    border: none;
+    font-weight: 700;
+    border-radius: 13px;
+    color: black;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
+  }
+
+  .plan-selector button.active {
+    background-color: #eaadf9;
+    color: white;
+  }
+
+  .dark .plan-selector button.active {
+    background-color: #0187f4;
+  }
+  
+  .plan-details {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #e3ecfa;
+    border-radius: 15px;
+  }
+
+  .dark .plan-details {
+    background-color: #354394;
+    border-color: #404878;
+  }
+
+  .trait-value small {
+    color: #abbad1;
+    float: right;
+  }
+
+  .plan-details h3 {
+    font-weight: 700;
+  }
+
+  .trait-value {
+    font-weight: 600;
+  }
+
+  .dark .trait-value small {
+    color: #a594ab;
+  }
+  
+  .trait-row {
+    display: flex;
+    justify-content: space-between;
+    height: 4em;
+    margin-top: 1rem;
+  }
+  
+  .divider {
+    border-top: 3px solid #cdcfd1;
+    width: 100%;
+  }
+}
