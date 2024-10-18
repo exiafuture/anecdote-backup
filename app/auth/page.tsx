@@ -4,9 +4,10 @@ import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import axios from "axios";
 import "./auth.css";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../context/authContext";
 
 interface AuthFormData {
-  name?: string;
+  username?: string;
   email: string;
   password: string;
   password_confirmation?: string;
@@ -15,45 +16,15 @@ interface AuthFormData {
 const AuthPage = () => {
   const [view, setView] = useState<"login" | "signup">("login");
   const [formData, setFormData] = useState<AuthFormData>({
-    name: '',
+    username: '',
     email: '',
     password: '',
     password_confirmation: '',
   });
-  const [message, setMessage] = useState<string>('');
   
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-  
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setMessage('');
-    try {
-      if (view === 'signup') {
-        const response = await axios.post('', {
-            name: formData.name,
-            email: formData.email,
-            password: formData.password,
-            password_confirmation: formData.password_confirmation,
-        }, { withCredentials: true });
-        console.log(`sign up response on axios: ${formData.name} ${formData.email}`);
-        setMessage(response.data.message || 'Registration successful!');
-        console.log(`sign up msg: ${message}`);
-      } else {
-        const response = await axios.post('', {
-            email: formData.email,
-            password: formData.password,
-        }, { withCredentials: true });
-        console.log(`sign in response on axios: ${formData.email}`);
-        setMessage(response.data.message["email"] || 'Logged in successfully!');
-        console.log(`sign in msg: ${message}`);
-      }
-    } catch (error: any) {
-      setMessage(error.response?.data?.error || 'An error occurred. Please try again.');
-      console.log(`authentication error: ${error.response?.data?.error}`);
-    }
   };
 
   return (
@@ -82,14 +53,14 @@ const AuthPage = () => {
         ):(
           <p>Login</p>
         )}
-        <form onSubmit={handleSubmit} className="checkin">
+        <form className="checkin">
           {view === 'signup' && (
             <div>
               <input
                 type="text"
-                name="name"
-                placeholder="Name"
-                value={formData.name}
+                name="username"
+                placeholder="Username"
+                value={formData.username}
                 onChange={handleChange}
                 required={view === 'signup'}
               />

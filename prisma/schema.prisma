@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int       @id @default(autoincrement())
+  email             String    @unique
+  username          String    @unique
+  password          String    // Store hashed passwords
+  posts             Post[]       // One-to-many relation to Post (User can have many posts)
+  subscription      Subscription? // One-to-one relation with Subscription
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Subscription {
+  id              Int       @id @default(autoincrement())
+  userId          Int       @unique
+  user            User      @relation(fields: [userId], references: [id])
+  planId          Int       // References to Plan table if you have multiple subscription tiers
+  plan            Plan      @relation(fields: [planId], references: [id])
+  status          SubscriptionStatus    // e.g., 'active', 'cancelled', 'expired'
+  startDate       DateTime  @default(now())
+  endDate         DateTime?
+  paymentMethod   String    // Store Stripe ID or similar
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Plan {
+  id           Int       @id @default(autoincrement())
+  name         String    // e.g., 'Basic', 'Premium'
+  price        Float     // Monthly subscription fee
+  description  String?   // Description of the plan
+  subscription Subscription[]
+}
+
+model Post {
+  id         Int       @id @default(autoincrement())
+  title      String
+  content    String     @db.Text // For long text up to 5000 words
+  images     Image[]    // Relation to Image model (max 15)
+  videos     Video[]    // Relation to Video model (max 3)
+  authorId   Int        // Foreign key for the relation to User
+  author     User       @relation(fields: [authorId], references: [id]) // Post belongs to a User
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model Image {
+  id         Int      @id @default(autoincrement())
+  url        String   // Path or URL of the image
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     Int
+}
+
+model Video {
+  id         Int      @id @default(autoincrement())
+  url        String   // Path or URL of the video
+  duration   Int      // Video duration in seconds (max 90 sec)
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     Int
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  EXPIRED
+}
