@@ -13,7 +13,7 @@ interface AuthFormData {
   password_confirmation?: string;
 }
 
-const AuthPage = () => {
+const AuthPage: React.FC = () => {
   const [view, setView] = useState<"login" | "signup">("login");
   const [formData, setFormData] = useState<AuthFormData>({
     username: '',
@@ -21,10 +21,40 @@ const AuthPage = () => {
     password: '',
     password_confirmation: '',
   });
+  const { login, register } = useAuth();
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setErrorMessage(null);
+    
+    if (view === "signup") {
+      if (formData.password !== formData.password_confirmation) {
+        setErrorMessage("Passwords do not match");
+        return;
+      }
+      try {
+        await register(formData.username!, formData.email, formData.password);
+        router.push('/profile'); // Redirect to profile on success
+      } catch (error) {
+        console.error("Registration error:", error);
+        setErrorMessage("Registration failed. Try again.");
+      }
+    } else {
+      try {
+        await login(formData.email, formData.password);
+        router.push('/profile'); // Redirect to profile on success
+      } catch (error) {
+        console.error("Login error:", error);
+        setErrorMessage("Login failed. Check your credentials.");
+      }
+    }
   };
 
   return (
@@ -53,7 +83,7 @@ const AuthPage = () => {
         ):(
           <p>Login</p>
         )}
-        <form className="checkin">
+        <form className="checkin" onSubmit={handleSubmit}>
           {view === 'signup' && (
             <div>
               <input
