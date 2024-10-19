@@ -21,7 +21,7 @@ const AuthPage: React.FC = () => {
     password: '',
     password_confirmation: '',
   });
-  const { login, register } = useAuth();
+  const { user, login, register } = useAuth();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
