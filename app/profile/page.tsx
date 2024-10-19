@@ -1,6 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
-import axios from 'axios';
+import { useEffect } from "react";
 import { useAuth } from "../context/authContext";
 import "./profile.css";
 import { useRouter } from "next/navigation";
@@ -33,7 +32,7 @@ const Profile = () => {
     return (
         <div>
             <h1>Welcome, {user?.username || "User"}</h1>
-            <p>Email: {user?.email}</p>
+            <p>Email: {user?.email || "Email"}</p>
 
             <div className="profile-actions">
                 <button onClick={handleLogout}>Logout</button>

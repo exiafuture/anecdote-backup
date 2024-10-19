@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import "./navbar.css";
 import Image from 'next/image';
 import { Usetheme } from "../context/themeContext";
+import { useAuth } from '../context/authContext';
 import Link from "next/link";
 
 const NavBar: React.FC = () => {
   const { theme, toggleTheme } = Usetheme();
+  const {user} = useAuth();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -36,14 +38,13 @@ const NavBar: React.FC = () => {
           <li><Link href="/about" className="nav-link">About</Link></li>
           <li><Link href="/pricing-plans" className="nav-link">Pricing</Link></li>
           <li><Link href="/contact" className="nav-link">Contact</Link></li>
-          {/* {!isAuthenticated ? (
+          {!user ? (
             <li><Link href="/auth" className="nav-link burger-link">Login/Signup</Link></li>
           ) : (
             <>
               <li><Link href="/profile" className="nav-link burger-link">Profile</Link></li>
             </>
-          )} */}
-          <li><Link href="/auth" className="nav-link burger-link">Login/Signup</Link></li>
+          )}
           <li>
             <button className="toggle-button-theme" onClick={toggleTheme}>
               {theme === "light" ?
@@ -87,16 +88,14 @@ const NavBar: React.FC = () => {
               }
             </li>
             <li className='drop-up-item'>
-              {/* {
-                isAuthenticated === false ?
+              {
+                !user ?
                 <button>
                 <Link href="/auth" className="drop-up-item">Login/Signup</Link> </button>
                 :
                 <button>
                 <Link href="/profile" className="drop-up-item">Profile</Link></button>
-              } */}
-              <button>
-              <Link href="/auth" className="drop-up-item">Login/Signup</Link> </button>
+              }
             </li>
           </ul>
         </div>
