@@ -1,7 +1,6 @@
 "use client";
 import React from "react"
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import axios from "axios";
 import "./auth.css";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/authContext";
@@ -56,6 +55,12 @@ const AuthPage: React.FC = () => {
       }
     }
   };
+
+  // useEffect(()=>{
+  //   if(!user) {
+  //     router.push("/profile");
+  //   }
+  // },[user,router]);
 
   return (
     <div className="creator-page">
