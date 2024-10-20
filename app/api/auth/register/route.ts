@@ -47,13 +47,17 @@ export async function POST(req: Request) {
     });
 
     const token = jwt.sign(
-      { id: user.id, username: user.username, email: user.email },
+      { userId: user.id, 
+        username: user.username, 
+        email: user.email },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '168h' }
     );
 
     // Return the created user (or any other response you prefer)
-    return NextResponse.json({ message: 'User registered successfully', token,userId: user.id }, { status: 201 });
+    return NextResponse.json({ message: 'User registered successfully', 
+      token,
+      userId: user.id }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'User already exists' }, { status: 400 });
   }
