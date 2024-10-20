@@ -57,6 +57,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const res = await axios.post('/api/auth/login', { email, password });
       localStorage.setItem('token', res.data.token); // Store JWT in local storage
       setUser({ id: res.data.userId, email: res.data.email, username: res.data.username });
+      // setUser(jwt.decode(res.data.token));
       router.push('/profile'); // Redirect after successful login
     } catch (error) {
       console.error('Login error:', error);
@@ -92,7 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Account successfully deleted
       localStorage.removeItem("token"); // Clear token from local storage
       setUser(null); // Clear user state
-      router.push("/auth"); // Redirect to auth page after deletion
+      router.push("/"); // Redirect to auth page after deletion
     } catch (error) {
       console.error("Delete account error:", error);
     }
