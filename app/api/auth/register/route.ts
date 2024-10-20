@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma'; // Adjust path according to your folder structure
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { validatePassword } from '@/utils/validationPassword';
 
 export async function POST(req: Request) {
   const { username, email, password } = await req.json();
@@ -23,6 +24,13 @@ export async function POST(req: Request) {
 
   if (existingEmail) {
     return NextResponse.json({ error: 'Email already exists' }, { status: 409 });
+  }
+
+  if (!validatePassword(password)) {
+    return NextResponse.json(
+      { error: 'Password must have at least 7 characters, one uppercase and one lowercase letter' }, 
+      { status: 400 }
+    );
   }
 
   // Hash the password

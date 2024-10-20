@@ -27,6 +27,7 @@ const Profile = () => {
         if(!user) {
             router.push("/auth");
         }
+        console.log(user);
     },[user,router]);
 
     return (

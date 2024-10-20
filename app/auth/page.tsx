@@ -4,6 +4,7 @@ import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import "./auth.css";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/authContext";
+import { validatePassword } from '@/utils/validationPassword';
 
 interface AuthFormData {
   username?: string;
@@ -38,6 +39,10 @@ const AuthPage: React.FC = () => {
         setErrorMessage("Passwords do not match");
         return;
       }
+      if (!validatePassword(formData.password)) {
+        setErrorMessage('Password must be at least 7 characters long, with at least one uppercase and one lowercase letter.');
+        return;
+      }
       try {
         await register(formData.username!, formData.email, formData.password);
         router.push('/profile'); // Redirect to profile on success
@@ -56,11 +61,11 @@ const AuthPage: React.FC = () => {
     }
   };
 
-  // useEffect(()=>{
-  //   if(!user) {
-  //     router.push("/profile");
-  //   }
-  // },[user,router]);
+  useEffect(()=>{
+    if(user) {
+      router.push("/profile");
+    }
+  },[user,router]);
 
   return (
     <div className="creator-page">
