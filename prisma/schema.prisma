@@ -22,6 +22,8 @@ model User {
   subscription      Subscription? // One-to-one relation with Subscription
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+  totpSecret String?  // TOTP secret key, nullable if not enabled
+  totpEnabled Boolean @default(false)  // Track whether TOTP is enabled for the user
 }
 
 model Subscription {
