@@ -1,6 +1,21 @@
-.page {
+.profilepage {
     padding: 5rem;
     text-align: center;
-    display: grid;
-    place-items: center;
+    display: flex; /* Ensures the child divs are flex items */
+    flex-direction: column; /* Stacks the .profile-left and .profile-right vertically */
+    align-items: center; /* Centers the content horizontally */
+}
+
+.profile-left {
+    width: 100%; /* Ensures this div takes the full width */
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column; /* Stacks the buttons vertically */
+    align-items: center;    /* Centers the buttons horizontally */
+}
+
+.profile-right {
+    
 }
