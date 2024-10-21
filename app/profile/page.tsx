@@ -27,19 +27,24 @@ const Profile = () => {
         if(!user) {
             router.push("/auth");
         }
-        console.log(user);
     },[user,router]);
 
     return (
-        <div>
-            <h1>Welcome, {user?.username || "User"}</h1>
-            <p>Email: {user?.email || "Email"}</p>
+        <div className="page">
+            <div className="profile-left">
+                <h1>Welcome, {user?.username || "User"}</h1>
+                <p>Email: {user?.email || "Email"}</p>
 
-            <div className="profile-actions">
-                <button onClick={handleLogout}>Logout</button>
-                <button onClick={handleDeleteAccount} className="delete-account-btn">
-                    Delete Account
-                </button>
+                <div className="profile-actions">
+                    <button onClick={handleLogout}>Logout</button>
+                    <button onClick={handleDeleteAccount} className="delete-account-btn">
+                        Delete Account
+                    </button>
+                </div>
+            </div>
+            
+            <div className="profile-right">
+
             </div>
         </div>
     );
