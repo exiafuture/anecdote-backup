@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
 import "./profile.css";
 import { useRouter } from "next/navigation";
@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 const Profile = () => {
     const { user, logout, deleteAccount } = useAuth(); // Use logout and deleteAccount from AuthContext
     const router = useRouter();
+    const [email,setEmail] = useState("");
 
     const handleLogout = async () => {
         await logout();
@@ -26,6 +27,8 @@ const Profile = () => {
     useEffect(()=>{
         if(!user) {
             router.push("/auth");
+        } else {
+            setEmail(`mailto:${user.email}?subject=Hellow&body=Hello! I am ${user.username}`);
         }
     },[user,router]);
 
@@ -34,7 +37,7 @@ const Profile = () => {
             <div className="profile-left">
                 <div className="introduction-profile">
                     <h1>{user?.username || "User"}</h1>
-                    <p>{user?.email || "Email"}</p>
+                    <a href={email}>{user?.email || "Email"}</a>
                 </div>
 
                 <div className="profile-actions">
