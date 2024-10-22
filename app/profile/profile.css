@@ -162,8 +162,12 @@
         gap: 1rem;
     }
 
+    .profile-action {
+        width: 90%;
+    }
+
     .footer-container {
-        margin-top: 5cqh;
+        margin-top: 2.2vh;
     }
 
     .profile-right {
@@ -172,6 +176,7 @@
 
     .profile-left {
         height: 35vh;
+        text-align: center;
     }
 
     .right-lower {

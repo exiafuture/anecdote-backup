@@ -74,6 +74,26 @@ const Profile = () => {
                         <li>Content item 8</li>
                         <li>Content item 9</li>
                         <li>Content item 10</li>
+                        <li>Content item 1</li>
+                        <li>Content item 2</li>
+                        <li>Content item 3</li>
+                        <li>Content item 4</li>
+                        <li>Content item 5</li>
+                        <li>Content item 6</li>
+                        <li>Content item 7</li>
+                        <li>Content item 8</li>
+                        <li>Content item 9</li>
+                        <li>Content item 10</li>
+                        <li>Content item 1</li>
+                        <li>Content item 2</li>
+                        <li>Content item 3</li>
+                        <li>Content item 4</li>
+                        <li>Content item 5</li>
+                        <li>Content item 6</li>
+                        <li>Content item 7</li>
+                        <li>Content item 8</li>
+                        <li>Content item 9</li>
+                        <li>Content item 10</li>
                     </ul>
                 </div>
             </div>
