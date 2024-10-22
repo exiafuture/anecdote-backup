@@ -53,9 +53,17 @@ const Profile = () => {
                     <p>Like Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!</p>
                 </div>
                 <div className="right-lower">
-                    <h2>Right Lower Card</h2>
-                    <p>This card takes 70% of the window width and is scrollable if content exceeds the window height.</p>
                     <ul>
+                        <li>Content item 1</li>
+                        <li>Content item 2</li>
+                        <li>Content item 3</li>
+                        <li>Content item 4</li>
+                        <li>Content item 5</li>
+                        <li>Content item 6</li>
+                        <li>Content item 7</li>
+                        <li>Content item 8</li>
+                        <li>Content item 9</li>
+                        <li>Content item 10</li>
                         <li>Content item 1</li>
                         <li>Content item 2</li>
                         <li>Content item 3</li>
