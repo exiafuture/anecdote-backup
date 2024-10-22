@@ -23,8 +23,8 @@ model User {
   subscription      Subscription? // One-to-one relation with Subscription
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-  totpSecret String?  // TOTP secret key, nullable if not enabled
-  totpEnabled Boolean @default(false)  // Track whether TOTP is enabled for the user
+  totpSecret        String?  // TOTP secret key, nullable if not enabled
+  totpEnabled       Boolean @default(false)  // Track whether TOTP is enabled for the user
 }
 
 model Subscription {
@@ -59,13 +59,13 @@ model Post {
   author     User       @relation(fields: [authorId], references: [id]) // Post belongs to a User
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
-  tags       Tag[]
+  tags       Tag[]      @relation("PostTags")
 }
 
 model Tag {
   id         Int      @id @default(autoincrement())
-  name       String
-  posts      Post[]
+  name       String   @unique
+  posts      Post[]    @relation("PostTags")
 }
 
 model Image {

@@ -43,10 +43,19 @@ async function main() {
           },
         },
         tags: {
-          create: [
-            { name: "Apple" },
-            { name: `test ${i + 1}` },
-            { name: "gadget" },
+          connectOrCreate: [
+            {
+              where: { name: "Apple" }, // Connect if 'Apple' tag exists
+              create: { name: "Apple" }, // Create 'Apple' tag if it doesn't exist
+            },
+            {
+              where: { name: `test ${i + 1}` },
+              create: { name: `test ${i + 1}` },
+            },
+            {
+              where: { name: "gadget" },
+              create: { name: "gadget" },
+            },
           ],
         },
       },
@@ -54,7 +63,7 @@ async function main() {
   }
 
   // Create posts for User B
-  for (let i = 1; i <= 8; i++) {
+  for (let i = 1; i <= 22; i++) {
     await prisma.post.create({
       data: {
         title: `Post B ${i}`,
@@ -72,12 +81,27 @@ async function main() {
           },
         },
         tags: {
-          create: [
-            { name: "test" },
-            { name: `test ${i + 1}` },
-            { name: "Olympic" },
-            { name: "Sprinting" },
-            { name: "Germany" },
+          connectOrCreate: [
+            {
+              where: { name: "test" }, // Connect if 'test' tag exists
+              create: { name: "test" }, // Create 'test' tag if it doesn't exist
+            },
+            {
+              where: { name: `test ${i + 1}` },
+              create: { name: `test ${i + 1}` },
+            },
+            {
+              where: { name: "Olympic" },
+              create: { name: "Olympic" },
+            },
+            {
+              where: { name: "Sprinting" },
+              create: { name: "Sprinting" },
+            },
+            {
+              where: { name: "Germany" },
+              create: { name: "Germany" },
+            },
           ],
         },
       },
