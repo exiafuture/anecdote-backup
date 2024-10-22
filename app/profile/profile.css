@@ -61,17 +61,38 @@
 }
 
 .right-upper {
-    background-color:#d17373;
-    height: 15vh;
+    background-color: #e7e7e7;
+    height: 15vh; /* Adjust height as necessary */
+    box-shadow: 5px 5px 5px 5px rgba(215, 215, 215, 0.88);
+    border: none;
+    border-radius: 1rem;
+    overflow: hidden; /* Prevents overflow */
     padding: 1rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.right-upper h2 {
+    font-size: large;
 }
 
 .right-upper p {
-    text-wrap: true;
-    max-lines: 3;
-    font-size: 15px;
-    padding-top: 10px;
+    text-wrap: wrap; /* Ensure text wraps */
+    word-wrap: break-word; /* Ensures long words break */
+    overflow-wrap: break-word;
+    max-height: 8rem; /* Set a max height for the paragraph */
+    overflow: hidden; /* Prevent overflow */
+    text-overflow: ellipsis; /* Optionally add ellipsis for overflowing text */
+    display: -webkit-box; /* Needed for webkit browsers */
+    -webkit-box-orient: vertical; /* Needed for webkit browsers */
+    margin: 0; /* Reset margin for better control */
+    font-size: 15px; /* Consider using responsive units (e.g., rem) */
+}
+
+.dark .right-upper p {
+    color: rgb(57, 56, 56);
+} 
+
+.dark .right-upper h2 {
+    color: rgba(61, 55, 55, 0.7)
 }
 
 .right-lower {
@@ -94,21 +115,21 @@
 /* Specific style for Logout button */
 .logout-btn {
     background-color: #4CAF50;   /* Green background */
-    color: white;                /* White text */
+    color: rgb(255, 255, 255);                /* White text */
 }
 
 .logout-btn:hover {
-    background-color: #45a049;   /* Darker green on hover */
+    background-color: #1dc725;   /* Darker green on hover */
 }
 
 /* Specific style for Delete button */
 .delete-btn {
     background-color: #f44336;   /* Red background */
-    color: white;                /* White text */
+    color: rgb(255, 255, 255);                /* White text */
 }
 
 .delete-btn:hover {
-    background-color: #d32f2f;   /* Darker red on hover */
+    background-color: #ae0808;   /* Darker red on hover */
 }
 
 @media (max-width: 1230px) {
