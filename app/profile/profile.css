@@ -93,7 +93,7 @@
     text-overflow: ellipsis; /* Optionally add ellipsis for overflowing text */
     display: -webkit-box; /* Needed for webkit browsers */
     -webkit-box-orient: vertical; /* Needed for webkit browsers */
-    margin: 0; /* Reset margin for better control */
+    margin-top: 1rem; /* Reset margin for better control */
     font-size: 15px; /* Consider using responsive units (e.g., rem) */
 }
 

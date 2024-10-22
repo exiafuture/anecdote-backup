@@ -59,6 +59,14 @@ model Post {
   author     User       @relation(fields: [authorId], references: [id]) // Post belongs to a User
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
+  tags       Tag[]
+}
+
+model Tag {
+  id         Int      @id @default(autoincrement())
+  name       String
+  postId     Int
+  post       Post     @relation(fields: [postId], references: [id])
 }
 
 model Image {
