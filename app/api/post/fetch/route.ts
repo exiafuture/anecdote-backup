@@ -7,6 +7,8 @@ const SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 export async function GET(request: Request) {
     const token = request.headers.get("Authorization")?.replace("Bearer ", "");
+
+    console.log(token);
     
     if (!token) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -21,6 +23,8 @@ export async function GET(request: Request) {
     
     const userId = decoded.userId;
 
+    console.log(`user id in post fetch api: ${userId}`);
+
     try {
         // Fetch posts for the authenticated user
         const posts = await prisma.post.findMany({
@@ -34,8 +38,16 @@ export async function GET(request: Request) {
             },
             orderBy: { createdAt: 'desc' }, // Optionally order posts by creation date
         });
+        
+        const formattedPosts = posts.map(post => ({
+            id: post.id,
+            title: post.title,
+            createdAt: post.createdAt,
+            tags: post.tags, // Keep the tags as an array of objects
+            image: post.images.length > 0 ? post.images[0].url : 'https://tinyurl.com/ycx4t8tw', // Get the first image or default image
+        }));
 
-        return NextResponse.json(posts);
+        return NextResponse.json(formattedPosts);
     } catch (error) {
         console.error("Error fetching posts:", error);
         return NextResponse.json({ message: "Error fetching posts" }, { status: 500 });

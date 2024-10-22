@@ -13,78 +13,92 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                Int       @id @default(autoincrement())
-  email             String    @unique
-  username          String    @unique
-  introduction      String    @default("Like Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!")
-  password          String    // Store hashed passwords
-  posts             Post[]       // One-to-many relation to Post (User can have many posts)
-  subscription      Subscription? // One-to-one relation with Subscription
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  totpSecret        String?  // TOTP secret key, nullable if not enabled
-  totpEnabled       Boolean @default(false)  // Track whether TOTP is enabled for the user
+model creator {
+  id               Int          @id @default(autoincrement())
+  email            String       @unique
+  username         String       @unique
+  introduction     String       @default("Like a Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!")
+  password         String // Store hashed passwords
+  ideas            content[] // One-to-many relation to Post (User can have many posts)
+  subscriptionMode subscription @relation(fields: [subscriptionId], references: [id])
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  totpSecret       String? // TOTP secret key, nullable if not enabled
+  totpEnabled      Boolean      @default(false) // Track whether TOTP is enabled for the user
+  subscriptionId   Int
 }
 
-model Subscription {
-  id              Int       @id @default(autoincrement())
-  userId          Int       @unique
-  user            User      @relation(fields: [userId], references: [id])
-  planId          Int       // References to Plan table if you have multiple subscription tiers
-  plan            Plan      @relation(fields: [planId], references: [id])
-  status          SubscriptionStatus    // e.g., 'active', 'cancelled', 'expired'
-  startDate       DateTime  @default(now())
-  endDate         DateTime?
-  paymentMethod   String    // Store Stripe ID or similar
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+model financer {
+  id               Int          @id @default(autoincrement())
+  email            String       @unique
+  username         String       @unique
+  password         String // Store hashed passwords
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  purchased        content[]
+  subscriptionMode subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId   Int
 }
 
-model Plan {
-  id           Int       @id @default(autoincrement())
-  name         String    // e.g., 'Basic', 'Premium'
-  price        Float     // Monthly subscription fee
-  description  String?   // Description of the plan
-  subscription Subscription[]
+model subscription {
+  id            Int                 @id @default(autoincrement())
+  planChosen    plan                @relation(fields: [planId], references: [id])
+  status        subscription_status // e.g., 'active', 'cancelled', 'expired'
+  startDate     DateTime            @default(now())
+  endDate       DateTime?
+  paymentMethod payment_method
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  creator       creator[]
+  financer      financer[]
+  planId        Int
 }
 
-model Post {
+model plan {
+  id           Int            @id @default(autoincrement())
+  name         String // e.g., 'Basic', 'Premium'
+  price        Float // Monthly subscription fee
+  description  String // Description of the plan
+  subscription subscription[]
+}
+
+model content {
   id         Int       @id @default(autoincrement())
   title      String
-  content    String     @db.Text // For long text up to 5000 words
-  images     Image[]    // Relation to Image model (max 15)
-  videos     Video[]    // Relation to Video model (max 3)
-  authorId   Int        // Foreign key for the relation to User
-  author     User       @relation(fields: [authorId], references: [id]) // Post belongs to a User
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  tags       Tag[]      @relation("PostTags")
+  sold       Boolean   @default(false)
+  author     creator   @relation(fields: [creatorId], references: [id])
+  content    String    @db.Text // For long text up to 5000 words
+  medias     media[] // Relation to Image model (max 15)
+  authorId   Int // Foreign key for the relation to User
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  tags       tag[]
+  financer   financer? @relation(fields: [financerId], references: [id])
+  financerId Int?
+  creatorId  Int
 }
 
-model Tag {
-  id         Int      @id @default(autoincrement())
-  name       String   @unique
-  posts      Post[]    @relation("PostTags")
+model tag {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  content   content? @relation(fields: [contentId], references: [id])
+  contentId Int?
 }
 
-model Image {
-  id         Int      @id @default(autoincrement())
-  url        String   // Path or URL of the image
-  post       Post     @relation(fields: [postId], references: [id])
-  postId     Int
+model media {
+  id        Int      @id @default(autoincrement())
+  url       String // Path or URL of the image
+  content   content? @relation(fields: [contentId], references: [id])
+  contentId Int?
 }
 
-model Video {
-  id         Int      @id @default(autoincrement())
-  url        String   // Path or URL of the video
-  duration   Int      // Video duration in seconds (max 90 sec)
-  post       Post     @relation(fields: [postId], references: [id])
-  postId     Int
+enum subscription_status {
+  active
+  expired
+  cancelled
 }
 
-enum SubscriptionStatus {
-  ACTIVE
-  CANCELLED
-  EXPIRED
+enum payment_method {
+  crypto
+  stripe
 }

@@ -149,7 +149,7 @@
 @media (max-width: 530px) {
     .right-upper, .right-lower, .profile-left {
         width: 90vw;                      /* Set width of right-upper */
-        box-shadow: 0px 0px 0px rgba(215, 215, 215, 0.88);
+        box-shadow: 0px 0px 0px 0px rgba(215, 215, 215, 0);
     }
 
     .right-upper p {
@@ -181,6 +181,13 @@
     .profile-left {
         height: 35vh;
         text-align: center;
+        box-shadow: 0px 0px 0px 0px transparent;
+    }
+
+    .dark .profile-left {
+        height: 35vh;
+        text-align: center;
+        box-shadow: 0px 0px 0px 0px transparent;
     }
 
     .right-lower {

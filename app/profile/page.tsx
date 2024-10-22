@@ -5,6 +5,7 @@ import "./profile.css";
 import { useRouter } from "next/navigation";
 import ContentCard from "../components/contentCard";
 import { PreviewPost } from "@/types/Posts";
+import axios from "axios";
 
 const Profile = () => {
     const { user, logout, deleteAccount } = useAuth(); // Use logout and deleteAccount from AuthContext
@@ -30,18 +31,25 @@ const Profile = () => {
 
     const fetchUserPosts = async () => {
         const token = localStorage.getItem("token"); // Get token from local storage
-        const response = await fetch('/api/post/fetch', {
-            headers: {
-                Authorization: `Bearer ${token}` // Include token in the request headers
-            }
-        });
-        if (response.ok) {
-            const data = await response.json();
-            setPosts(data);
-        } else {
-            console.error("Failed to fetch posts:", response.status);
+        if (!token) {
+            console.error("No token found");
+            return;
         }
-        setLoading(false); // Stop loading when data is fetched
+        try {
+            const response = await axios.get('/api/post/fetch', {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Include token in the request headers
+                },
+            });
+            if (response.status === 200) {
+                setPosts(response.data); // Set the fetched posts
+            } else {
+                console.error("Failed to fetch posts:", response.status);
+            }
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+        }
+        setLoading(false);
     };
 
     useEffect(()=>{
@@ -77,48 +85,26 @@ const Profile = () => {
                     <p>Like Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!</p>
                 </div>
                 <div className="right-lower">
-                    <ul>
-                        <li>Content item 1</li>
-                        <li>Content item 2</li>
-                        <li>Content item 3</li>
-                        <li>Content item 4</li>
-                        <li>Content item 5</li>
-                        <li>Content item 6</li>
-                        <li>Content item 7</li>
-                        <li>Content item 8</li>
-                        <li>Content item 9</li>
-                        <li>Content item 10</li>
-                        <li>Content item 1</li>
-                        <li>Content item 2</li>
-                        <li>Content item 3</li>
-                        <li>Content item 4</li>
-                        <li>Content item 5</li>
-                        <li>Content item 6</li>
-                        <li>Content item 7</li>
-                        <li>Content item 8</li>
-                        <li>Content item 9</li>
-                        <li>Content item 10</li>
-                        <li>Content item 1</li>
-                        <li>Content item 2</li>
-                        <li>Content item 3</li>
-                        <li>Content item 4</li>
-                        <li>Content item 5</li>
-                        <li>Content item 6</li>
-                        <li>Content item 7</li>
-                        <li>Content item 8</li>
-                        <li>Content item 9</li>
-                        <li>Content item 10</li>
-                        <li>Content item 1</li>
-                        <li>Content item 2</li>
-                        <li>Content item 3</li>
-                        <li>Content item 4</li>
-                        <li>Content item 5</li>
-                        <li>Content item 6</li>
-                        <li>Content item 7</li>
-                        <li>Content item 8</li>
-                        <li>Content item 9</li>
-                        <li>Content item 10</li>
-                    </ul>
+                    <div className="content-grid">
+                        {loading ? (
+                            <p>Loading posts...</p>
+                        ) : posts.length > 0 ? (
+                            posts.map((post) => (
+                                <ContentCard 
+                                    key={post.id} 
+                                    post={{
+                                        id: post.id,
+                                        title: post.title,
+                                        createdAt: post.createdAt,
+                                        tags: post.tags, // Extracting tag names
+                                        image: post.image != "" ? post.image : 'https://tinyurl.com/ycx4t8tw' // Get the first image or empty string
+                                    }} 
+                                />
+                            ))
+                        ) : (
+                            <p>No posts available.</p>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
