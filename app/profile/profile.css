@@ -142,12 +142,39 @@
     background-color: #ae0808;   /* Darker red on hover */
 }
 
-@media (max-width: 1230px) {
-    .right-upper {
-        height: auto; /* Allow height to adjust based on content */
+@media (max-width: 530px) {
+    .right-upper, .right-lower, .profile-left {
+        width: 90vw;                      /* Set width of right-upper */
+        box-shadow: 0px 0px 0px rgba(215, 215, 215, 0.88);
     }
 
     .right-upper p {
-        font-size: 14px; /* Adjust font size for smaller screens */
+        font-size: 12px; /* Adjust font size for smaller screens */
+    }
+
+    .profilepage {
+        display: flex;                    /* Change grid to flex for better alignment */
+        flex-direction: column;           /* Stack the profile sections vertically */
+        align-items: center;              /* Center items horizontally */
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 1rem;
+        gap: 1rem;
+    }
+
+    .footer-container {
+        margin-top: 5cqh;
+    }
+
+    .profile-right {
+        gap: 1rem;
+    }
+
+    .profile-left {
+        height: 35vh;
+    }
+
+    .right-lower {
+        height: 40vh;
     }
 }
