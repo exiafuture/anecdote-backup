@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
 import "./profile.css";
 import { useRouter } from "next/navigation";
+import ContentCard from "../components/contentCard";
 
 const Profile = () => {
     const { user, logout, deleteAccount } = useAuth(); // Use logout and deleteAccount from AuthContext

@@ -187,3 +187,9 @@
         height: 40vh;
     }
 }
+
+@media (min-width: 531px) and (max-width: 1250px) {
+}
+
+@media (min-width: 1251px) {
+}
