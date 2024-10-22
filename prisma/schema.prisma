@@ -14,44 +14,46 @@ datasource db {
 }
 
 model creator {
-  id               Int          @id @default(autoincrement())
-  email            String       @unique
-  username         String       @unique
-  introduction     String       @default("Like a Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!")
-  password         String // Store hashed passwords
-  ideas            content[] // One-to-many relation to Post (User can have many posts)
-  subscriptionMode subscription @relation(fields: [subscriptionId], references: [id])
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
-  totpSecret       String? // TOTP secret key, nullable if not enabled
-  totpEnabled      Boolean      @default(false) // Track whether TOTP is enabled for the user
-  subscriptionId   Int
+  id             Int            @id @default(autoincrement())
+  email          String         @unique
+  username       String         @unique
+  introduction   String         @default("Like a Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!")
+  password       String // Store hashed passwords
+  ideas          content[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  totpSecret     String? // TOTP secret key, nullable if not enabled
+  totpEnabled    Boolean        @default(false) // Track whether TOTP is enabled for the user
+  subscriptionId Int
+  subscription   subscription[]
 }
 
 model financer {
-  id               Int          @id @default(autoincrement())
-  email            String       @unique
-  username         String       @unique
-  password         String // Store hashed passwords
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
-  purchased        content[]
-  subscriptionMode subscription @relation(fields: [subscriptionId], references: [id])
-  subscriptionId   Int
+  id             Int            @id @default(autoincrement())
+  email          String         @unique
+  username       String         @unique
+  password       String // Store hashed passwords
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  purchased      content[]
+  subscriptionId Int
+  subscription   subscription[]
 }
 
 model subscription {
   id            Int                 @id @default(autoincrement())
-  planChosen    plan                @relation(fields: [planId], references: [id])
   status        subscription_status // e.g., 'active', 'cancelled', 'expired'
   startDate     DateTime            @default(now())
   endDate       DateTime?
   paymentMethod payment_method
   createdAt     DateTime            @default(now())
   updatedAt     DateTime            @updatedAt
-  creator       creator[]
-  financer      financer[]
+  creator       creator?            @relation(fields: [creatorId], references: [id])
+  financer      financer?           @relation(fields: [financerId], references: [id])
+  planChosen    plan                @relation(fields: [planId], references: [id])
   planId        Int
+  creatorId     Int?
+  financerId    Int?
 }
 
 model plan {
@@ -69,27 +71,25 @@ model content {
   author     creator   @relation(fields: [creatorId], references: [id])
   content    String    @db.Text // For long text up to 5000 words
   medias     media[] // Relation to Image model (max 15)
-  authorId   Int // Foreign key for the relation to User
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  tags       tag[]
+  tags       tag[]     @relation("contenttags")
   financer   financer? @relation(fields: [financerId], references: [id])
-  financerId Int?
   creatorId  Int
+  financerId Int?
 }
 
 model tag {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  content   content? @relation(fields: [contentId], references: [id])
-  contentId Int?
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  content content[] @relation("contenttags")
 }
 
 model media {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   url       String // Path or URL of the image
-  content   content? @relation(fields: [contentId], references: [id])
-  contentId Int?
+  content   content @relation(fields: [contentId], references: [id])
+  contentId Int
 }
 
 enum subscription_status {
@@ -99,6 +99,6 @@ enum subscription_status {
 }
 
 enum payment_method {
-  crypto
+  paypal
   stripe
 }

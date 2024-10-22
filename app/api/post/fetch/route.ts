@@ -27,14 +27,14 @@ export async function GET(request: Request) {
 
     try {
         // Fetch posts for the authenticated user
-        const posts = await prisma.post.findMany({
-            where: { authorId: userId }, // Fetch posts belonging to the user
+        const posts = await prisma.content.findMany({
+            where: { creatorId: userId }, // Fetch posts belonging to the user
             select: {
                 id: true,
                 title: true,
                 createdAt: true,
                 tags: { select: { name: true } }, // Fetch associated tags
-                images: { select: { url: true } }  // Fetch associated images
+                medias: { select: { url: true } }  // Fetch associated images
             },
             orderBy: { createdAt: 'desc' }, // Optionally order posts by creation date
         });
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
             title: post.title,
             createdAt: post.createdAt,
             tags: post.tags, // Keep the tags as an array of objects
-            image: post.images.length > 0 ? post.images[0].url : 'https://tinyurl.com/ycx4t8tw', // Get the first image or default image
+            image: post.medias.length > 0 ? post.medias[0].url : 'https://tinyurl.com/ycx4t8tw', // Get the first image or default image
         }));
 
         return NextResponse.json(formattedPosts);

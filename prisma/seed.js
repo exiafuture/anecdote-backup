@@ -3,112 +3,148 @@ const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
 
 async function main() {
-  const hashedPasswordA = await bcrypt.hash('password123', 10);
-  const hashedPasswordB = await bcrypt.hash('password456', 10);
+  // Hash the passwords
+  const hashedPassword1 = await bcrypt.hash('password123', 10);
+  const hashedPassword2 = await bcrypt.hash('password456', 10);
 
-  // Create User A
-  const userA = await prisma.user.create({
+  const basicPlan = await prisma.plan.create({
     data: {
-      email: 'userA@A.com',
-      username: 'userAex',
-      password: hashedPasswordA,
+      name: 'Basic',
+      price: 27.99,
+      description: 'Basic subscription plan',
     },
   });
 
-  // Create User A
-  const userB = await prisma.user.create({
+  const proPlan = await prisma.plan.create({
     data: {
-      email: 'userB@b.com',
-      username: 'userBex',
-      password: hashedPasswordB,
+      name: 'Pro',
+      price: 33.99,
+      description: 'Premium subscription plan',
     },
   });
 
-  // Create posts for User A
-  for (let i = 1; i <= 11; i++) {
-    await prisma.post.create({
+  const premiumPlan = await prisma.plan.create({
+    data: {
+      name: 'Premium',
+      price: 48.99,
+      description: 'Premium subscription plan',
+    },
+  });
+
+  // Create two subscriptions, one for each creator
+  const subscriptionForCreator1 = await prisma.subscription.create({
+    data: {
+      status: 'active',
+      paymentMethod: 'stripe',
+      planChosen: {
+        connect: { id: basicPlan.id },
+      },
+    },
+  });
+
+  const subscriptionForCreator2 = await prisma.subscription.create({
+    data: {
+      status: 'active',
+      paymentMethod: 'paypal',
+      planChosen: {
+        connect: { id: premiumPlan.id },
+      },
+    },
+  });
+
+  // Create two creators and assign their subscription
+  const creator1 = await prisma.creator.create({
+    data: {
+      email: 'creator1@example.com',
+      username: 'creator1',
+      password: hashedPassword1,
+      subscriptionId: subscriptionForCreator1.id, // Link the subscription
+    },
+  });
+
+  const creator2 = await prisma.creator.create({
+    data: {
+      email: 'creator2@example.com',
+      username: 'creator2',
+      password: hashedPassword2,
+      subscriptionId: subscriptionForCreator2.id, // Link the subscription
+    },
+  });
+
+  // Helper function to create tags
+  const createTags = async (numTags) => {
+    const tags = [];
+    for (let i = 1; i <= numTags; i++) {
+      const tag = await prisma.tag.upsert({
+        where: { name: `Tag${i}` },
+        update: {},
+        create: { name: `Tag${i}` },
+      });
+      tags.push(tag);
+    }
+    return tags;
+  };
+
+  // Helper function to create media
+  const createMedia = async (numMedia, contentId) => {
+    const medias = [];
+    for (let i = 1; i <= numMedia; i++) {
+      const media = await prisma.media.create({
+        data: {
+          url: "https://wieck-mbusa-production.s3.amazonaws.com/photos/649b91bd0b9f17f65f17ff07630c6e4715681c4b/preview-928x522.jpg",
+          content: { connect: { id: contentId } },
+        },
+      });
+      medias.push(media);
+    }
+    return medias;
+  };
+
+  // Assigning tags to content
+  const assignTagsToContent = async (content, tags) => {
+    await prisma.content.update({
+      where: { id: content.id },
       data: {
-        title: `Post A ${i}`,
-        content: `This is the content for post A ${i}.`,
-        authorId: userA.id,
-        images: {
-          create: {
-            url: "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/60e08cf8-f98b-5fec-a927-9bcd88eeda42/e170a593-958f-5eb5-b86b-d1103edb686e.jpg",
-          },
-        },
-        videos: {
-          create: {
-            url: "https://www.youtube.com/watch?v=Qrym1Lk3c1Q",
-            duration: 60, // Example duration
-          },
-        },
         tags: {
-          connectOrCreate: [
-            {
-              where: { name: "Apple" }, // Connect if 'Apple' tag exists
-              create: { name: "Apple" }, // Create 'Apple' tag if it doesn't exist
-            },
-            {
-              where: { name: `test ${i + 1}` },
-              create: { name: `test ${i + 1}` },
-            },
-            {
-              where: { name: "gadget" },
-              create: { name: "gadget" },
-            },
-          ],
+          connect: tags.map(tag => ({ id: tag.id })),
         },
       },
     });
-  }
+  };
 
-  // Create posts for User B
+  // Creator 1: Creates 22 content items, each with 3 tags and 3 media
+  const tagsForCreator1 = await createTags(3);
   for (let i = 1; i <= 22; i++) {
-    await prisma.post.create({
+    const content = await prisma.content.create({
       data: {
-        title: `Post B ${i}`,
-        content: `This is the content for post B ${i}.`,
-        authorId: userB.id,
-        images: {
-          create: {
-            url: "https://wieck-mbusa-production.s3.amazonaws.com/photos/649b91bd0b9f17f65f17ff07630c6e4715681c4b/preview-928x522.jpg",
-          },
-        },
-        videos: {
-          create: {
-            url: "https://www.youtube.com/watch?v=Qrym1Lk3c1Q",
-            duration: 60, // Example duration
-          },
-        },
-        tags: {
-          connectOrCreate: [
-            {
-              where: { name: "test" }, // Connect if 'test' tag exists
-              create: { name: "test" }, // Create 'test' tag if it doesn't exist
-            },
-            {
-              where: { name: `test ${i + 1}` },
-              create: { name: `test ${i + 1}` },
-            },
-            {
-              where: { name: "Olympic" },
-              create: { name: "Olympic" },
-            },
-            {
-              where: { name: "Sprinting" },
-              create: { name: "Sprinting" },
-            },
-            {
-              where: { name: "Germany" },
-              create: { name: "Germany" },
-            },
-          ],
-        },
+        title: `Content Title ${i} by Creator 1`,
+        content: `This is the body of content ${i} created by creator1.`,
+        author: { connect: { id: creator1.id } },
       },
     });
+
+    // Assign tags and create media
+    await assignTagsToContent(content, tagsForCreator1);
+    await createMedia(3, content.id);
   }
 
-  console.log('Seeded Users with posts, images, and tags.');
+  // Creator 2: Creates 33 content items, each with 5 tags and 1 media
+  const tagsForCreator2 = await createTags(5);
+  for (let i = 1; i <= 33; i++) {
+    const content = await prisma.content.create({
+      data: {
+        title: `Content Title ${i} by Creator 2`,
+        content: `This is the body of content ${i} created by creator2.`,
+        author: { connect: { id: creator2.id } },
+      },
+    });
+
+    // Assign tags and create media
+    await assignTagsToContent(content, tagsForCreator2);
+    await createMedia(1, content.id);
+  }
+
+  console.log('Seeding complete');
 }
 
 main()
