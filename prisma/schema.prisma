@@ -17,6 +17,7 @@ model User {
   id                Int       @id @default(autoincrement())
   email             String    @unique
   username          String    @unique
+  introduction      String    @default("Like Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!")
   password          String    // Store hashed passwords
   posts             Post[]       // One-to-many relation to Post (User can have many posts)
   subscription      Subscription? // One-to-one relation with Subscription

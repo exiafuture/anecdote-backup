@@ -1,13 +1,19 @@
 .profilepage {
-    padding: 5rem;
-    text-align: center;
-    display: flex; /* Ensures the child divs are flex items */
-    flex-direction: column; /* Stacks the .profile-left and .profile-right vertically */
-    align-items: center; /* Centers the content horizontally */
+    display: grid;
+    grid-template-columns: 1.25fr 2.75fr;
+    height: 100vh;
+    gap: 5rem;
+    padding-top: 8rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
 }
 
 .profile-left {
-    width: 100%; /* Ensures this div takes the full width */
+    background-color: #f1f1f1;
+    height: 50vh;
+    box-shadow: 0px 1.5rem 54px 2px rgba(225, 223, 223, 0.9);
+    border: none;
+    border-radius: 1rem;
 }
 
 .profile-actions {
@@ -16,6 +22,95 @@
     align-items: center;    /* Centers the buttons horizontally */
 }
 
+.profile-action {
+    font-size: 16px;             /* Font size for the text */
+    padding: 10px 20px;          /* Padding inside the button */
+    margin: 10px 0;              /* Space between the buttons */
+    border-radius: 5px;          /* Rounded corners */
+    border: none;                /* No border */
+    cursor: pointer;             /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, color 0.3s ease;  /* Smooth transition for hover effect */
+}
+
 .profile-right {
-    
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.introduction-profile {
+    background-color: #e7e5e5;
+    padding: 1.5rem;
+}
+
+.introduction-profile h1 {
+    font-style: italic;
+}
+
+.dark .introduction-profile h1 {
+    color: rgba(71, 66, 66, 0.8);
+}
+
+.introduction-profile p {
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.dark .introduction-profile p {
+    color: rgba(49, 43, 43, 0.8);
+}
+
+.right-upper {
+    background-color:#d17373;
+    height: 15vh;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.right-upper p {
+    text-wrap: true;
+    max-lines: 3;
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+.right-lower {
+    background-color: #4bc92c;
+    height: 40vh;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.right-lower ul {
+    list-style-type: none;
+}
+
+.right-lower ul li {
+    margin: 10px 0;
+}
+
+/* Specific style for Logout button */
+.logout-btn {
+    background-color: #4CAF50;   /* Green background */
+    color: white;                /* White text */
+}
+
+.logout-btn:hover {
+    background-color: #45a049;   /* Darker green on hover */
+}
+
+/* Specific style for Delete button */
+.delete-btn {
+    background-color: #f44336;   /* Red background */
+    color: white;                /* White text */
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;   /* Darker red on hover */
+}
+
+@media (max-width: 1230px) {
+
 }

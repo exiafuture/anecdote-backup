@@ -33,15 +33,15 @@ const Profile = () => {
         <div className="profilepage">
             <div className="profile-left">
                 <div className="introduction-profile">
-                    <h1>Welcome, {user?.username || "User"}</h1>
-                    <p>Email: {user?.email || "Email"}</p>
+                    <h1>{user?.username || "User"}</h1>
+                    <p>{user?.email || "Email"}</p>
                 </div>
 
                 <div className="profile-actions">
-                    <button onClick={handleLogout} className="profile-action">
+                    <button onClick={handleLogout} className="profile-action logout-btn">
                         Logout
                     </button>
-                    <button onClick={handleDeleteAccount} className="profile-action">
+                    <button onClick={handleDeleteAccount} className="profile-action delete-btn">
                         Delete
                     </button>
                 </div>
@@ -49,8 +49,8 @@ const Profile = () => {
 
             <div className="profile-right">
                 <div className="right-upper">
-                    <h2>Right Upper Card</h2>
-                    <p>This card takes 70% of the window width and 25% of the window height.</p>
+                    <h2>User's Message</h2>
+                    <p>Like Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!</p>
                 </div>
                 <div className="right-lower">
                     <h2>Right Lower Card</h2>
