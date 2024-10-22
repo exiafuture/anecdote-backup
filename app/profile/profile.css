@@ -96,13 +96,18 @@
 }
 
 .right-lower {
-    background-color: #4bc92c;
+    background-color: rgba(0, 0, 0, 0.1);
     height: 40vh;
     padding: 20px;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-width: none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.right-lower::-webkit-scrollbar {
+    display: none;
+}  
 
 .right-lower ul {
     list-style-type: none;
