@@ -65,8 +65,7 @@ model Post {
 model Tag {
   id         Int      @id @default(autoincrement())
   name       String
-  postId     Int
-  post       Post     @relation(fields: [postId], references: [id])
+  posts      Post[]
 }
 
 model Image {
