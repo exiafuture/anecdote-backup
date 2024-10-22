@@ -4,20 +4,23 @@ import { useAuth } from "../context/authContext";
 import "./profile.css";
 import { useRouter } from "next/navigation";
 import ContentCard from "../components/contentCard";
+import { PreviewPost } from "@/types/Posts";
 
 const Profile = () => {
     const { user, logout, deleteAccount } = useAuth(); // Use logout and deleteAccount from AuthContext
     const router = useRouter();
     const [email,setEmail] = useState("");
+    const [posts, setPosts] = useState<PreviewPost[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const handleLogout = async () => {
         await logout();
         router.push("/auth"); // Redirect to auth page after logout
-      };
+    };
     
     const handleDeleteAccount = async () => {
         const confirmDelete = window.confirm(
-            "Are you sure you want to delete your account? This action cannot be undone."
+            "Are you sure you want to delete your anecdote account? Your creative ideas will be lost and unprotected!"
         );
         if (confirmDelete) {
             await deleteAccount();
@@ -25,11 +28,28 @@ const Profile = () => {
         }
     };
 
+    const fetchUserPosts = async () => {
+        const token = localStorage.getItem("token"); // Get token from local storage
+        const response = await fetch('/api/post/fetch', {
+            headers: {
+                Authorization: `Bearer ${token}` // Include token in the request headers
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setPosts(data);
+        } else {
+            console.error("Failed to fetch posts:", response.status);
+        }
+        setLoading(false); // Stop loading when data is fetched
+    };
+
     useEffect(()=>{
         if(!user) {
             router.push("/auth");
         } else {
             setEmail(`mailto:${user.email}?subject=Hellow&body=Hello! I am ${user.username}`);
+            fetchUserPosts();
         }
     },[user,router]);
 
