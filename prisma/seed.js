@@ -37,7 +37,7 @@ async function main() {
       status: 'active',
       paymentMethod: 'stripe',
       planChosen: {
-        connect: { id: basicPlan.id },
+        connect: { id: proPlan.id },
       },
     },
   });
@@ -45,7 +45,28 @@ async function main() {
   const subscriptionForCreator2 = await prisma.subscription.create({
     data: {
       status: 'active',
-      paymentMethod: 'paypal',
+      paymentMethod: 'stripe',
+      planChosen: {
+        connect: { id: premiumPlan.id },
+      },
+    },
+  });
+
+  // Create two subscriptions, one for each creator
+  const subscriptionForCreator3 = await prisma.subscription.create({
+    data: {
+      status: 'active',
+      paymentMethod: 'stripe',
+      planChosen: {
+        connect: { id: basicPlan.id },
+      },
+    },
+  });
+
+  const subscriptionForCreator4 = await prisma.subscription.create({
+    data: {
+      status: 'active',
+      paymentMethod: 'stripe',
       planChosen: {
         connect: { id: premiumPlan.id },
       },
@@ -68,6 +89,24 @@ async function main() {
       username: 'creator2',
       password: hashedPassword2,
       subscriptionId: subscriptionForCreator2.id, // Link the subscription
+    },
+  });
+
+  const creator3 = await prisma.creator.create({
+    data: {
+      email: 'creator3@example.com',
+      username: 'creator3',
+      password: hashedPassword1,
+      subscriptionId: subscriptionForCreator3.id, // Link the subscription
+    },
+  });
+
+  const creator4 = await prisma.creator.create({
+    data: {
+      email: 'creator4@example.com',
+      username: 'creator4',
+      password: hashedPassword2,
+      subscriptionId: subscriptionForCreator4.id, // Link the subscription
     },
   });
 
@@ -144,7 +183,37 @@ async function main() {
     await createMedia(1, content.id);
   }
 
-  console.log('Seeding complete');
+  const tagsForCreator3 = await createTags(10);
+  for (let i = 1; i <= 11; i++) {
+    const content = await prisma.content.create({
+      data: {
+        title: `Content Title ${i} by Creator 3`,
+        content: `This is the body of content ${i} created by creator1.`,
+        author: { connect: { id: creator1.id } },
+      },
+    });
+
+    // Assign tags and create media
+    await assignTagsToContent(content, tagsForCreator3);
+    await createMedia(3, content.id);
+  }
+
+  const tagsForCreator4 = await createTags(1);
+  for (let i = 1; i <= 44; i++) {
+    const content = await prisma.content.create({
+      data: {
+        title: `Content Title ${i} by Creator 4`,
+        content: `This is the body of content ${i} created by creator2.`,
+        author: { connect: { id: creator2.id } },
+      },
+    });
+
+    // Assign tags and create media
+    await assignTagsToContent(content, tagsForCreator4);
+    await createMedia(15, content.id);
+  }
+
+  console.log(`${creator1}\n${creator2}\n${creator3}\n${creator4}\n4 test data created`);
 }
 
 main()
