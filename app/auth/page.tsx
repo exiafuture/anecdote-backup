@@ -45,7 +45,7 @@ const AuthPage: React.FC = () => {
         return;
       }
       try {
-        await register(formData.username!, formData.email, formData.password);
+        await register(formData.username!, formData.email, formData.password, 1);
         router.push('/profile'); // Redirect to profile on success
       } catch (error) {
         console.error("Registration error:", error);
