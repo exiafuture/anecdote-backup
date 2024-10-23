@@ -8,6 +8,8 @@ import axios from 'axios';
 interface AuthContextType {
   user: any;
   isAuthenticated: boolean;
+  role: 'creator' | 'financer' | null;  // Track user's current role or null initially
+  setRole: (role: 'creator' | 'financer') => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (username: string, email: string, password: string) => Promise<void>;
@@ -19,6 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
+  const [role, setRole] = useState<'creator' | 'financer' | null>(null);
 
   useEffect(() => {
     // Check if user is authenticated on initial load (e.g., check local storage)
@@ -29,8 +32,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Token expired
         localStorage.removeItem('token');
         setUser(null);
+        setRole(null);
       } else {
         setUser(decodedToken);
+        setRole(decodedToken.role);
       }
     }
   }, []);
@@ -66,9 +71,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Logout function to clear the token
   const logout = async () => {
     try {
-      await axios.post('/api/auth/logout');
+      await axios.post(`/api/auth/${role}/logout`);
       localStorage.removeItem('token'); // Clear token from local storage
       setUser(null);
+      setRole(null);
       router.push('/auth'); // Redirect to auth page after logout
     } catch (error) {
       console.error('Logout error:', error);
@@ -83,7 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw new Error("User is not authenticated");
       }
 
-      await axios.delete("/api/auth/quit", {
+      await axios.delete(`/api/auth/${role}/quit`, {
         headers: {
           Authorization: `Bearer ${token}`,  // Pass JWT token in the request headers
         },
@@ -92,6 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Account successfully deleted
       localStorage.removeItem("token"); // Clear token from local storage
       setUser(null); // Clear user state
+      setRole(null);
       router.push("/"); // Redirect to auth page after deletion
     } catch (error) {
       console.error("Delete account error:", error);
@@ -101,6 +108,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <AuthContext.Provider value={{ 
       user, isAuthenticated: !!user, 
+      role, setRole,
       login, logout, register, deleteAccount }}>
       {children}
     </AuthContext.Provider>
