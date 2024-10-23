@@ -67,7 +67,9 @@ const AuthPage: React.FC = () => {
       router.push("/profile");
     }
     console.log(authRole);
-    console.log(errorMessage);
+    if (!user && errorMessage=="") {
+      console.log(errorMessage);
+    }
   },[user,router]);
 
   return (

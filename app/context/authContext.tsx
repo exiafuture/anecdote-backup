@@ -8,7 +8,7 @@ import axios from 'axios';
 interface AuthContextType {
   user: any;
   isAuthenticated: boolean;
-  role: 'creator' | 'financer' | null;  // Track user's current role or null initially
+  role: 'creator' | 'financer';  // Track user's current role or null initially
   setRole: (role: 'creator' | 'financer') => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -21,7 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
-  const [role, setRole] = useState<'creator' | 'financer' | null>(null);
+  const [role, setRole] = useState<'creator' | 'financer'>("creator");
 
   useEffect(() => {
     // Check if user is authenticated on initial load (e.g., check local storage)
@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Token expired
         localStorage.removeItem('token');
         setUser(null);
-        setRole(null);
+        setRole("creator");
       } else {
         setUser(decodedToken);
         setRole(decodedToken.role);
@@ -74,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await axios.post(`/api/auth/${role}/logout`);
       localStorage.removeItem('token'); // Clear token from local storage
       setUser(null);
-      setRole(null);
+      setRole("creator");
       router.push('/auth'); // Redirect to auth page after logout
     } catch (error) {
       console.error('Logout error:', error);
@@ -98,7 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Account successfully deleted
       localStorage.removeItem("token"); // Clear token from local storage
       setUser(null); // Clear user state
-      setRole(null);
+      setRole("creator");
       router.push("/"); // Redirect to auth page after deletion
     } catch (error) {
       console.error("Delete account error:", error);
