@@ -22,7 +22,7 @@ const AuthPage: React.FC = () => {
     password: '',
     password_confirmation: '',
   });
-  const { user, login, register } = useAuth();
+  const { user, login, register, setRole } = useAuth();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
@@ -41,10 +41,12 @@ const AuthPage: React.FC = () => {
         return;
       }
       if (!validatePassword(formData.password)) {
-        setErrorMessage('Password must be at least 7 characters long, with at least one uppercase and one lowercase letter.');
+        setErrorMessage(
+          'Password must be at least 7 characters long, with at least one uppercase and one lowercase letter.');
         return;
       }
       try {
+        setRole(authRole);
         await register(formData.username!, formData.email, formData.password, 1);
         router.push('/profile'); // Redirect to profile on success
       } catch (error) {
@@ -53,6 +55,7 @@ const AuthPage: React.FC = () => {
       }
     } else {
       try {
+        setRole(authRole);
         await login(formData.email, formData.password);
         router.push('/profile'); // Redirect to profile on success
       } catch (error) {
@@ -62,6 +65,11 @@ const AuthPage: React.FC = () => {
     }
   };
 
+  const roleCheck = (st: 'creator' | 'financer') => {
+    setAuthRole(st);
+    setRole(st);
+  }
+
   useEffect(()=>{
     if(user) {
       router.push("/profile");
@@ -69,7 +77,7 @@ const AuthPage: React.FC = () => {
     if (!user && errorMessage=="") {
       console.log(errorMessage);
     }
-  },[user,router]);
+  },[user,router,authRole]);
 
   return (
     <div className="creator-page">
@@ -92,24 +100,30 @@ const AuthPage: React.FC = () => {
       </header>
 
       <section className="creator-card">
-        {view === "signup" ? (
+        {/* {view === "signup" ? (
           <p>Register</p>
         ):(
           <p>Login</p>
-        )}
+        )} */}
         <div className="role-toggle">
-          <button className={authRole === "creator" ? " rbtn active" : "rbtn inactive"}
-            onClick={() => setAuthRole("creator")}>
+          <button className={`rbtn ${authRole === "creator" ? "active" : "inactive"}`}
+            onClick={() => roleCheck("creator")}>
             Creator
           </button>
           <button
-            className={authRole === "financer" ? "rbtn active" : "rbtn inactive"}
-            onClick={() => setAuthRole("financer")}
+            className={`rbtn ${authRole === "financer" ? "active" : "inactive"}`}
+            onClick={() => roleCheck("financer")}
           >
             Buyer
           </button>
         </div>
         <form className="checkin" onSubmit={handleSubmit}>
+          {view === "signup" && (
+            <h3 className="annoy">Venture as {authRole === "creator" ? "Creator" : "Buyer"}</h3>
+          )}
+          {view === "login" && (
+            <h3 className="annoy">Return as {authRole === "creator" ? "Creator" : "Buyer"}</h3>
+          )}
           {view === 'signup' && (
             <div>
               <input

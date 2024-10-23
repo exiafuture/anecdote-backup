@@ -26,18 +26,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     // Check if user is authenticated on initial load (e.g., check local storage)
     const token = localStorage.getItem('token');
+    const storedRole = localStorage.getItem('role') as 'creator' | 'financer' | 'unauth';
     if (token) {
       const decodedToken: any = jwt.decode(token);
       if (decodedToken.exp * 1000 < Date.now()) {
         // Token expired
         localStorage.removeItem('token');
+        localStorage.setItem("role","unauth");
         setUser(null);
         setRole("unauth");
       } else {
         setUser(decodedToken);
+        setRole(storedRole);
       }
+    } else {
+      setRole('unauth');
     }
   }, []);
+
+  const updateRole = (newRole: 'creator' | 'financer' | 'unauth') => {
+    setRole(newRole);
+    localStorage.setItem('role', newRole); // Persist role to localStorage
+  };
 
   const register = async (
     username: string, email: string, password: string, planId: number
@@ -53,6 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const { token } = res.data; // Get the token from the response
           localStorage.setItem('token', token); // Store JWT in local storage
           setUser(jwt.decode(token)); // Decode the token and set user state
+          updateRole(role);
           router.push('/profile'); // Redirect after successful registration
         }
         console.log('Registration successful');
@@ -72,6 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const res = await axios.post(`/api/auth/${role}/login`, { email, password });
         localStorage.setItem('token', res.data.token); // Store JWT in local storage
         setUser(jwt.decode(res.data.token));
+        updateRole(role);
         router.push('/profile'); // Redirect after successful login
       } catch (error) {
         console.error('Login error:', error);
@@ -85,7 +97,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await axios.post(`/api/auth/${role}/logout`);
       localStorage.removeItem('token'); // Clear token from local storage
       setUser(null);
-      setRole("unauth");
+      updateRole('unauth');
       router.push('/auth'); // Redirect to auth page after logout
     } catch (error) {
       console.error('Logout error:', error);
@@ -109,7 +121,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Account successfully deleted
       localStorage.removeItem("token"); // Clear token from local storage
       setUser(null); // Clear user state
-      setRole("unauth");
+      updateRole('unauth');
       router.push("/"); // Redirect to auth page after deletion
     } catch (error) {
       console.error("Delete account error:", error);
@@ -119,7 +131,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <AuthContext.Provider value={{ 
       user, isAuthenticated: !!user, 
-      role, setRole,
+      role, setRole: updateRole,
       login, logout, register, deleteAccount }}>
       {children}
     </AuthContext.Provider>
