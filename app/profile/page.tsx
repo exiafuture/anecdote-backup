@@ -86,7 +86,7 @@ const Profile = () => {
                 </div>
                 <div className="right-lower">
                     <div className="content-grid">
-                        {/* {loading ? (
+                        {loading ? (
                             <p>Loading posts...</p>
                         ) : posts.length > 0 ? (
                             posts.map((post) => (
@@ -103,7 +103,7 @@ const Profile = () => {
                             ))
                         ) : (
                             <p>No posts available.</p>
-                        )} */}
+                        )}
                     </div>
                 </div>
             </div>
