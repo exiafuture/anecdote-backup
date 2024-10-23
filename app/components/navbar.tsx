@@ -35,9 +35,9 @@ const NavBar: React.FC = () => {
         <ul className="nav-links">
           <li><Link href="/" className="nav-link mobile-home">Home</Link></li>
           <li><Link href="/services" className="nav-link">Services</Link></li>
-          <li><Link href="/about" className="nav-link">About</Link></li>
+          <li><Link href="/about" className="nav-link extra">About</Link></li>
           <li><Link href="/pricing-plans" className="nav-link">Pricing</Link></li>
-          <li><Link href="/contact" className="nav-link">Contact</Link></li>
+          <li><Link href="/contact" className="nav-link extra">Contact</Link></li>
           {!user ? (
             <li><Link href="/auth" className="nav-link burger-link">Login/Signup</Link></li>
           ) : (
@@ -96,6 +96,16 @@ const NavBar: React.FC = () => {
                 <button>
                 <Link href="/profile" className="drop-up-item">Profile</Link></button>
               }
+            </li>
+            <li className='drop-up-item four'>
+              <button>
+                <Link href="/about" className="drop-up-item four">About</Link>
+              </button>
+            </li>
+            <li className='drop-up-item four'>
+              <button>
+                <Link href="/contact" className="drop-up-item four">Contact</Link>
+              </button>
             </li>
           </ul>
         </div>

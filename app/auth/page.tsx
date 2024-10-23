@@ -15,6 +15,7 @@ interface AuthFormData {
 
 const AuthPage: React.FC = () => {
   const [view, setView] = useState<"login" | "signup">("login");
+  const [authRole, setAuthRole] = useState<"creator" | "financer">("creator");
   const [formData, setFormData] = useState<AuthFormData>({
     username: '',
     email: '',
@@ -65,6 +66,8 @@ const AuthPage: React.FC = () => {
     if(user) {
       router.push("/profile");
     }
+    console.log(authRole);
+    console.log(errorMessage);
   },[user,router]);
 
   return (
@@ -93,6 +96,18 @@ const AuthPage: React.FC = () => {
         ):(
           <p>Login</p>
         )}
+        <div className="role-toggle">
+          <button className={authRole === "creator" ? " rbtn active" : "rbtn inactive"}
+            onClick={() => setAuthRole("creator")}>
+            Creator
+          </button>
+          <button
+            className={authRole === "financer" ? "rbtn active" : "rbtn inactive"}
+            onClick={() => setAuthRole("financer")}
+          >
+            Buyer
+          </button>
+        </div>
         <form className="checkin" onSubmit={handleSubmit}>
           {view === 'signup' && (
             <div>

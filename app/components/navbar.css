@@ -12,6 +12,10 @@
     transition: background-color 0.1s ease;
 }
 
+.four {
+    display: none;
+}
+
 .dark .navbar {
     background-color: #1e293b;
 }
@@ -135,7 +139,7 @@
     }
 
     .drop-up-menu li {
-        margin-bottom: 5rem;
+        margin-bottom: 1rem;
     }
 
     .drop-up-menu li:last-child {
@@ -171,5 +175,19 @@
 
     .dark .backdrop {
         background-color: rgba(255,255,255,0.9);
+    }
+}
+
+@media only screen and (max-width:390px) {
+    .four {
+        display: block;
+    }
+
+    .extra {
+        display: none;
+    }
+
+    .burger {
+        margin-bottom: 0.25rem;
     }
 }
