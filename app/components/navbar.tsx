@@ -34,7 +34,7 @@ const NavBar: React.FC = () => {
 
         <ul className="nav-links">
           <li><Link href="/" className="nav-link mobile-home">Home</Link></li>
-          <li><Link href="/services" className="nav-link">Services</Link></li>
+          <li><Link href="/pool" className="nav-link">Pool</Link></li>
           <li><Link href="/about" className="nav-link extra">About</Link></li>
           <li><Link href="/pricing-plans" className="nav-link">Pricing</Link></li>
           <li><Link href="/contact" className="nav-link extra">Contact</Link></li>

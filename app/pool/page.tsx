@@ -1,10 +1,10 @@
 "use client";
 
-const Services = () => {
+const Pool = () => {
   return (
     <div>
     </div>
   );
 }
 
-export default Services;
+export default Pool;

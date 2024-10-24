@@ -23,7 +23,7 @@ const Footer = () => {
 
       <div className="footer-nav-links">
         <Link href="/" className="footer-nav-link">Home</Link>
-        <Link href="/services" className="footer-nav-link">Services</Link>
+        <Link href="/pool" className="footer-nav-link">Pool</Link>
         <Link href="/pricing-plans" className="footer-nav-link">Pricing</Link>
         <Link href="/about" className="footer-nav-link">About</Link>
         <Link href="/contact" className="footer-nav-link">Contact</Link>
