@@ -7,8 +7,6 @@ const SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 export async function GET(request: Request) {
     const token = request.headers.get("Authorization")?.replace("Bearer ", "");
-
-    console.log(token);
     
     if (!token) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
