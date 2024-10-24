@@ -21,7 +21,7 @@ const Profile = () => {
     
     const handleDeleteAccount = async () => {
         const confirmDelete = window.confirm(
-            "Are you sure you want to delete your anecdote account? Your creative ideas will be lost and unprotected!"
+            "You wish to level your anecdote? Your creativity will be lost and unprotected!"
         );
         if (confirmDelete) {
             await deleteAccount();
@@ -30,7 +30,8 @@ const Profile = () => {
     };
 
     const fetchUserPosts = async () => {
-        const token = localStorage.getItem("token"); // Get token from local storage
+        const token = localStorage.getItem("token"); 
+        // Get token from local storage
         if (!token) {
             console.error("No token found");
             return;
@@ -38,13 +39,17 @@ const Profile = () => {
         try {
             const response = await axios.get('/api/post/fetch', {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Include token in the request headers
+                    Authorization: `Bearer ${token}`, 
+                    // Include token in the request headers
                 },
             });
             if (response.status === 200) {
-                setPosts(response.data); // Set the fetched posts
+                setPosts(response.data); 
+                // Set the fetched posts
             } else {
-                console.error("Failed to fetch posts:", response.status);
+                console.error(
+                    "Failed to fetch posts:", 
+                    response.status);
             }
         } catch (error) {
             console.error("Error fetching posts:", error);
@@ -56,7 +61,13 @@ const Profile = () => {
         if(!user) {
             router.push("/auth");
         } else {
-            setEmail(`mailto:${user.email}?subject=Hellow&body=Hello! I am ${user.username}`);
+            setEmail(
+                `mailto:${
+                    user.email
+                }?subject=Hellow&body=Hello! I am ${
+                    user.username
+                }`
+            );
             fetchUserPosts();
         }
     },[user,router]);
@@ -70,10 +81,14 @@ const Profile = () => {
                 </div>
 
                 <div className="profile-actions">
-                    <button onClick={handleLogout} className="profile-action logout-btn">
+                    <button 
+                        onClick={handleLogout} 
+                        className="profile-action logout-btn">
                         Logout
                     </button>
-                    <button onClick={handleDeleteAccount} className="profile-action delete-btn">
+                    <button 
+                        onClick={handleDeleteAccount} 
+                        className="profile-action delete-btn">
                         Delete
                     </button>
                 </div>
@@ -97,7 +112,11 @@ const Profile = () => {
                                         title: post.title,
                                         createdAt: post.createdAt,
                                         tags: post.tags, // Extracting tag names
-                                        image: post.image != "" ? post.image : 'https://tinyurl.com/ycx4t8tw' // Get the first image or empty string
+                                        image: post.image 
+                                        != "" 
+                                        ? post.image 
+                                        : 
+                                        'https://tinyurl.com/ycx4t8tw'
                                     }} 
                                 />
                             ))
