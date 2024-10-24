@@ -119,11 +119,7 @@ const Profile = () => {
                                         title: post.title,
                                         createdAt: post.createdAt,
                                         tags: post.tags.map(tag => ({ name: tag.name })), // Extracting tag names
-                                        image: post.image 
-                                        != "" 
-                                        ? post.image 
-                                        : 
-                                        'https://tinyurl.com/ycx4t8tw'
+                                        image: post.image
                                     }} 
                                 />
                             ))
