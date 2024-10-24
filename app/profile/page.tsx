@@ -8,12 +8,11 @@ import { PreviewPost } from "@/types/Posts";
 import axios from "axios";
 
 const Profile = () => {
-    const { user, logout, deleteAccount } = useAuth(); // Use logout and deleteAccount from AuthContext
+    const { user, logout, deleteAccount, role } = useAuth(); // Use logout and deleteAccount from AuthContext
     const router = useRouter();
     const [email,setEmail] = useState("");
     const [posts, setPosts] = useState<PreviewPost[]>([]);
     const [loading, setLoading] = useState(true);
-    const role = localStorage.getItem("role") as "financer" | "creator" | "unauth";
 
     const handleLogout = async () => {
         await logout();
