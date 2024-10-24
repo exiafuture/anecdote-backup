@@ -146,6 +146,11 @@
     background-color: #ae0808;   /* Darker red on hover */
 }
 
+.content-grid {
+    display: grid;
+    gap: 2rem;
+}
+
 @media (max-width: 530px) {
     .right-upper, .right-lower, .profile-left {
         width: 90vw;                      /* Set width of right-upper */
@@ -195,8 +200,20 @@
     }
 }
 
-@media (min-width: 531px) and (max-width: 1250px) {
+@media (max-width: 889px) {
+    .content-grid {
+        grid-template-columns: 1fr; /* 1 column */
+    }
+}
+
+@media (min-width: 890px) and (max-width: 1250px) {
+    .content-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    }
 }
 
 @media (min-width: 1251px) {
+    .content-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    }
 }
