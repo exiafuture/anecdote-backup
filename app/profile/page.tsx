@@ -13,6 +13,7 @@ const Profile = () => {
     const [email,setEmail] = useState("");
     const [posts, setPosts] = useState<PreviewPost[]>([]);
     const [loading, setLoading] = useState(true);
+    const role = localStorage.getItem("role") as "financer" | "creator" | "unauth";
 
     const handleLogout = async () => {
         await logout();
@@ -36,8 +37,12 @@ const Profile = () => {
             console.error("No token found");
             return;
         }
+        if (role=="unauth") {
+            console.error("Sync error");
+            return;
+        }
         try {
-            const response = await axios.get('/api/post/fetch', {
+            const response = await axios.get(`/api/post/fetch/${role}`, {
                 headers: {
                     Authorization: `Bearer ${token}`, 
                     // Include token in the request headers
@@ -95,10 +100,12 @@ const Profile = () => {
             </div>
 
             <div className="profile-right">
-                <div className="right-upper">
-                    <h2>User's Message</h2>
-                    <p>Like Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!</p>
-                </div>
+                {role==="creator" && (
+                    <div className="right-upper">
+                        <h2>User's Message</h2>
+                        <p>Like Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!</p>
+                    </div>
+                )}
                 <div className="right-lower">
                     <div className="content-grid">
                         {loading ? (
@@ -111,7 +118,7 @@ const Profile = () => {
                                         id: post.id,
                                         title: post.title,
                                         createdAt: post.createdAt,
-                                        tags: post.tags, // Extracting tag names
+                                        tags: post.tags.map(tag => ({ name: tag.name })), // Extracting tag names
                                         image: post.image 
                                         != "" 
                                         ? post.image 

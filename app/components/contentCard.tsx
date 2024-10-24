@@ -7,7 +7,7 @@ type Post = {
   id: number;
   title: string;
   createdAt: string;
-  tags: string[];
+  tags: {name:string}[];
   image: string; // Images is now an array of Image objects
 };
 
@@ -32,7 +32,7 @@ const ContentCard: React.FC<ContentCardProps> = ({ post }) => {
         <p>Created on: {new Date(post.createdAt).toLocaleDateString()}</p>
         <div className="content-card-tags">
           {post.tags.map((tag, index) => (
-            <span key={index} className="tag">{tag}</span>
+            <span key={index} className="tag">{tag.name}</span>
           ))}
         </div>
       </div>
