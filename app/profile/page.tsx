@@ -128,7 +128,7 @@ const Profile = () => {
                                 />
                             ))
                         ) : (
-                            <p>No posts available.</p>
+                            <p>{role==="creator"?"No posts available.":"you have not purchased any idea"}</p>
                         )}
                     </div>
                 </div>
