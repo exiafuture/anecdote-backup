@@ -28,11 +28,12 @@
     height: auto;                   /* Use auto height for flexibility */
     flex-grow: 3;                   /* Allow this section to grow */
     padding: 2rem;                  /* Optional: Add padding to the container */
-    box-sizing: border-box;     
+    box-sizing: border-box;  
+    gap: 1rem;   
 }
 
 .profile-action {
-    width: 10vw;
+    border-radius: 5px;
     font-size: 16px;             /* Font size for the text */
     padding: 10px 10px;          /* Padding inside the button */
     margin: 20px 0;              /* Space between the buttons */
@@ -215,5 +216,26 @@
 @media (min-width: 1251px) {
     .content-grid {
         grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    }
+}
+
+/* For screens between 531px and 900px */
+@media (min-width: 531px) and (max-width: 900px) {
+    .profile-action {
+        width: 70%; /* Adjust width for medium screens */
+    }
+}
+
+/* For screens between 901px and 1300px */
+@media (min-width: 901px) and (max-width: 1300px) {
+    .profile-action {
+        width: 80%; /* Adjust width for larger screens */
+    }
+}
+
+/* For screens larger than 1300px */
+@media (min-width: 1301px) {
+    .profile-action {
+        width: 70%; /* Narrower buttons on very large screens */
     }
 }

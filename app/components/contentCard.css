@@ -44,9 +44,11 @@
 
 .content-card-tags {
     display: flex;
-    flex-wrap: wrap;
     gap: 0.25rem;
     margin-top: 0.3rem;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent tags from wrapping to the next line */
+    scrollbar-width: none;
 }
 
 .content-card-tags .tag {
