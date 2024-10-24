@@ -22,7 +22,7 @@ const AuthPage: React.FC = () => {
     password: '',
     password_confirmation: '',
   });
-  const { user, login, register, setRole, role } = useAuth();
+  const { user, login, register, setRole } = useAuth();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
@@ -74,10 +74,7 @@ const AuthPage: React.FC = () => {
     if(user) {
       router.push("/profile");
     }
-    if (!user && errorMessage=="") {
-      console.log(errorMessage);
-    }
-  },[user,router,authRole]);
+  },[user,router]);
 
   return (
     <div className="creator-page">
@@ -170,6 +167,7 @@ const AuthPage: React.FC = () => {
           )}
           <button type="submit">{view === 'signup' ? 'Signup' : 'Login'}</button>
         </form>
+        {errorMessage && (<p>${errorMessage}</p>)}
       </section>
     </div>
   );
