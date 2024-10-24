@@ -1,34 +1,10 @@
 // app/api/posts/route.ts
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma'; // Import Prisma client
-import jwt from 'jsonwebtoken';
 
-const SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
-
-export async function GET(request: Request) {
-    const token = request.headers.get("Authorization")?.replace("Bearer ", "");
-
-    console.log(token);
-    
-    if (!token) {
-        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    let decoded: any;
+export async function GET() {
     try {
-        decoded = jwt.verify(token, SECRET);
-    } catch (error) {
-        return NextResponse.json({ message: "Invalid token" }, { status: 403 }); // Forbidden
-    }
-    
-    const userId = decoded.userId;
-    try {
-        // Fetch posts for the authenticated user
-        const posts = await prisma.content.findMany({
-            where: { 
-                financerId: userId,   // Ensure the post is associated with this financer
-                NOT: { financerId: null }
-             }, // Fetch posts belonging to the user
+        const posts = await prisma.content.findMany({// Fetch posts belonging to the user
             select: {
                 id: true,
                 title: true,

@@ -23,8 +23,6 @@ export async function GET(request: Request) {
     
     const userId = decoded.userId;
 
-    console.log(`user id in post fetch api: ${userId}`);
-
     try {
         // Fetch posts for the authenticated user
         const posts = await prisma.content.findMany({
