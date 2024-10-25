@@ -149,16 +149,21 @@ const PoolPage = () => {
         </form>
       </div>
       <div className="pool-right">
+        <div className="header-flex">
           <h2>Content Posts</h2>
-          {loading ? (
-              <p>Loading posts...</p>
-          ) : (
-              <div className="pool-content-grid">
-                  {posts.map((post) => (
-                      <ContentCard key={post.id} post={post} />
-                  ))}
-              </div>
-          )}
+          <button onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}>
+            Go to Bottom
+          </button>
+        </div>
+        {loading ? (
+            <p>Loading posts...</p>
+        ) : (
+            <div className="pool-content-grid">
+                {posts.map((post) => (
+                    <ContentCard key={post.id} post={post} />
+                ))}
+            </div>
+        )}
       </div>
       <button className="back-to-top-button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         Back to Top

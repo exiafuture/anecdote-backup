@@ -2,10 +2,8 @@
 .pool-container {
     display: flex;
     padding-top: 5rem;
-    flex-wrap: wrap;
     padding-left: 2rem;
     padding-right: 2rem;
-    margin: 0 auto;
 }
 
 .pool-left {
@@ -42,6 +40,25 @@
 .pool-right {
     flex: 0 0 60%; /* 3/5 of the screen width */
     padding: 1rem;
+}
+
+.header-flex {
+    display: flex;
+    gap: 1rem;
+}
+
+.header-flex button {
+    background-color: rgba(159, 158, 158, 0.21);
+    border-radius: 4px;
+    padding-left:5px;
+    padding-right:5px;
+    font-size: large;
+    font-weight: 600;
+}
+
+.dark .header-flex button {
+    background-color: rgba(0,0,0,0.1);
+    color: white;
 }
 
 .back-to-top-button {
@@ -111,6 +128,9 @@
         height: 20vh; /* Top container height */
         position: relative;
         margin-bottom: 1.5rem;
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 20px;
+        padding: 1.5rem;
     }
 
     .pool-right {
@@ -129,5 +149,9 @@
         border: none;
         border-radius: 4px;
         cursor: pointer;
-      }
+    }
+
+    .header-flex button {
+        display: none;
+    }
 }
