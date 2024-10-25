@@ -19,7 +19,7 @@ const ContentCard: React.FC<ContentCardProps> = ({ post }) => {
   const router = useRouter();
 
   const handleCardClick = () => {
-    router.push(`/posts/${post.id}`); // Navigate to post detail page
+    router.push(`/pool/${post.id}`); // Navigate to post detail page
   };
 
   return (

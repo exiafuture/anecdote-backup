@@ -3,7 +3,7 @@
 .content-detail-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 5rem;
 }
 
 .content-main-image {
@@ -11,6 +11,34 @@
     height: auto;
     margin-top: 1rem;
     border-radius: 8px;
+}
+
+.content-tags::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers */
+}
+
+.content-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* space between tags */
+    overflow-x: auto;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+.liquidate {
+    border: none;
+    border-radius: 20px;
+    padding: 10px 10px;
+    background-color: rgba(230, 85, 2, 0.829);
+    color: yellow;
+    font-weight:800;
+    font-size: 1.5rem;
+    margin-top:1vh;
+}
+
+.dark .liquidate {
+    background-color: rgba(228, 225, 225, 0.6);
+    color:rgb(192, 45, 74);
 }
 
 .content-tags ul {
@@ -25,7 +53,14 @@
     border-radius: 4px;
     background-color: rgba(200,200,200,0.4);
     font-size: 1rem;
+    list-style: none;
     font-weight: 800;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.content-tags li:hover {
+    background-color: #d0d0d0; /* Hover effect */
 }
 
 .dark .content-tags li {

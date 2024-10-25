@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation'; // Importing useParams from next/navigation
 import axios from 'axios';
 import './detail.css';
+import Link from "next/link";
 
 interface ContentPost {
   id: string;
@@ -19,10 +20,13 @@ const ContentDetailPage = () => {
   const { id } = useParams(); // Access the post ID from the URL
   const [contentPost, setContentPost] = useState<ContentPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [profileRole, setProfileRole] = useState<"financer" | "creator" | "unauth">("unauth");
 
   useEffect(() => {
     if (id) {
       fetchContentPost();
+      const currentRole = localStorage.getItem("role") as "financer" | "creator" | "unauth";
+      setProfileRole(currentRole);
     }
   }, [id]);
 
@@ -58,11 +62,16 @@ const ContentDetailPage = () => {
       <div className="content-tags">
         <h3>Tags:</h3>
         <ul>
-          {contentPost.tags.map((tag) => (
-            <li key={tag.name}>{tag.name}</li>
-          ))}
+            {contentPost.tags.map((tag, index) => (
+            <li key={index}>
+                <Link href={`/pool/tags/${tag.name}`}>
+                {tag.name}
+                </Link>
+            </li>
+            ))}
         </ul>
       </div>
+      {profileRole==="financer" && (<button className='liquidate'>purchase</button>)}
     </div>
   );
 };
