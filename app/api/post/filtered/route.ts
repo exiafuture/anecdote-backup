@@ -6,7 +6,6 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const name = searchParams.get('name') || undefined;
     const username = searchParams.get('username') || undefined;
-    const tags = searchParams.getAll('tags') || undefined;
     const afterDate = searchParams.get('after') ? new Date(searchParams.get('after')!) : undefined;
     const beforeDate = searchParams.get('before') ? new Date(searchParams.get('before')!) : undefined;
 
@@ -18,7 +17,6 @@ export async function GET(request: Request) {
                 username ? { author: { username: { contains: username, mode: "insensitive" } } } : {},
                 afterDate ? { createdAt: { gte: afterDate } } : {},
                 beforeDate ? { createdAt: { lte: beforeDate } } : {},
-                tags && tags.length ? { tags: { some: { name: { in: tags } } } } : {}
             ],
         };
 

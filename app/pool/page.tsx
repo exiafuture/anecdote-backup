@@ -11,7 +11,6 @@ interface FilteredFormData {
   name?: string;
   after?: string;
   before?: string;
-  tags?: string[];
 }
 
 const PoolPage = () => {
@@ -22,7 +21,6 @@ const PoolPage = () => {
     after:"",
     username:"",
     before:"",
-    tags:[],
   });
 
   const resetFilters = () => {
@@ -31,7 +29,6 @@ const PoolPage = () => {
       after: "",
       username: "",
       before: "",
-      tags: [],
     });
   };
 
@@ -40,7 +37,7 @@ const PoolPage = () => {
     try {
       const { 
         name, after,username,
-        before, tags 
+        before
       } = filters;
       const response = await axios.get('/api/post/filtered', {
         params: {
@@ -48,7 +45,6 @@ const PoolPage = () => {
           after,
           username,
           before,
-          tags,
         },
       });
       if (response.status === 200) {
@@ -68,15 +64,6 @@ const PoolPage = () => {
     setFilters(prevFilters => ({
       ...prevFilters,
       [name]: value,
-    }));
-  };
-
-  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    const tagsArray = value.split(",").map(tag => tag.trim());
-    setFilters(prevFilters => ({
-      ...prevFilters,
-      tags: tagsArray,
     }));
   };
 
@@ -132,15 +119,6 @@ const PoolPage = () => {
               Before Date:
             </label>
             <input type="date" name="before" id="before" value={filters.before} onChange={handleFilterChange} />
-          </div>
-          <div className="pool-form-group">
-            <label htmlFor="tags">
-              Tags:
-            </label>
-            <input type="text" name="tags" id="tags" 
-              value={filters.tags?.join(", ")} onChange={handleTagsChange} 
-              placeholder="Enter tags separated by commas"
-            />
           </div>
           <div className="pool-filter-action-btn-group">
             <button type="submit" className="pool-filter-button">Apply</button>
