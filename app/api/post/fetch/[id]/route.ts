@@ -19,6 +19,8 @@ export async function GET(request: Request, { params }: { params: { id: string |
         id: true,
         title: true,
         createdAt: true,
+        content: true,
+        sold: true,
         tags: { select: { name: true } },
         medias: { select: { url: true } },
         author: { select: { username: true } },
