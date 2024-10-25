@@ -30,6 +30,7 @@ const PoolPage = () => {
       username: "",
       before: "",
     });
+    fetchAllPosts();
   };
 
   const fetchFilteredPosts = async () => {
