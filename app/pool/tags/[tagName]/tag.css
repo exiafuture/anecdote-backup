@@ -11,6 +11,10 @@
     gap: 1.5rem;
     margin-top: 2rem;
 }
+
+.tag-expanding {
+    margin-bottom: 40rem;
+}
   
 @media (max-width:1300px) {
     .tag-collection-container {

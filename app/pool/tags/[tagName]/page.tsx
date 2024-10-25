@@ -40,7 +40,7 @@ const TagCollectionPage = () => {
     <div className="tag-collection-container">
       <h1>Posts Tagged With: {tagName}</h1>
       {loading ? (
-        <p>Loading posts...</p>
+        <p className="tag-expanding">Loading posts...</p>
       ) : posts.length > 0 ? (
         <div className="tag-collection-grid">
           {posts.map((post) => (
@@ -48,7 +48,7 @@ const TagCollectionPage = () => {
           ))}
         </div>
       ) : (
-        <p>No posts found with this tag.</p>
+        <p className="tag-expanding">No posts found with this tag.</p>
       )}
     </div>
   );
