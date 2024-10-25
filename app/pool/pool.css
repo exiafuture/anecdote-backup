@@ -1,0 +1,45 @@
+/* app/pool/pool.css */
+.pool-container {
+    display: flex;
+    padding-top: 5rem;
+    flex-wrap: wrap;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin: 0 auto;
+}
+
+.pool-left {
+    flex: 0 0 40%; /* 2/5 of the screen width */
+    padding: 1rem;
+}
+
+.pool-right {
+    flex: 0 0 60%; /* 3/5 of the screen width */
+    padding: 1rem;
+}
+
+.pool-content-grid {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust based on desired column count */
+    gap: 1rem;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 849px) {
+    .pool-container {
+        flex-direction: column;
+    }
+
+    .pool-left, .pool-right {
+        width: 90vw; /* Set both to 90vw on mobile */
+    }
+
+    .pool-left {
+        height: 20vh; /* Top container height */
+    }
+
+    .pool-right {
+        height: 65vh; /* Bottom container height */
+    }
+}
