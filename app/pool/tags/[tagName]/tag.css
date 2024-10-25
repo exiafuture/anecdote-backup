@@ -1,0 +1,28 @@
+/* app/pool/tags/[tagName]/tagCollection.css */
+.tag-collection-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top:6rem;
+}
+  
+.tag-collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+  
+@media (max-width:1300px) {
+    .tag-collection-container {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+}
+
+@media (max-width:850px) {
+    .tag-collection-container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-top: 1rem;
+    }
+}

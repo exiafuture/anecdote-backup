@@ -2,19 +2,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ContentCard from "@/app/components/contentCard"; // Adjust path as needed
-import { useRouter } from "next/navigation";
+import ContentCard from "@/app/components/contentCard";
+import { useParams } from "next/navigation";
 import { PreviewPost } from "@/types/Posts";
 import './tag.css';
 
 const TagCollectionPage = () => {
-  const router = useRouter();
+  const { tagName } = useParams();
   const [posts, setPosts] = useState<PreviewPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (tagName) {
-      fetchTaggedPosts(tagName as string);
+    if (typeof tagName === 'string') { // Type guard ensures tagName is a string
+      fetchTaggedPosts(tagName);
     }
   }, [tagName]);
 
@@ -38,7 +38,7 @@ const TagCollectionPage = () => {
 
   return (
     <div className="tag-collection-container">
-      <h1>Posts Tagged: {tagName}</h1>
+      <h1>Posts Tagged With: {tagName}</h1>
       {loading ? (
         <p>Loading posts...</p>
       ) : posts.length > 0 ? (
