@@ -5,15 +5,22 @@ import Image from 'next/image';
 import { Usetheme } from "../context/themeContext";
 import { useAuth } from '../context/authContext';
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 const NavBar: React.FC = () => {
   const { theme, toggleTheme } = Usetheme();
-  const {user} = useAuth();
+  const { user, logout } = useAuth();
+  const router = useRouter();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleBackdropClick = () => {
     setIsMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/auth"); // Redirect to auth page after logout
   };
 
   return (
@@ -107,6 +114,16 @@ const NavBar: React.FC = () => {
                 <Link href="/contact" className="drop-up-item four">Contact</Link>
               </button>
             </li>
+            {!user 
+            ? 
+            <li></li>:<li className='drop-up-item'>
+            <button 
+              onClick={handleLogout} 
+              className="drop-up-item">
+              Logout
+            </button>
+            </li>
+            }
           </ul>
         </div>
       )}

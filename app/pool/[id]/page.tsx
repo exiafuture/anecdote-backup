@@ -20,12 +20,12 @@ const ContentDetailPage = () => {
   const { id } = useParams(); // Access the post ID from the URL
   const [contentPost, setContentPost] = useState<ContentPost | null>(null);
   const [loading, setLoading] = useState(true);
-  const [profileRole, setProfileRole] = useState<"financer" | "creator" | "unauth">("unauth");
+  const [profileRole, setProfileRole] = useState<"financer" | "creator">("creator");
 
   useEffect(() => {
     if (id) {
       fetchContentPost();
-      const currentRole = localStorage.getItem("role") as "financer" | "creator" | "unauth";
+      const currentRole = localStorage.getItem("role") as "financer" | "creator";
       setProfileRole(currentRole);
     }
   }, [id]);
