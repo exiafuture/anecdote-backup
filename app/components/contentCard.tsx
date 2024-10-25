@@ -22,6 +22,11 @@ const ContentCard: React.FC<ContentCardProps> = ({ post }) => {
     router.push(`/pool/${post.id}`); // Navigate to post detail page
   };
 
+  const handleTagClick = (tagName: string, event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevents triggering the card click event
+    router.push(`/pool/tags/${tagName}`);
+  };
+
   return (
     <div className="content-card" onClick={handleCardClick}>
       <div className="content-card-image">
@@ -32,7 +37,10 @@ const ContentCard: React.FC<ContentCardProps> = ({ post }) => {
         <p>Created on: {new Date(post.createdAt).toLocaleDateString()}</p>
         <div className="content-card-tags">
           {post.tags.map((tag, index) => (
-            <span key={index} className="tag">{tag.name}</span>
+            <span key={index}
+              className="tag"
+              onClick={(event) => handleTagClick(tag.name, event)}
+            >{tag.name}</span>
           ))}
         </div>
       </div>
