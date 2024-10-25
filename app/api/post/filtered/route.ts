@@ -10,15 +10,23 @@ export async function GET(request: Request) {
     const beforeDate = searchParams.get('before') ? new Date(searchParams.get('before')!) : undefined;
 
     try {
-        // Define a filter object based on the available parameters
+        // Create a filter object
         const filters: any = {
-            AND: [
-                name ? { title: { contains: name, mode: 'insensitive' } } : {},
-                username ? { author: { username: { contains: username, mode: "insensitive" } } } : {},
-                afterDate ? { createdAt: { gte: afterDate } } : {},
-                beforeDate ? { createdAt: { lte: beforeDate } } : {},
-            ],
+            AND: [],
         };
+
+        if (name) {
+            filters.AND.push({ title: { contains: name } });
+        }
+        if (username) {
+            filters.AND.push({ author: {username: {contains: username }}});
+        }
+        if (afterDate) {
+            filters.AND.push({ createdAt: { gte: afterDate } });
+        }
+        if (beforeDate) {
+            filters.AND.push({ createdAt: { lte: beforeDate } });
+        }
 
         const posts = await prisma.content.findMany({
             where: filters,

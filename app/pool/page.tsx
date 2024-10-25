@@ -135,12 +135,14 @@ const PoolPage = () => {
           </button>
         </div>
         {loading ? (
-            <p>Loading posts...</p>
-        ) : (
+          <p>Loading posts...</p>
+        ) : posts.length === 0 ? (
+          <p>No content found matching your criteria.</p>
+        ) :(
             <div className="pool-content-grid">
-                {posts.map((post) => (
-                    <ContentCard key={post.id} post={post} />
-                ))}
+              {posts.map((post) => (
+                  <ContentCard key={post.id} post={post} />
+              ))}
             </div>
         )}
       </div>
