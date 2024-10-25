@@ -1,0 +1,32 @@
+.author-collection-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top:6rem;
+    margin-bottom: 1.5rem;
+}
+  
+.author-collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.author-expanding {
+    margin-bottom: 40rem;
+}
+  
+@media (max-width:1300px) {
+    .author-collection-container {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+}
+
+@media (max-width:850px) {
+    .author-collection-container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-top: 1rem;
+    }
+}

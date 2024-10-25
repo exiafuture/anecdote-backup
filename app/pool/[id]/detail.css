@@ -66,3 +66,10 @@
 .dark .content-tags li {
     background-color: rgba(20,20,20,0.6);
 }
+
+
+@media (max-width: 600px) {
+    .content-detail-container {
+        padding: 1.75rem;
+    }
+}
