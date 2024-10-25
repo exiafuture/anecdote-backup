@@ -1,0 +1,33 @@
+/* app/pool/[id]/detail.css */
+
+.content-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.content-main-image {
+    width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    border-radius: 8px;
+}
+
+.content-tags ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.content-tags li {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background-color: rgba(200,200,200,0.4);
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.dark .content-tags li {
+    background-color: rgba(20,20,20,0.6);
+}
