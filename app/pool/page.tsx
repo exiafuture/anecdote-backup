@@ -25,6 +25,16 @@ const PoolPage = () => {
     tags:[],
   });
 
+  const resetFilters = () => {
+    setFilters({
+      name: "",
+      after: "",
+      username: "",
+      before: "",
+      tags: [],
+    });
+  };
+
   const fetchFilteredPosts = async () => {
     setLoading(true);
     try {
@@ -95,46 +105,65 @@ const PoolPage = () => {
   }, []);
 
   return (
-      <div className="pool-container">
-          <div className="pool-left">
-              <h2>Filtering</h2>
-              <form onSubmit={handleFilterSubmit}>
-                <label>
-                  Username:
-                  <input type="text" name="username" value={filters.username} onChange={handleFilterChange} />
-                </label>
-                <label>
-                  Content Title:
-                  <input type="text" name="name" value={filters.name} onChange={handleFilterChange} />
-                </label>
-                <label>
-                  After Date:
-                  <input type="date" name="after" value={filters.after} onChange={handleFilterChange} />
-                </label>
-                <label>
-                  Before Date:
-                  <input type="date" name="before" value={filters.before} onChange={handleFilterChange} />
-                </label>
-                <label>
-                  Tags (comma-separated):
-                  <input type="text" name="tags" value={filters.tags?.join(", ")} onChange={handleTagsChange} />
-                </label>
-                <button type="submit">Apply Filters</button>
-              </form>
+    <div className="pool-container">
+      <div className="pool-left">
+        <h2>Filter Search</h2>
+        <form onSubmit={handleFilterSubmit} className="pool-filter-form">
+          <div className="pool-form-group">
+            <label htmlFor="username">
+              Username:
+            </label>
+            <input type="text" name="username" id="username" value={filters.username} onChange={handleFilterChange} />
           </div>
-          <div className="pool-right">
-              <h2>Content Posts</h2>
-              {loading ? (
-                  <p>Loading posts...</p>
-              ) : (
-                  <div className="pool-content-grid">
-                      {posts.map((post) => (
-                          <ContentCard key={post.id} post={post} />
-                      ))}
-                  </div>
-              )}
+          <div className="pool-form-group">
+            <label htmlFor="name">
+              Content Title:
+            </label>
+            <input type="text" id="name" name="name" value={filters.name} onChange={handleFilterChange} />
           </div>
+          <div className="pool-form-group">
+            <label htmlFor="after">
+              After Date:
+            </label>
+            <input type="date" name="after" id="after" value={filters.after} onChange={handleFilterChange} />
+          </div>
+          <div className="pool-form-group">
+            <label htmlFor="before">
+              Before Date:
+            </label>
+            <input type="date" name="before" id="before" value={filters.before} onChange={handleFilterChange} />
+          </div>
+          <div className="pool-form-group">
+            <label htmlFor="tags">
+              Tags:
+            </label>
+            <input type="text" name="tags" id="tags" 
+              value={filters.tags?.join(", ")} onChange={handleTagsChange} 
+              placeholder="Enter tags separated by commas"
+            />
+          </div>
+          <div className="pool-filter-action-btn-group">
+            <button type="submit" className="pool-filter-button">Apply</button>
+            <button type="button" className="pool-reset-button" onClick={resetFilters}>Reset</button>
+          </div>
+        </form>
       </div>
+      <div className="pool-right">
+          <h2>Content Posts</h2>
+          {loading ? (
+              <p>Loading posts...</p>
+          ) : (
+              <div className="pool-content-grid">
+                  {posts.map((post) => (
+                      <ContentCard key={post.id} post={post} />
+                  ))}
+              </div>
+          )}
+      </div>
+      <button className="back-to-top-button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        Back to Top
+      </button>
+    </div>
   );
 };
 

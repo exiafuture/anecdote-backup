@@ -11,11 +11,41 @@
 .pool-left {
     flex: 0 0 40%; /* 2/5 of the screen width */
     padding: 1rem;
+    height: fit-content;
+    position: sticky;
+    top:2rem;
+}
+
+.pool-filter-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.pool-form-group {
+    margin-bottom: 1rem;
+}
+
+.pool-form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.pool-form-group input[type="text"], .pool-form-group input[type="date"] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box; /* Make width include padding */
 }
 
 .pool-right {
     flex: 0 0 60%; /* 3/5 of the screen width */
     padding: 1rem;
+}
+
+.back-to-top-button {
+    display: none;
 }
 
 .pool-content-grid {
@@ -25,9 +55,45 @@
     gap: 1rem;
 }
 
+.pool-filter-action-btn-group {
+    display: flex;
+    gap: 3rem;                  /* Space between buttons */
+    margin-top: 1rem;           /* Margin on top of the button group */
+    justify-content: center; /* Align buttons to the left */
+}
+
+.pool-filter-button,
+.pool-reset-button {
+  padding: 0.7rem 1.2rem;     /* Padding for the buttons */
+  border: none;               /* Remove default border */
+  width: 40%;
+  border-radius: 4px;        /* Rounded corners */
+  cursor: pointer;            /* Pointer cursor on hover */
+  font-size: 1rem;           /* Font size */
+  transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.pool-filter-button {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;               /* White text */
+}
+
+.pool-filter-button:hover {
+  background-color: #0056b3;  /* Darker blue on hover */
+}
+
+.pool-reset-button {
+  background-color: #dc3545; /* Bootstrap danger color */
+  color: white;               /* White text */
+}
+
+.pool-reset-button:hover {
+  background-color: #c82333;  /* Darker red on hover */
+}
+
 @media (max-width: 950px) {
     .pool-container{
-        padding-top: 1rem;
+        padding-top: 0.5rem;
     }
 }
 
@@ -43,9 +109,25 @@
 
     .pool-left {
         height: 20vh; /* Top container height */
+        position: relative;
+        margin-bottom: 1.5rem;
     }
 
     .pool-right {
         height: 65vh; /* Bottom container height */
     }
+
+    .back-to-top-button {
+        position: fixed;
+        bottom: 5rem;
+        display: block;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 5px 10px;
+        background-color: #7c7c7c;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
 }
