@@ -25,7 +25,7 @@ const PoolPage = () => {
     tags:[],
   });
 
-  const fetchPosts = async () => {
+  const fetchFilteredPosts = async () => {
     setLoading(true);
     try {
       const { 
@@ -53,6 +53,23 @@ const PoolPage = () => {
     }
   };
 
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
+
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const tagsArray = value.split(",").map(tag => tag.trim());
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      tags: tagsArray,
+    }));
+  };
+
   const fetchAllPosts = async () => {
       try {
         const response = await axios.get('/api/post/fetch/common'); // Adjust the endpoint based on your API structure
@@ -68,14 +85,42 @@ const PoolPage = () => {
       }
   };
 
+  const handleFilterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchFilteredPosts();
+  };
+
   useEffect(() => {
-      fetchAllPosts();
+    fetchAllPosts();
   }, []);
 
   return (
       <div className="pool-container">
           <div className="pool-left">
               <h2>Filtering</h2>
+              <form onSubmit={handleFilterSubmit}>
+                <label>
+                  Username:
+                  <input type="text" name="username" value={filters.username} onChange={handleFilterChange} />
+                </label>
+                <label>
+                  Content Title:
+                  <input type="text" name="name" value={filters.name} onChange={handleFilterChange} />
+                </label>
+                <label>
+                  After Date:
+                  <input type="date" name="after" value={filters.after} onChange={handleFilterChange} />
+                </label>
+                <label>
+                  Before Date:
+                  <input type="date" name="before" value={filters.before} onChange={handleFilterChange} />
+                </label>
+                <label>
+                  Tags (comma-separated):
+                  <input type="text" name="tags" value={filters.tags?.join(", ")} onChange={handleTagsChange} />
+                </label>
+                <button type="submit">Apply Filters</button>
+              </form>
           </div>
           <div className="pool-right">
               <h2>Content Posts</h2>

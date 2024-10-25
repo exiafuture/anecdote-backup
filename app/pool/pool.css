@@ -25,6 +25,12 @@
     gap: 1rem;
 }
 
+@media (max-width: 950px) {
+    .pool-container{
+        padding-top: 1rem;
+    }
+}
+
 /* Media Queries for Responsiveness */
 @media (max-width: 849px) {
     .pool-container {
