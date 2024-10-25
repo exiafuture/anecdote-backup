@@ -36,7 +36,7 @@ const Profile = () => {
             console.error("No token found");
             return;
         }
-        if (role=="unauth") {
+        if (role!=="creator" && role !=="financer") {
             console.error("Sync error");
             return;
         }
