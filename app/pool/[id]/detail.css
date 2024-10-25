@@ -14,7 +14,16 @@
 }
 
 .content-tags::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for WebKit browsers */
+    height: 8px; /* Scrollbar height */
+}
+
+.content-tags::-webkit-scrollbar-thumb {
+    background-color: #b0b0b0; /* Scrollbar color */
+    border-radius: 4px;
+}
+
+.content-tags::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .content-tags {
@@ -22,7 +31,8 @@
     flex-direction: column;
     gap: 0.5rem; /* space between tags */
     overflow-x: auto;
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    margin-top: 1rem;
+    scrollbar-width: thin; /* Hide scrollbar for Firefox */
 }
 
 .liquidate {
@@ -46,6 +56,7 @@
     padding: 0;
     display: flex;
     gap: 0.5rem;
+    padding-bottom: 0.75rem;
 }
 
 .content-tags li {

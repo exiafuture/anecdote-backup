@@ -60,7 +60,6 @@ const ContentDetailPage = () => {
         <img src={contentPost.medias[0].url} alt={contentPost.title} className="content-main-image" />
       )}
       <div className="content-tags">
-        <h3>Tags:</h3>
         <ul>
           {contentPost.tags.map((tag, index) => (
             <li key={index}>
