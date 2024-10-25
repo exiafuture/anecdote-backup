@@ -62,13 +62,13 @@ const ContentDetailPage = () => {
       <div className="content-tags">
         <h3>Tags:</h3>
         <ul>
-            {contentPost.tags.map((tag, index) => (
+          {contentPost.tags.map((tag, index) => (
             <li key={index}>
-                <Link href={`/pool/tags/${tag.name}`}>
-                {tag.name}
-                </Link>
+              <Link href={`/pool/tags/${tag.name}`}>
+              {tag.name}
+              </Link>
             </li>
-            ))}
+          ))}
         </ul>
       </div>
       {profileRole==="financer" && (<button className='liquidate'>purchase</button>)}

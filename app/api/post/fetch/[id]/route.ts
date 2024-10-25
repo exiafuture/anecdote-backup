@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-export async function GET(request: Request, { params }: { params: { id: string | string[] } }) {
+export async function GET({ params }: { params: { id: string | string[] } }) {
   const idString = Array.isArray(params.id) ? params.id[0] : params.id;
   
   // Convert the idString to a number
