@@ -40,7 +40,7 @@ const PoolPage = () => {
         name, after,username,
         before
       } = filters;
-      const response = await axios.get('/api/post/filtered', {
+      const response = await axios.get('/api/post/fetch/filtered', {
         params: {
           name,
           after,
