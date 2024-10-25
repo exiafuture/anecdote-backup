@@ -6,52 +6,65 @@ import ContentCard from "../components/contentCard"; // Importing the ContentCar
 import { PreviewPost } from "@/types/Posts";
 import './pool.css'; // Import CSS for styling
 
+interface FilteredFormData {
+  username?: string;
+  name?: string;
+  after?: string;
+  before?: string;
+  tags?: string[];
+}
+
 const PoolPage = () => {
   const [posts, setPosts] = useState<PreviewPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<FilteredFormData>({
     name: "",
-    startDate: "",
-    endDate: "",
-    tags: "",
+    after:"",
+    username:"",
+    before:"",
+    tags:[],
   });
 
   const fetchPosts = async () => {
     setLoading(true);
     try {
-        const { name, startDate, endDate, tags } = filters;
-        const response = await axios.get('/api/posts', {
-            params: {
-                name,
-                startDate,
-                endDate,
-                tags,
-            },
-        });
-        if (response.status === 200) {
-            setPosts(response.data);
-        } else {
-            console.error("Failed to fetch posts:", response.status);
-        }
+      const { 
+        name, after,username,
+        before, tags 
+      } = filters;
+      const response = await axios.get('/api/post/filtered', {
+        params: {
+          name,
+          after,
+          username,
+          before,
+          tags,
+        },
+      });
+      if (response.status === 200) {
+        setPosts(response.data);
+      } else {
+        console.error("Failed to fetch posts:", response.status);
+      }
     } catch (error) {
-        console.error("Error fetching posts:", error);
+      console.error("Error fetching posts:", error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
   const fetchAllPosts = async () => {
       try {
-          const response = await axios.get('/api/post/fetch/common'); // Adjust the endpoint based on your API structure
-          if (response.status === 200) {
-              setPosts(response.data);
-          } else {
-              console.error("Failed to fetch posts:", response.status);
-          }
+        const response = await axios.get('/api/post/fetch/common'); // Adjust the endpoint based on your API structure
+        if (response.status === 200) {
+            setPosts(response.data);
+        } else {
+            console.error("Failed to fetch posts:", response.status);
+        }
       } catch (error) {
-          console.error("Error fetching posts:", error);
+        console.error("Error fetching posts:", error);
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
   };
 
