@@ -88,6 +88,12 @@
         justify-content: space-evenly;
     }
 
+    .nav-links {
+        justify-content: center;
+        width: 100%;
+        padding: 0;
+    }
+
     .dark .navbar {
         background-color: #1e293b;
     }
@@ -119,6 +125,8 @@
     .nav-link {
         padding-left: 4.5px;
         padding-right: 4.5px;
+        flex: 1;
+        text-align: center;
     }
 
     .mobile-home {
