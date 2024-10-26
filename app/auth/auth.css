@@ -278,16 +278,10 @@ input:focus {
     }
 
     .checkin {
-        height: 100%;
+        height: auto;
     }
 
     .creator-toggle-assistance {
         margin-bottom: 5px;
-    }
-}
-
-@media (max-width: 750px) {
-    .rbtn {
-        width: 1rem;
     }
 }

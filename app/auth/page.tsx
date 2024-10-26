@@ -97,11 +97,6 @@ const AuthPage: React.FC = () => {
       </header>
 
       <section className="creator-card">
-        {/* {view === "signup" ? (
-          <p>Register</p>
-        ):(
-          <p>Login</p>
-        )} */}
         <div className="role-toggle">
           <p className={`rbtn ${authRole === "creator" ? "active" : "inactive"}`}
             onClick={() => roleCheck("creator")}>
