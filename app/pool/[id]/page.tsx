@@ -55,7 +55,7 @@ const ContentDetailPage = () => {
   return (
     <div className="content-detail-container">
       <h1>{contentPost.title}</h1>
-      <p>By <Link href={`/pool/authors/${contentPost.author.username}`}>{contentPost.author.username}</Link> on {new Date(contentPost.createdAt).toLocaleDateString()}</p>
+      <p>By <Link className="author-in-detail" href={`/pool/authors/${contentPost.author.username}`}>{contentPost.author.username}</Link> on {new Date(contentPost.createdAt).toLocaleDateString()}</p>
       {contentPost.medias.length > 0 && (
         <img src={contentPost.medias[0].url} alt={contentPost.title} className="content-main-image" />
       )}

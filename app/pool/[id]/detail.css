@@ -78,6 +78,23 @@
     background-color: rgba(20,20,20,0.6);
 }
 
+.author-in-detail {
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 900;
+}
+
+.dark .author-in-detail {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.dark .content-detail-container h1 {
+    color:rgba(217, 217, 217, 0.9);
+}
+
+.dark .content-detail-container p {
+    color:rgba(200, 200, 200, 0.9);
+}
 
 @media (max-width: 600px) {
     .content-detail-container {
