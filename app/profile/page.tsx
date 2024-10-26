@@ -16,7 +16,7 @@ const Profile = () => {
 
     const handleLogout = async () => {
         await logout();
-        router.push("/auth"); // Redirect to auth page after logout
+        router.push("/auth"); 
     };
     
     const handleDeleteAccount = async () => {
@@ -25,13 +25,12 @@ const Profile = () => {
         );
         if (confirmDelete) {
             await deleteAccount();
-            router.push("/"); // Redirect to auth page after account deletion
+            router.push("/");
         }
     };
 
     const fetchUserPosts = async () => {
         const token = localStorage.getItem("token"); 
-        // Get token from local storage
         if (!token) {
             console.error("No token found");
             return;
@@ -44,12 +43,10 @@ const Profile = () => {
             const response = await axios.get(`/api/post/fetch/${role}`, {
                 headers: {
                     Authorization: `Bearer ${token}`, 
-                    // Include token in the request headers
                 },
             });
             if (response.status === 200) {
                 setPosts(response.data); 
-                // Set the fetched posts
             } else {
                 console.error(
                     "Failed to fetch posts:", 
