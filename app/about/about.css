@@ -33,9 +33,18 @@
     flex: 1;
     min-width: 250px;
     padding: 1.5rem;
-    background-color: #f9f9f9;
+    background-color: rgba(234,234,234,0.4);
     border-radius: 8px;
     text-align: center;
+}
+
+.dark .mission, .dark .vision {
+    background-color: rgba(200,200,200,0.2);
+}
+
+.dark .mission h2, .dark .vision h2 {
+    color: rgba(20,20,20,0.78);
+    text-shadow: 0 4px 6px rgba(255, 255, 255, 0.25);
 }
 
 .mission h2, .vision h2 {
@@ -46,11 +55,18 @@
 .mission p, .vision p {
     font-size: 1rem;
     line-height: 1.6;
+    font-weight: 500;
+}
+
+.dark .mission p, .dark .vision p {
+    color: rgba(20, 13, 13, 0.78);
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
 }
 
 .team-section {
     text-align: center;
     margin-bottom: 3rem;
+    display: none;
 }
 
 .team-section h2 {
@@ -95,6 +111,10 @@
     border-radius: 8px;
 }
 
+.dark .call-to-action-section {
+    background-color: rgba(20,20,20,0.48);
+}
+
 .call-to-action-section h2 {
     font-size: 2rem;
     font-weight: 700;
@@ -118,6 +138,7 @@
 }
 
 .cta-button:hover {
+    background-color: azure;
 }
 
 @media (max-width: 768px) {

@@ -8,7 +8,10 @@ const AboutPage = () => {
       <section className="intro-section">
         <h1>About Us</h1>
         <p>
-          We are a team dedicated to providing exceptional services and creating innovative solutions for our users. Our journey is driven by a commitment to excellence, creativity, and customer satisfaction.
+          Anecdote dedicates to provide exceptional 
+          services and creating innovative solutions for our users. 
+          Our journey is driven by a commitment to excellence, 
+          creativity, and customer satisfaction.
         </p>
       </section>
 
@@ -16,13 +19,17 @@ const AboutPage = () => {
         <div className="mission">
           <h2>Our Mission</h2>
           <p>
-            To empower creators and investors through our platform, helping them connect and collaborate in a secure, seamless, and rewarding environment.
+            To empower creators and investors through our platform, 
+            helping them connect and collaborate in a secure, 
+            seamless, and rewarding environment.
           </p>
         </div>
         <div className="vision">
           <h2>Our Vision</h2>
           <p>
-            To be the leading platform for transformative content and impactful partnerships, where creativity and innovation meet meaningful investment.
+            To be the leading platform for transformative content 
+            and impactful partnerships, where creativity and 
+            innovation meet meaningful investment.
           </p>
         </div>
       </section>
@@ -31,17 +38,17 @@ const AboutPage = () => {
         <h2>Meet the Team</h2>
         <div className="team-members">
           <div className="team-member">
-            <img src="/images/team-member1.jpg" alt="Team Member 1" />
+            <img src="" alt="Team Member 1" />
             <h3>Member 1</h3>
             <p>CEO</p>
           </div>
           <div className="team-member">
-            <img src="/images/team-member2.jpg" alt="Team Member 2" />
+            <img src="" alt="Team Member 2" />
             <h3>Member 2</h3>
             <p>CTO</p>
           </div>
           <div className="team-member">
-            <img src="/images/team-member3.jpg" alt="Team Member 3" />
+            <img src="" alt="Team Member 3" />
             <h3>Member 3</h3>
             <p>Head of Marketing</p>
           </div>
@@ -51,7 +58,9 @@ const AboutPage = () => {
       <section className="call-to-action-section">
         <h2>Join Us</h2>
         <p>
-          We invite you to be part of our community and join us on our mission to revolutionize content creation and investment.
+          We invite you to be part of our community 
+          and join us on our mission to revolutionize 
+          content creation and investment.
         </p>
         <button className="cta-button">Get in Touch</button>
       </section>
