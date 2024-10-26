@@ -50,3 +50,9 @@ body {
   background-color: var(--background-dark);
   transition: background-color 0.1s ease, color 0.1s ease;
 }
+
+@media (max-width:350px), (max-height:530px) {
+  body {
+    display: none;
+  }
+}
