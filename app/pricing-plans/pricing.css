@@ -268,7 +268,7 @@
   }
 
   .plan-selector button.active {
-    background-color: #eaadf9;
+    background-color: #e3b0ef;
     color: white;
   }
 
@@ -284,8 +284,8 @@
   }
 
   .dark .plan-details {
-    background-color: #354394;
-    border-color: #404878;
+    background-color: #57585f;
+    border-color: #666668;
   }
 
   .trait-value small {
