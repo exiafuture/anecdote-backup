@@ -45,17 +45,17 @@ export default function Home() {
         <h2>Features</h2>
         <div className="features-grid">
           <div className="feature">
-            <img src="/icons/feature1.svg" alt="Feature 1" />
+            {/* <img src="/icons/feature1.svg" alt="Feature 1" /> */}
             <h3>Feature One</h3>
             <p>Engage with unique content tailored just for you.</p>
           </div>
           <div className="feature">
-            <img src="/icons/feature2.svg" alt="Feature 2" />
+            {/* <img src="/icons/feature2.svg" alt="Feature 2" /> */}
             <h3>Feature Two</h3>
             <p>Enjoy smooth playback and easy navigation.</p>
           </div>
           <div className="feature">
-            <img src="/icons/feature3.svg" alt="Feature 3" />
+            {/* <img src="/icons/feature3.svg" alt="Feature 3" /> */}
             <h3>Feature Three</h3>
             <p>Connect with others and grow your network.</p>
           </div>
