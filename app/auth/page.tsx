@@ -103,16 +103,17 @@ const AuthPage: React.FC = () => {
           <p>Login</p>
         )} */}
         <div className="role-toggle">
-          <button className={`rbtn ${authRole === "creator" ? "active" : "inactive"}`}
+          <p className={`rbtn ${authRole === "creator" ? "active" : "inactive"}`}
             onClick={() => roleCheck("creator")}>
             Creator
-          </button>
-          <button
+          </p>
+          <p className="ororor">/</p>
+          <p
             className={`rbtn ${authRole === "financer" ? "active" : "inactive"}`}
             onClick={() => roleCheck("financer")}
           >
             Buyer
-          </button>
+          </p>
         </div>
         <form className="checkin" onSubmit={handleSubmit}>
           {view === "signup" && (

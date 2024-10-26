@@ -29,6 +29,7 @@
     width: 50%;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    background-color: transparent;
 }
 
 .annoy {
@@ -39,48 +40,54 @@
     background-color: black;
 }
 
+.ororor {
+    color: rgb(105, 107, 107)
+}
+
+.dark .ororor {
+    color: rgb(2, 13, 13)
+}
+
 .rbtn {
     border: none;
     cursor: pointer;
     font-size: 1rem;
     margin: 0 5px;
+    background-color: transparent;
+    padding: 0rem 0.5rem;
 }
 
 .rbtn.active:hover {
-    background-color: rgb(148, 27, 107);
+    color: rgb(162, 150, 234);
 }
 
 .rbtn.inactive:hover {
-    background-color: rgb(97, 196, 241);
+    color: rgb(226, 80, 26);
 }
 
 .rbtn.active {
-    background-color: #2b85a0;
-    color: white;
+    color: #1777d1;
 }
 
 .rbtn.inactive {
-    background-color: #9b0f32;
-    color: rgb(237, 235, 235);
+    color: rgb(205, 18, 18);
     font-weight: bold;
 }
 
 .dark .rbtn.active:hover {
-    background-color: rgb(49, 245, 153);
+    color: rgb(190, 125, 242);
 }
 
 .dark .rbtn.inactive:hover {
-    background-color: rgb(180, 26, 65);
+    color: rgb(212, 62, 124);
 }
 
 .dark .rbtn.active {
-    background-color: #07bba3;
-    color: white;
+    color: rgb(161, 148, 245);
 }
 
 .dark .rbtn.inactive {
-    background-color: #72362c;
-    color: rgb(237, 235, 235);
+    color: rgb(177, 47, 47);
     font-weight: bold;
 }
 

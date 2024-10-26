@@ -43,8 +43,8 @@
 }
 
 .dark .mission h2, .dark .vision h2 {
-    color: rgba(20,20,20,0.78);
-    text-shadow: 0 4px 6px rgba(255, 255, 255, 0.25);
+    color: rgba(225, 220, 220, 0.78);
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.55);
 }
 
 .mission h2, .vision h2 {
@@ -59,8 +59,8 @@
 }
 
 .dark .mission p, .dark .vision p {
-    color: rgba(20, 13, 13, 0.78);
-    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+    color: rgba(207, 204, 204, 0.78);
+    text-shadow: 0 3px 4px rgba(31, 27, 27, 0.85);
 }
 
 .team-section {
