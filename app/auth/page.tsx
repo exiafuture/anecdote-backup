@@ -15,14 +15,13 @@ interface AuthFormData {
 
 const AuthPage: React.FC = () => {
   const [view, setView] = useState<"login" | "signup">("login");
-  const [authRole, setAuthRole] = useState<"creator" | "financer">("creator");
   const [formData, setFormData] = useState<AuthFormData>({
     username: '',
     email: '',
     password: '',
     password_confirmation: '',
   });
-  const { user, login, register, setRole } = useAuth();
+  const { user, login, register } = useAuth();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
@@ -46,7 +45,6 @@ const AuthPage: React.FC = () => {
         return;
       }
       try {
-        setRole(authRole);
         await register(formData.username!, formData.email, formData.password, 1);
         router.push('/profile'); // Redirect to profile on success
       } catch (error) {
@@ -55,7 +53,6 @@ const AuthPage: React.FC = () => {
       }
     } else {
       try {
-        setRole(authRole);
         await login(formData.email, formData.password);
         router.push('/profile'); // Redirect to profile on success
       } catch (error) {
@@ -64,11 +61,6 @@ const AuthPage: React.FC = () => {
       }
     }
   };
-
-  const roleCheck = (st: 'creator' | 'financer') => {
-    setAuthRole(st);
-    setRole(st);
-  }
 
   useEffect(()=>{
     if(user) {
@@ -98,25 +90,19 @@ const AuthPage: React.FC = () => {
 
       <section className="creator-card">
         <div className="role-toggle">
-          <p className={`rbtn ${authRole === "creator" ? "active" : "inactive"}`}
-            onClick={() => roleCheck("creator")}>
+          <p className={`rbtn ${view === "login" ? "active" : "inactive"}`}
+            onClick={() => setView("login")}>
             Creator
           </p>
           <p className="ororor">/</p>
           <p
-            className={`rbtn ${authRole === "financer" ? "active" : "inactive"}`}
-            onClick={() => roleCheck("financer")}
+            className={`rbtn ${view === "signup" ? "active" : "inactive"}`}
+            onClick={() => setView("signup")}
           >
             Buyer
           </p>
         </div>
         <form className="checkin" onSubmit={handleSubmit}>
-          {view === "signup" && (
-            <h3 className="annoy">Venture as {authRole === "creator" ? "Creator" : "Buyer"}</h3>
-          )}
-          {view === "login" && (
-            <h3 className="annoy">Return as {authRole === "creator" ? "Creator" : "Buyer"}</h3>
-          )}
           {view === 'signup' && (
             <div>
               <input

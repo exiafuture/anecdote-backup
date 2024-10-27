@@ -8,8 +8,6 @@ import axios from 'axios';
 interface AuthContextType {
   user: any;
   isAuthenticated: boolean;
-  role: 'creator' | 'financer';  // Track user's current role or null initially
-  setRole: (role: 'creator' | 'financer') => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (username: string, email: string, password: string,planId: number) => Promise<void>;
@@ -21,83 +19,59 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
-  const [role, setRole] = useState<'creator' | 'financer'>("creator");
 
   useEffect(() => {
     // Check if user is authenticated on initial load (e.g., check local storage)
     const token = localStorage.getItem('token');
-    const storedRole = localStorage.getItem('role') as 'creator' | 'financer';
     if (token) {
       const decodedToken: any = jwt.decode(token);
       if (decodedToken.exp * 1000 < Date.now()) {
         // Token expired
         localStorage.removeItem('token');
-        localStorage.setItem("role","creator");
         setUser(null);
-        setRole("creator");
       } else {
         setUser(decodedToken);
-        setRole(storedRole);
       }
     } else {
-      setRole('creator');
     }
   }, []);
 
-  const updateRole = (newRole: 'creator' | 'financer' | 'creator') => {
-    setRole(newRole);
-    localStorage.setItem('role', newRole); // Persist role to localStorage
-  };
-
   const register = async (
-    username: string, email: string, password: string, planId: number
+    username: string, email: string, password: string,
   ) => {
-    if (role!=="creator" && role !== "financer") {
-      console.log("role is not chosen.");
-      return
-    } else {
-      try {
-        const res = await axios.post(`/api/auth/${role}/register`, 
-          { username, email, password, planId });
-        if (res.status === 201) {
-          const { token } = res.data; // Get the token from the response
-          localStorage.setItem('token', token); // Store JWT in local storage
-          setUser(jwt.decode(token)); // Decode the token and set user state
-          updateRole(role);
-          router.push('/profile'); // Redirect after successful registration
-        }
-        console.log('Registration successful');
-      } catch (error) {
-        console.error('Registration error:', error);
+    try {
+      const res = await axios.post("/api/auth/register", 
+        { username, email, password });
+      if (res.status === 201) {
+        const { token } = res.data; // Get the token from the response
+        localStorage.setItem('token', token); // Store JWT in local storage
+        setUser(jwt.decode(token));
+        router.push('/profile'); // Redirect after successful registration
       }
+      console.log('Registration successful');
+    } catch (error) {
+      console.error('Registration error:', error);
     }
   };
 
   // Login function to handle user login
   const login = async (email: string, password: string) => {
-    if (role!=="creator" && role !== "financer") {
-      console.log("role is not chosen.");
-      return
-    } else {
-      try {
-        const res = await axios.post(`/api/auth/${role}/login`, { email, password });
-        localStorage.setItem('token', res.data.token); // Store JWT in local storage
-        setUser(jwt.decode(res.data.token));
-        updateRole(role);
-        router.push('/profile'); // Redirect after successful login
-      } catch (error) {
-        console.error('Login error:', error);
-      }
+    try {
+      const res = await axios.post("/api/auth/login", { email, password });
+      localStorage.setItem('token', res.data.token); // Store JWT in local storage
+      setUser(jwt.decode(res.data.token));
+      router.push('/profile'); // Redirect after successful login
+    } catch (error) {
+      console.error('Login error:', error);
     }
   };
 
   // Logout function to clear the token
   const logout = async () => {
     try {
-      await axios.post(`/api/auth/${role}/logout`);
+      await axios.post("/api/auth/logout");
       localStorage.removeItem('token'); // Clear token from local storage
       setUser(null);
-      updateRole('creator');
       router.push('/auth'); // Redirect to auth page after logout
     } catch (error) {
       console.error('Logout error:', error);
@@ -112,7 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw new Error("User is not authenticated");
       }
 
-      await axios.delete(`/api/auth/${role}/quit`, {
+      await axios.delete("/api/auth/deactivate", {
         headers: {
           Authorization: `Bearer ${token}`,  // Pass JWT token in the request headers
         },
@@ -120,8 +94,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       // Account successfully deleted
       localStorage.removeItem("token"); // Clear token from local storage
-      setUser(null); // Clear user state
-      updateRole('creator');
+      setUser(null);
       router.push("/"); // Redirect to auth page after deletion
     } catch (error) {
       console.error("Delete account error:", error);
@@ -131,7 +104,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <AuthContext.Provider value={{ 
       user, isAuthenticated: !!user, 
-      role, setRole: updateRole,
       login, logout, register, deleteAccount }}>
       {children}
     </AuthContext.Provider>

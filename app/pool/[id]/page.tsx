@@ -26,8 +26,6 @@ const ContentDetailPage = () => {
   useEffect(() => {
     if (id) {
       fetchContentPost();
-      // const currentRole = localStorage.getItem("role") as "financer" | "creator";
-      // setProfileRole(currentRole);
     }
   }, [id]);
 

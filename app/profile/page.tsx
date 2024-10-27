@@ -8,7 +8,7 @@ import { PreviewPost } from "@/types/Posts";
 import axios from "axios";
 
 const Profile = () => {
-    const { user, logout, deleteAccount, role } = useAuth(); // Use logout and deleteAccount from AuthContext
+    const { user, logout, deleteAccount } = useAuth(); // Use logout and deleteAccount from AuthContext
     const router = useRouter();
     const [email,setEmail] = useState("");
     const [posts, setPosts] = useState<PreviewPost[]>([]);
@@ -35,12 +35,8 @@ const Profile = () => {
             console.error("No token found");
             return;
         }
-        if (role!=="creator" && role !=="financer") {
-            console.error("Sync error");
-            return;
-        }
         try {
-            const response = await axios.get(`/api/post/fetch/${role}`, {
+            const response = await axios.get("/api/post/fetch/user", {
                 headers: {
                     Authorization: `Bearer ${token}`, 
                 },
@@ -96,12 +92,10 @@ const Profile = () => {
             </div>
 
             <div className="profile-right">
-                {role==="creator" && (
-                    <div className="right-upper">
-                        <h2>User's Message</h2>
-                        <p>Like Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!</p>
-                    </div>
-                )}
+                <div className="right-upper">
+                    <h2>User's Message</h2>
+                    <p>Like Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!</p>
+                </div>
                 <div className="right-lower">
                     <div className="content-grid">
                         {loading ? (
@@ -120,7 +114,7 @@ const Profile = () => {
                                 />
                             ))
                         ) : (
-                            <p>{role==="creator"?"No posts available.":"you have not purchased any idea"}</p>
+                            <p>No posts available.</p>
                         )}
                     </div>
                 </div>

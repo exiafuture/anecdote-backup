@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import { validatePassword } from '@/utils/validationPassword';
 
 export async function POST(req: Request) {
-  const { username, email, password, planId } = await req.json();
+  const { username, email, password } = await req.json();
 
   // Check if user already exists
   const existingUserInCreator = await prisma.user.findUnique({
