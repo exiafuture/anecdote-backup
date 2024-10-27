@@ -60,7 +60,7 @@ model content {
   sold      Boolean   @default(false)
   author    user      @relation(fields: [authorId], references: [id])
   authorId  Int
-  content   String    @db.VarChar(35535)
+  content   String    @db.Text
   medias    media[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -122,7 +122,7 @@ model topic {
 
 model comment {
   id        Int            @id @default(autoincrement())
-  text      String?        @db.VarChar(35500)
+  text      String?        @db.Text
   media     illustration[] // Optional media content for comment
   topic     topic          @relation(fields: [topicId], references: [id])
   topicId   Int

@@ -31,9 +31,22 @@ async function main() {
     },
   });
   
-  const createCreatorWithSubscription = async (email, username, hashedPassword, planId) => {
+  const createCreatorWithSubscription = async (
+    email, username, hashedPassword, planId) => {
     // Create the creator and the subscription in the same transaction
-    const { creator, subscription } = await prisma.$transaction(async (prisma) => {
+    const { creator, subscription } = await prisma.$transaction(
+      async (prisma) => {
+      const newCreator = await prisma.user.create({
+        data: {
+          email,
+          username,
+          password: hashedPassword,
+        },
+      });
+
+      const now = new Date();
+      const later = new Date(now);
+      later.setMonth(now.getMonth()+1);
       const newSubscription = await prisma.subscription.create({
         data: {
           status: 'active',
@@ -41,37 +54,29 @@ async function main() {
           planChosen: {
             connect: { id: planId },
           },
+          startDateThisRound: now,
+          endDateThisRound: later,
+          userId: newCreator.id
         },
       });
 
-      const newCreator = await prisma.creator.create({
+      await prisma.user.update({
+        where: {id:newCreator.id},
         data: {
-          email,
-          username,
-          password: hashedPassword,
           subscriptionId: newSubscription.id,
-        },
-      });
-
-      // Update the subscription to link the creatorId
-      await prisma.subscription.update({
-        where: { id: newSubscription.id },
-        data: {
-          creatorId: newCreator.id,  // Link the creator to the subscription
-        },
-      });
-
+        }
+      })
       return { creator: newCreator, subscription: newSubscription };
     });
 
-    console.log(`Created creator ${creator.username} with subscription ${subscription.id}`);
+    console.log(`Created user ${creator.username} with subscription ${subscription.id}`);
   };
 
   // Create creators with their associated subscriptions
-  await createCreatorWithSubscription('creator1@example.com', 'creator1', hashedPassword1, proPlan.id);
-  await createCreatorWithSubscription('creator2@example.com', 'creator2', hashedPassword2, premiumPlan.id);
-  await createCreatorWithSubscription('creator3@example.com', 'creator3', hashedPassword1, basicPlan.id);
-  await createCreatorWithSubscription('creator4@example.com', 'creator4', hashedPassword2, premiumPlan.id);
+  await createCreatorWithSubscription('test1@example.com', 'test1', hashedPassword1, proPlan.id);
+  await createCreatorWithSubscription('test2@example.com', 'test2', hashedPassword2, premiumPlan.id);
+  await createCreatorWithSubscription('test3@example.com', 'test3', hashedPassword1, basicPlan.id);
+  await createCreatorWithSubscription('test4@example.com', 'test4', hashedPassword2, premiumPlan.id);
 
   // Helper function to create tags
   const createTags = async (numTags) => {
@@ -95,6 +100,7 @@ async function main() {
         data: {
           url: "https://wieck-mbusa-production.s3.amazonaws.com/photos/649b91bd0b9f17f65f17ff07630c6e4715681c4b/preview-928x522.jpg",
           content: { connect: { id: contentId } },
+          type: "image"
         },
       });
       medias.push(media);
@@ -121,7 +127,7 @@ async function main() {
       data: {
         title: `Content Title ${i} by Creator 1`,
         content: `This is the body of content ${i} created by creator1.`,
-        author: { connect: { id: (await prisma.creator.findFirst({ where: { username: 'creator1' } })).id } },
+        author: { connect: { id: (await prisma.user.findFirst({ where: { username: 'test1' } })).id } },
       },
     });
 
@@ -137,7 +143,7 @@ async function main() {
       data: {
         title: `Content Title ${i} by Creator 2`,
         content: `This is the body of content ${i} created by creator2.`,
-        author: { connect: { id: (await prisma.creator.findFirst({ where: { username: 'creator2' } })).id } },
+        author: { connect: { id: (await prisma.user.findFirst({ where: { username: 'test2' } })).id } },
       },
     });
 
@@ -153,7 +159,7 @@ async function main() {
       data: {
         title: `Content Title ${i} by Creator 3`,
         content: `This is the body of content ${i} created by creator3.`,
-        author: { connect: { id: (await prisma.creator.findFirst({ where: { username: 'creator3' } })).id } },
+        author: { connect: { id: (await prisma.user.findFirst({ where: { username: 'test3' } })).id } },
       },
     });
 
@@ -169,7 +175,7 @@ async function main() {
       data: {
         title: `Content Title ${i} by Creator 4`,
         content: `This is the body of content ${i} created by creator4.`,
-        author: { connect: { id: (await prisma.creator.findFirst({ where: { username: 'creator4' } })).id } },
+        author: { connect: { id: (await prisma.user.findFirst({ where: { username: 'test4' } })).id } },
       },
     });
 
