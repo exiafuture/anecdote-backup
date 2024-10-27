@@ -5,7 +5,6 @@ import prisma from '@/lib/prisma';
 export async function GET(request: Request, { params }: { params: { id: string | string[] } }) {
   const idString = Array.isArray(params.id) ? params.id[0] : params.id;
   
-  // Convert the idString to a number
   const id = parseInt(idString, 10);
 
   if (isNaN(id)) {

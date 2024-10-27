@@ -16,7 +16,7 @@ export async function DELETE(req: Request) {
   const userId = decoded.userId;
 
   try {
-    await prisma.financer.delete({
+    await prisma.user.delete({
       where: { id: userId },
     });
 

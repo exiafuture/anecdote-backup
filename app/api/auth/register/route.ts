@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   const { username, email, password, planId } = await req.json();
 
   // Check if user already exists
-  const existingUserInCreator = await prisma.creator.findUnique({
+  const existingUserInCreator = await prisma.user.findUnique({
     where: { username },
   });
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   }
 
   // Check if email already exists
-  const existingEmailInCreator = await prisma.creator.findUnique({
+  const existingEmailInCreator = await prisma.user.findUnique({
     where: { email },
   });
 
@@ -37,29 +37,12 @@ export async function POST(req: Request) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    const newSubscription = await prisma.subscription.create({
-      data: {
-        status: 'active',
-        paymentMethod: 'stripe', // You can customize this value if needed
-        planChosen: { connect: { id: planId } }, // Associate with the plan
-      },
-    });
-
     // Create a new creator
-    const newCreator = await prisma.creator.create({
+    const newCreator = await prisma.user.create({
       data: {
         username,
         email,
-        password: hashedPassword,
-        subscriptionId: newSubscription.id, // Link subscriptionId to the creator
-      },
-    });
-
-    // Update the subscription with creatorId after the creator is created
-    await prisma.subscription.update({
-      where: { id: newSubscription.id },
-      data: {
-        creatorId: newCreator.id,  // Link the subscription to the newly created creator
+        password: hashedPassword,// Link subscriptionId to the creator
       },
     });
 

@@ -8,7 +8,7 @@ const SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 export async function POST(request: Request) {
   const { email, password } = await request.json();
 
-  const user = await prisma.financer.findUnique({ where: { email } });
+  const user = await prisma.user.findUnique({ where: { email } });
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }

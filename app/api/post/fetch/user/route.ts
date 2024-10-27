@@ -25,7 +25,7 @@ export async function GET(request: Request) {
         // Fetch posts for the authenticated user
         const posts = await prisma.content.findMany({
             where: { 
-                creatorId: userId
+                authorId: userId
             }, // Fetch posts belonging to the user
             select: {
                 id: true,
