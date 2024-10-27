@@ -54,8 +54,7 @@ const Terms : React.FC = () => {
           and protection as the original creator even after the content is sold.
         </p>
         <p>
-          <strong>2.2 Transfer of Ownership and Usage Rights:</strong> 
-          When content is sold, the buyer receives full 
+          <strong>2.2 Transfer of Ownership and Usage Rights:</strong> When content is sold, the buyer receives full 
           ownership rights for personal or commercial use, 
           while authorship and intellectual property rights 
           remain with the original creator.
