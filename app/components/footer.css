@@ -38,6 +38,9 @@
 
 .footer-terms {
   align-self:flex-start;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 
 .footer-rights {

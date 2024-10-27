@@ -15,7 +15,8 @@ const Footer = () => {
         </div>
 
         <div className="footer-terms">
-          <Link href="/terms-and-privacy" className="footer-nav-link">Terms and Privacy</Link>
+          <Link href="/terms" className="footer-nav-link">Terms</Link>
+          <Link href="/privacy" className="footer-nav-link">Privacy</Link>
         </div>
 
         <div className="footer-rights">© {currentYear} Ancedote. All rights reserved.</div>
