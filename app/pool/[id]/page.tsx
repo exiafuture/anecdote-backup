@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation'; // Importing useParams from next/na
 import axios from 'axios';
 import './detail.css';
 import Link from "next/link";
+import { useAuth } from '@/app/context/authContext';
 
 interface ContentPost {
   id: string;
@@ -20,13 +21,13 @@ const ContentDetailPage = () => {
   const { id } = useParams(); // Access the post ID from the URL
   const [contentPost, setContentPost] = useState<ContentPost | null>(null);
   const [loading, setLoading] = useState(true);
-  const [profileRole, setProfileRole] = useState<"financer" | "creator">("creator");
+  const {user} = useAuth();
 
   useEffect(() => {
     if (id) {
       fetchContentPost();
-      const currentRole = localStorage.getItem("role") as "financer" | "creator";
-      setProfileRole(currentRole);
+      // const currentRole = localStorage.getItem("role") as "financer" | "creator";
+      // setProfileRole(currentRole);
     }
   }, [id]);
 
@@ -70,7 +71,7 @@ const ContentDetailPage = () => {
           ))}
         </ul>
       </div>
-      {profileRole==="financer" && (<button className='liquidate'>purchase</button>)}
+      {!user && (<button className='liquidate'>purchase</button>)}
     </div>
   );
 };
