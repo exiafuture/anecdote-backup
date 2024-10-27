@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,76 +7,143 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model creator {
-  id             Int            @id @default(autoincrement())
-  email          String         @unique
-  username       String         @unique
-  introduction   String         @default("Like a Chinese Idiom, the fishes longing to jump and transform into dragon from the water they reside, so do I to be amazing in creating unique and provking content for the world to admire!")
-  password       String // Store hashed passwords
+model user {
+  id             Int       @id @default(autoincrement())
+  email          String    @unique @db.VarChar(80)
+  username       String    @unique @db.VarChar(44)
+  introduction   String    @default("") @db.VarChar(170)
+  password       String    @db.VarChar(35)
   ideas          content[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  totpSecret     String? // TOTP secret key, nullable if not enabled
-  totpEnabled    Boolean        @default(false) // Track whether TOTP is enabled for the user
-  subscriptionId Int
-  subscription   subscription[]
+  stories        story[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  totpSecret     String?   @db.TinyText
+  totpEnabled    Boolean   @default(false)
+  subscriptionId Int?
+  admin          Boolean   @default(false)
 }
 
-model financer {
-  id             Int            @id @default(autoincrement())
-  email          String         @unique
-  username       String         @unique
-  password       String // Store hashed passwords
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  purchased      content[]
-  subscriptionId Int
-  subscription   subscription[]
+model purchase {
+  id          Int      @id @default(autoincrement())
+  contact     String   @db.VarChar(80)
+  paidAmount  Float
+  name        String   @db.VarChar(80)
+  purchasedAt DateTime @default(now())
+  content     content  @relation(fields: [contentId], references: [id])
+  contentId   Int      @unique
 }
 
 model subscription {
-  id            Int                 @id @default(autoincrement())
-  status        subscription_status // e.g., 'active', 'cancelled', 'expired'
-  startDate     DateTime            @default(now())
-  endDate       DateTime?
-  paymentMethod payment_method
-  createdAt     DateTime            @default(now())
-  updatedAt     DateTime            @updatedAt
-  creator       creator?            @relation(fields: [creatorId], references: [id])
-  financer      financer?           @relation(fields: [financerId], references: [id])
-  planChosen    plan                @relation(fields: [planId], references: [id])
-  planId        Int
-  creatorId     Int?
-  financerId    Int?
+  id                 Int                 @id @default(autoincrement())
+  status             subscription_status // e.g., 'active', 'cancelled', 'expired'
+  startDateThisRound DateTime
+  endDateThisRound   DateTime
+  paymentMethod      payment_method
+  updatedAt          DateTime            @updatedAt
+  initAt             DateTime            @default(now())
+  planChosen         plan                @relation(fields: [planId], references: [id])
+  planId             Int
+  userId             Int
 }
 
 model plan {
   id           Int            @id @default(autoincrement())
-  name         String // e.g., 'Basic', 'Premium'
-  price        Float // Monthly subscription fee
-  description  String // Description of the plan
+  name         String         @db.VarChar(260)
+  price        Float
+  description  String         @db.VarChar(1000) // Description of the plan separated by |||
   subscription subscription[]
 }
 
 model content {
-  id         Int       @id @default(autoincrement())
-  title      String
-  sold       Boolean   @default(false)
-  author     creator   @relation(fields: [creatorId], references: [id])
-  content    String    @db.Text // For long text up to 5000 words
-  medias     media[] // Relation to Image model (max 15)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  tags       tag[]     @relation("contenttags")
-  financer   financer? @relation(fields: [financerId], references: [id])
-  creatorId  Int
-  financerId Int?
+  id        Int       @id @default(autoincrement())
+  title     String    @db.VarChar(350)
+  sold      Boolean   @default(false)
+  author    user      @relation(fields: [authorId], references: [id])
+  authorId  Int
+  content   String    @db.Text
+  medias    media[] // Relation to Image model (max 15)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  tags      tag[]     @relation("content_tags")
+  price     Float?
+  purchase  purchase?
+}
+
+model writing {
+  id        Int      @id @default(autoincrement())
+  title     String   @unique @db.VarChar(350)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  text      String   @db.MediumText
+  story     story    @relation(fields: [storyId], references: [id])
+  storyId   Int
+}
+
+model story {
+  id          Int       @id @default(autoincrement())
+  title       String    @unique @db.VarChar(350)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  description String
+  chapters    writing[]
+  author      user      @relation(fields: [userId], references: [id])
+  userId      Int
+}
+
+model forum {
+  id        Int        @id @default(autoincrement())
+  subforums subforum[] // Each forum has multiple subforums
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model subforum {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(260) // Restricted to 260 characters
+  description String   @db.VarChar(440)
+  forum       forum    @relation(fields: [forumId], references: [id])
+  forumId     Int
+  topics      topic[] // Each subforum has multiple topics
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model topic {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(350) // Restricted to 350 characters
+  description String    @db.VarChar(440)
+  subforum    subforum  @relation(fields: [subforumId], references: [id])
+  subforumId  Int
+  comments    comment[] // Each topic can have multiple comments
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  labels      label[]
+}
+
+model comment {
+  id        Int            @id @default(autoincrement())
+  text      String? // Optional text content for comment
+  media     illustration[] // Optional media content for comment
+  topic     topic          @relation(fields: [topicId], references: [id])
+  topicId   Int
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  labels    label[]
 }
 
 model tag {
   id      Int       @id @default(autoincrement())
   name    String    @unique
-  content content[] @relation("contenttags")
+  content content[] @relation("content_tags")
+}
+
+model label {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  topic     topic?   @relation(fields: [topicId], references: [id])
+  topicId   Int?
+  comment   comment? @relation(fields: [commentId], references: [id])
+  commentId Int?
 }
 
 model media {
@@ -90,6 +151,15 @@ model media {
   url       String // Path or URL of the image
   content   content @relation(fields: [contentId], references: [id])
   contentId Int
+  type      media_type
+}
+
+model illustration {
+  id        Int      @id @default(autoincrement())
+  url       String // Path or URL of the image
+  comment   comment @relation(fields: [commentId], references: [id])
+  commentId Int
+  type      media_type
 }
 
 enum subscription_status {
@@ -101,4 +171,9 @@ enum subscription_status {
 enum payment_method {
   paypal
   stripe
+}
+
+enum media_type {
+  video
+  image
 }

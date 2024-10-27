@@ -17,14 +17,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Username already exists in Creator' }, { status: 409 });
   }
 
-  const existingUserInFinancer = await prisma.financer.findUnique({
-    where: { username },
-  });
-
-  if (existingUserInFinancer) {
-    return NextResponse.json({ error: 'Username already exists in Buyer' }, { status: 409 });
-  }
-
   // Check if email already exists
   const existingEmailInCreator = await prisma.creator.findUnique({
     where: { email },
@@ -32,14 +24,6 @@ export async function POST(req: Request) {
 
   if (existingEmailInCreator) {
     return NextResponse.json({ error: 'Email already exists in Creator' }, { status: 409 });
-  }
-
-  const existingEmailInFinancer = await prisma.financer.findUnique({
-    where: { email },
-  });
-
-  if (existingEmailInFinancer) {
-    return NextResponse.json({ error: 'Email already exists in Buyer' }, { status: 409 });
   }
 
   if (!validatePassword(password)) {
