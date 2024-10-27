@@ -99,7 +99,7 @@ const Terms : React.FC = () => {
           purchase features, users must subscribe to a paid monthly or annual plan.
         </p>
         <p>
-          <strong>4.2 Billing Cycle and Payment:</strong>Subscriptions are automatically billed at the start of each billing cycle 
+          <strong>4.2 Billing Cycle and Payment:</strong> Subscriptions are automatically billed at the start of each billing cycle 
           (monthly or annual). Users are responsible for 
           maintaining valid payment information.
         </p>
@@ -110,13 +110,13 @@ const Terms : React.FC = () => {
           <li>
             <strong>Monthly Subscription:</strong> A 95% refund is 
             available if canceled within 14 days of purchase. After this duration, 
-            monthly subscription is non-refundable.
+            monthly subscription of the purchase is non-refundable.
           </li>
           <li>
             <strong>Annual Subscription:</strong> A 90% refund is 
             available if canceled within 23 days of purchase.
             After this duration, 
-            annual subscription is non-refundable.
+            annual subscription of the purchase is non-refundable.
           </li>
         </ul>
       </section>
