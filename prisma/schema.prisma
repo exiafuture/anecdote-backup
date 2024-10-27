@@ -9,10 +9,10 @@ datasource db {
 
 model user {
   id             Int       @id @default(autoincrement())
-  email          String    @unique @db.VarChar(80)
-  username       String    @unique @db.VarChar(44)
-  introduction   String    @default("") @db.VarChar(170)
-  password       String    @db.VarChar(35)
+  email          String    @unique @db.VarChar(180)
+  username       String    @unique @db.VarChar(88)
+  introduction   String    @default("") @db.VarChar(670)
+  password       String    @db.VarChar(99)
   ideas          content[]
   stories        story[]
   createdAt      DateTime  @default(now())
@@ -25,9 +25,9 @@ model user {
 
 model purchase {
   id          Int      @id @default(autoincrement())
-  contact     String   @db.VarChar(80)
+  contact     String   @db.VarChar(180)
   paidAmount  Float
-  name        String   @db.VarChar(80)
+  name        String   @db.VarChar(180)
   purchasedAt DateTime @default(now())
   content     content  @relation(fields: [contentId], references: [id])
   contentId   Int      @unique
@@ -35,7 +35,7 @@ model purchase {
 
 model subscription {
   id                 Int                 @id @default(autoincrement())
-  status             subscription_status // e.g., 'active', 'cancelled', 'expired'
+  status             subscription_status 
   startDateThisRound DateTime
   endDateThisRound   DateTime
   paymentMethod      payment_method
@@ -48,9 +48,9 @@ model subscription {
 
 model plan {
   id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(260)
+  name         String         @db.VarChar(120)
   price        Float
-  description  String         @db.VarChar(1000) // Description of the plan separated by |||
+  description  String         @db.VarChar(3000) // Description of the plan separated by |||
   subscription subscription[]
 }
 
@@ -60,8 +60,8 @@ model content {
   sold      Boolean   @default(false)
   author    user      @relation(fields: [authorId], references: [id])
   authorId  Int
-  content   String    @db.Text
-  medias    media[] // Relation to Image model (max 15)
+  content   String    @db.VarChar(35535)
+  medias    media[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   tags      tag[]     @relation("content_tags")
@@ -84,7 +84,7 @@ model story {
   title       String    @unique @db.VarChar(350)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  description String
+  description String    @unique @db.VarChar(620)
   chapters    writing[]
   author      user      @relation(fields: [userId], references: [id])
   userId      Int
@@ -122,7 +122,7 @@ model topic {
 
 model comment {
   id        Int            @id @default(autoincrement())
-  text      String? // Optional text content for comment
+  text      String?        @db.VarChar(35500)
   media     illustration[] // Optional media content for comment
   topic     topic          @relation(fields: [topicId], references: [id])
   topicId   Int
@@ -133,13 +133,13 @@ model comment {
 
 model tag {
   id      Int       @id @default(autoincrement())
-  name    String    @unique
+  name    String    @unique @db.VarChar(105)
   content content[] @relation("content_tags")
 }
 
 model label {
   id        Int      @id @default(autoincrement())
-  name      String   @unique
+  name      String   @unique @db.VarChar(105)
   topic     topic?   @relation(fields: [topicId], references: [id])
   topicId   Int?
   comment   comment? @relation(fields: [commentId], references: [id])
@@ -147,17 +147,17 @@ model label {
 }
 
 model media {
-  id        Int     @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   url       String // Path or URL of the image
-  content   content @relation(fields: [contentId], references: [id])
+  content   content    @relation(fields: [contentId], references: [id])
   contentId Int
   type      media_type
 }
 
 model illustration {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   url       String // Path or URL of the image
-  comment   comment @relation(fields: [commentId], references: [id])
+  comment   comment    @relation(fields: [commentId], references: [id])
   commentId Int
   type      media_type
 }
