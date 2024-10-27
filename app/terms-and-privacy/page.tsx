@@ -1,4 +1,5 @@
 "use client";
+import "./termsprivacy.css";
 
 const TermAndPrivacy = () => {
   return (
