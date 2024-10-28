@@ -1,4 +1,12 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { SubforumService } from './subforum.service';
 
 @Controller('subforum')
-export class SubforumController {}
+export class SubforumController {
+    constructor(private readonly subforumService: SubforumService) {}
+
+    @Get()
+    async findAll() {
+        return this.subforumService.getAllSubForums();
+    }
+}
