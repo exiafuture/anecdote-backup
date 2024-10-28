@@ -32,7 +32,7 @@ export default function Home() {
 
       <section className="media-player-section">
         <ReactPlayer
-          url="https://www.youtube.com/watch?v=MgsddFEe9Oc" 
+          url="" 
           // Replace with actual video URL
           width="100%"
           height="100%"
