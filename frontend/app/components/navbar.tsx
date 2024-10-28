@@ -20,7 +20,7 @@ const NavBar: React.FC = () => {
 
   const handleLogout = async () => {
     await logout();
-    router.push("/auth"); // Redirect to auth page after logout
+    router.push("/auth");
   };
 
   return (
@@ -35,7 +35,7 @@ const NavBar: React.FC = () => {
               height={44}
               priority
             />
-            <h1 className="nav-name">Anecdote</h1>
+            <h1 className="nav-name">Anecdote | Ideas</h1>
           </div>
         </Link>
 

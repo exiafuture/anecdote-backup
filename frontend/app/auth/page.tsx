@@ -92,14 +92,14 @@ const AuthPage: React.FC = () => {
         <div className="role-toggle">
           <p className={`rbtn ${view === "login" ? "active" : "inactive"}`}
             onClick={() => setView("login")}>
-            Creator
+            Login
           </p>
           <p className="ororor">/</p>
           <p
             className={`rbtn ${view === "signup" ? "active" : "inactive"}`}
             onClick={() => setView("signup")}
           >
-            Buyer
+            Register
           </p>
         </div>
         <form className="checkin" onSubmit={handleSubmit}>
