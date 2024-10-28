@@ -73,7 +73,7 @@ const AuthPage: React.FC = () => {
       <header className="creator-header">
         <h1>Anecdote</h1>
         <p>Come on and earn from new ideas</p>
-
+{/* 
         <div className="creator-toggle-assistance">
           <button className={view === "login" ? "active" : "inactive"}
             onClick={() => setView("login")}>
@@ -85,7 +85,7 @@ const AuthPage: React.FC = () => {
           >
             Sign Up
           </button>
-        </div>
+        </div> */}
       </header>
 
       <section className="creator-card">
