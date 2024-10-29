@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { comment } from '@prisma/client';
 
 @Injectable()
 export class CommentService {
-    constructor(private prisma: PrismaClient){}
+    private prisma = new PrismaClient();
 
     async getCommentByTopicId(topicId: number) {
         return this.prisma.comment.findMany({
-            where: {topicId},
+            where: { topicId: topicId},
             select: {
                 text:true,
                 media:true
@@ -25,7 +24,7 @@ export class CommentService {
         })
     }
 
-    async createCommentWithText(text: string, topicId: number): Promise<comment> {
+    async createCommentWithText(text: string, topicId: number) {
         return this.prisma.comment.create({
             data: {
                 text: text,
@@ -34,7 +33,7 @@ export class CommentService {
         });
     }
 
-    async createCommentWithTextAndMedia(topicId:number): Promise<comment> {
+    async createCommentWithTextAndMedia(topicId:number) {
         return this.prisma.comment.create({
             data: {
                 topic:{connect:{id:topicId}}
@@ -43,7 +42,7 @@ export class CommentService {
     }
 
 
-    async createCommentWithMedia(topicId:number): Promise<comment> {
+    async createCommentWithMedia(topicId:number) {
         return this.prisma.comment.create({
             data: {
                 topic:{connect:{id:topicId}}

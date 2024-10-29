@@ -7,7 +7,8 @@ import { TopicModule } from './topic/topic.module';
 
 @Module({
   imports: [
-    CommentModule, SubforumModule, 
+    CommentModule, 
+    SubforumModule, 
     TopicModule
   ],
   controllers: [
