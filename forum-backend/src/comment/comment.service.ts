@@ -16,6 +16,15 @@ export class CommentService {
         })
     }
 
+    async getAllCommentsFromAllTopicFromAllSubForum() {
+        return this.prisma.comment.findMany({
+            select: {
+                text: true,
+                media: true
+            }
+        })
+    }
+
     async createCommentWithText(text: string, topicId: number): Promise<comment> {
         return this.prisma.comment.create({
             data: {

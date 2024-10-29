@@ -10,6 +10,11 @@ export class CommentController {
         return this.commentService.getCommentByTopicId(+topicId);
     }
 
+    @Get()
+    async findAllComments() {
+        return this.commentService.getAllCommentsFromAllTopicFromAllSubForum();
+    }
+
     @Post()
     async createACommentWithTextInOneTopic(
         @Body("text") text:string,

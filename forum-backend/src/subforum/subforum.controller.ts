@@ -12,7 +12,8 @@ export class SubforumController {
 
     @Post()
     async createOneNewSubForum(
-        @Body("name") name: string, @Body("description") description: string
+        @Body("name") name: string, 
+        @Body("description") description: string
     ) {
         return this.subforumService.createOneSubForum(name,description)
     }
