@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
@@ -25,6 +25,22 @@ export class TopicService {
                 description: true,
                 labels: true
             },
+        })
+    }
+
+    async createANewTopic(title:string,description:string,subforumId:number) {
+        const existingTopic = await this.prisma.topic.findFirst({
+            where: { title, subforumId },
+        });
+        if (existingTopic) {
+            throw new ConflictException('Topic with this title already exists in this subforum');
+        }
+        return this.prisma.topic.create({
+            data: {
+                title,
+                description,
+                subforum:{connect:{id:subforumId}}
+            }
         })
     }
 }

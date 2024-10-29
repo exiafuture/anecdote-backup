@@ -6,6 +6,16 @@ import { comment } from '@prisma/client';
 export class CommentService {
     constructor(private prisma: PrismaClient){}
 
+    async getCommentByTopicId(topicId: number) {
+        return this.prisma.comment.findMany({
+            where: {topicId},
+            select: {
+                text:true,
+                media:true
+            }
+        })
+    }
+
     async createCommentWithText(text: string, topicId: number): Promise<comment> {
         return this.prisma.comment.create({
             data: {
