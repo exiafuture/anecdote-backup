@@ -7,11 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(90)
+  username  String   @unique @db.VarChar(45)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  password  String   @unique
+}
+
 model user {
   id             Int       @id @default(autoincrement())
-  email          String    @unique @db.VarChar(180)
+  email          String    @unique @db.VarChar(110)
   username       String    @unique @db.VarChar(88)
-  introduction   String    @default("") @db.VarChar(670)
+  introduction   String    @default("") @db.VarChar(230)
   password       String    @db.VarChar(99)
   ideas          content[]
   stories        story[]
@@ -20,14 +29,14 @@ model user {
   totpSecret     String?   @db.TinyText
   totpEnabled    Boolean   @default(false)
   subscriptionId Int?
-  admin          Boolean   @default(false)
+  reports        report[]
 }
 
 model purchase {
   id          Int      @id @default(autoincrement())
-  contact     String   @db.VarChar(180)
+  contact     String   @db.VarChar(130)
   paidAmount  Float
-  name        String   @db.VarChar(180)
+  name        String   @db.VarChar(130)
   purchasedAt DateTime @default(now())
   content     content  @relation(fields: [contentId], references: [id])
   contentId   Int      @unique
@@ -35,7 +44,7 @@ model purchase {
 
 model subscription {
   id                 Int                 @id @default(autoincrement())
-  status             subscription_status 
+  status             subscription_status
   startDateThisRound DateTime
   endDateThisRound   DateTime
   paymentMethod      payment_method
@@ -50,28 +59,35 @@ model plan {
   id           Int            @id @default(autoincrement())
   name         String         @db.VarChar(120)
   price        Float
-  description  String         @db.VarChar(3000) // Description of the plan separated by |||
+  description  term[]
   subscription subscription[]
+}
+
+model term {
+  rule   String
+  id     Int    @id @default(autoincrement())
+  plan   plan?  @relation(fields: [planId], references: [id])
+  planId Int?
 }
 
 model content {
   id        Int       @id @default(autoincrement())
-  title     String    @db.VarChar(350)
+  title     String    @db.VarChar(150)
   sold      Boolean   @default(false)
   author    user      @relation(fields: [authorId], references: [id])
   authorId  Int
-  content   String    @unique @db.VarChar(30000)
+  content   String    @unique
   medias    media[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  tags      tag[]     @relation("content_tags")
+  tags      label[]
   price     Float?
   purchase  purchase?
 }
 
 model writing {
   id        Int      @id @default(autoincrement())
-  title     String   @unique @db.VarChar(350)
+  title     String   @unique @db.VarChar(50)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   text      String   @db.MediumText
@@ -81,10 +97,10 @@ model writing {
 
 model story {
   id          Int       @id @default(autoincrement())
-  title       String    @unique @db.VarChar(350)
+  title       String    @unique @db.VarChar(105)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  description String    @unique @db.VarChar(620)
+  description String    @unique @db.VarChar(220)
   chapters    writing[]
   author      user      @relation(fields: [userId], references: [id])
   userId      Int
@@ -99,8 +115,8 @@ model forum {
 
 model subforum {
   id          Int      @id @default(autoincrement())
-  name        String   @unique @db.VarChar(260) // Restricted to 260 characters
-  description String   @db.VarChar(440)
+  name        String   @unique @db.VarChar(130) // Restricted to 260 characters
+  description String   @db.VarChar(200)
   forum       forum    @relation(fields: [forumId], references: [id])
   forumId     Int
   topics      topic[] // Each subforum has multiple topics
@@ -110,8 +126,8 @@ model subforum {
 
 model topic {
   id          Int       @id @default(autoincrement())
-  title       String    @unique @db.VarChar(350) // Restricted to 350 characters
-  description String    @db.VarChar(440)
+  title       String    @unique @db.VarChar(177) // Restricted to 350 characters
+  description String    @db.VarChar(200)
   subforum    subforum  @relation(fields: [subforumId], references: [id])
   subforumId  Int
   comments    comment[] // Each topic can have multiple comments
@@ -121,20 +137,14 @@ model topic {
 }
 
 model comment {
-  id        Int            @id @default(autoincrement())
-  text      String?        @db.Text
-  media     illustration[] // Optional media content for comment
-  topic     topic          @relation(fields: [topicId], references: [id])
+  id        Int      @id @default(autoincrement())
+  text      String?  @db.Text
+  media     media[] // Optional media content for comment
+  topic     topic    @relation(fields: [topicId], references: [id])
   topicId   Int
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   labels    label[]
-}
-
-model tag {
-  id      Int       @id @default(autoincrement())
-  name    String    @unique @db.VarChar(105)
-  content content[] @relation("content_tags")
 }
 
 model label {
@@ -144,22 +154,41 @@ model label {
   topicId   Int?
   comment   comment? @relation(fields: [commentId], references: [id])
   commentId Int?
+  content   content? @relation(fields: [contentId], references: [id])
+  contentId Int?
 }
 
 model media {
   id        Int        @id @default(autoincrement())
   url       String // Path or URL of the image
-  content   content    @relation(fields: [contentId], references: [id])
-  contentId Int
+  content   content?   @relation(fields: [contentId], references: [id])
+  contentId Int?
+  comment   comment?   @relation(fields: [commentId], references: [id])
+  commentId Int?
   type      media_type
 }
 
-model illustration {
-  id        Int        @id @default(autoincrement())
-  url       String // Path or URL of the image
-  comment   comment    @relation(fields: [commentId], references: [id])
-  commentId Int
-  type      media_type
+model report {
+  id            Int      @id @default(autoincrement())
+  header        String   @db.TinyText
+  report        String   @db.Text
+  reporter      user     @relation(fields: [userId], references: [id])
+  solid         Boolean? @default(false)
+  resultSummary String?  @default("")
+  userId        Int
+  ideaId        Int?
+  storyId       Int?
+}
+
+model plagiarism {
+  id            Int      @id @default(autoincrement())
+  header        String   @db.TinyText
+  report        String   @db.Text
+  solid         Boolean? @default(false)
+  resultSummary String?  @default("")
+  topicId       Int?
+  subforumId    Int?
+  commentId     Int?
 }
 
 enum subscription_status {
