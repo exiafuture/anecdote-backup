@@ -10,7 +10,8 @@ export class CommentService {
             where: { topicId: topicId},
             select: {
                 text:true,
-                media:true
+                media:true,
+                forReplyId:true
             }
         })
     }
@@ -23,9 +24,9 @@ export class CommentService {
                 }
             },
             select: {
-                id: true,
                 text:true,
                 media:true,
+                forReplyId:true
             }
         })
     }
@@ -34,7 +35,8 @@ export class CommentService {
         return this.prisma.comment.findMany({
             select: {
                 text: true,
-                media: true
+                media: true,
+                forReplyId:true
             }
         })
     }
