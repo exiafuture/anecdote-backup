@@ -5,12 +5,22 @@ import Image from 'next/image';
 import { Usetheme } from "../context/themeContext";
 import { useAuth } from '../context/authContext';
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 const NavBar: React.FC = () => {
   const { theme, toggleTheme } = Usetheme();
   const { user, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+
+  let navClass = "navbar";
+  if (pathname.startsWith("/forum")) {
+    navClass += " navbar-forum";
+  } else if (pathname.startsWith("/story")) {
+    navClass += " navbar-story";
+  } else {
+    navClass += " navbar-home";
+  }
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
