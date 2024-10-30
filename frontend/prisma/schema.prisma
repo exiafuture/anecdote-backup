@@ -137,14 +137,17 @@ model topic {
 }
 
 model comment {
-  id        Int      @id @default(autoincrement())
-  text      String?  @db.Text
-  media     media[] // Optional media content for comment
-  topic     topic    @relation(fields: [topicId], references: [id])
-  topicId   Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  labels    label[]
+  id         Int      @id @default(autoincrement())
+  forReplyId String   @db.VarChar(140) // for others to reply to
+  text       String?  @db.Text
+  media      media[]
+  topic      topic    @relation(fields: [topicId], references: [id])
+  topicId    Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  replyToId  String?  @db.VarChar(140)
+
+  @@unique([forReplyId, topicId])
 }
 
 model label {
@@ -152,8 +155,6 @@ model label {
   name      String   @unique @db.VarChar(105)
   topic     topic?   @relation(fields: [topicId], references: [id])
   topicId   Int?
-  comment   comment? @relation(fields: [commentId], references: [id])
-  commentId Int?
   content   content? @relation(fields: [contentId], references: [id])
   contentId Int?
 }

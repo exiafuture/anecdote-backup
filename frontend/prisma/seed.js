@@ -271,6 +271,7 @@ async function main() {
       data: {
         text: `Comment for ${topic.title}`,
         topicId: topic.id,
+        forReplyId: `${topic.title} ${topic.id}`
       },
     });
   }
@@ -281,6 +282,7 @@ async function main() {
       data: {
         text: `Comment for ${topic.title}`,
         topicId: topic.id,
+        forReplyId: `${topic.title} ${topic.id}`
       },
     });
   }
@@ -290,6 +292,7 @@ async function main() {
       data: {
         text: `Comment for ${topic.title}`,
         topicId: topic.id,
+        forReplyId: `${topic.title} ${topic.id}`
       },
     });
   }
@@ -304,6 +307,7 @@ async function main() {
       data: {
         text: `Additional Comment ${i} for ${randomTopic.title}`,
         topicId: randomTopic.id,
+        forReplyId: `${randomTopic.id} ${i}`
       },
     });
   }

@@ -157,11 +157,14 @@ CREATE TABLE `topic` (
 -- CreateTable
 CREATE TABLE `comment` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `forReplyId` VARCHAR(140) NOT NULL,
     `text` TEXT NULL,
     `topicId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `replyToId` VARCHAR(140) NULL,
 
+    UNIQUE INDEX `comment_forReplyId_topicId_key`(`forReplyId`, `topicId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -170,7 +173,6 @@ CREATE TABLE `label` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(105) NOT NULL,
     `topicId` INTEGER NULL,
-    `commentId` INTEGER NULL,
     `contentId` INTEGER NULL,
 
     UNIQUE INDEX `label_name_key`(`name`),
@@ -245,9 +247,6 @@ ALTER TABLE `comment` ADD CONSTRAINT `comment_topicId_fkey` FOREIGN KEY (`topicI
 
 -- AddForeignKey
 ALTER TABLE `label` ADD CONSTRAINT `label_topicId_fkey` FOREIGN KEY (`topicId`) REFERENCES `topic`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `label` ADD CONSTRAINT `label_commentId_fkey` FOREIGN KEY (`commentId`) REFERENCES `comment`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `label` ADD CONSTRAINT `label_contentId_fkey` FOREIGN KEY (`contentId`) REFERENCES `content`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

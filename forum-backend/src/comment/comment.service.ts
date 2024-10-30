@@ -15,6 +15,21 @@ export class CommentService {
         })
     }
 
+    async getCommentIntheSameSubForum(subforumId: number) {
+        return this.prisma.comment.findMany({
+            where: {
+                topic: {
+                    subforumId: subforumId
+                }
+            },
+            select: {
+                id: true,
+                text:true,
+                media:true,
+            }
+        })
+    }
+
     async getAllCommentsFromAllTopicFromAllSubForum() {
         return this.prisma.comment.findMany({
             select: {
