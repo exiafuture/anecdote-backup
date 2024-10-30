@@ -18,8 +18,9 @@ export class CommentController {
     @Post()
     async createACommentWithTextInOneTopic(
         @Body("text") text:string,
-        @Body("topicId") topicId: number
+        @Body("topicId") topicId: number,
+        @Body("forReply") forReply: string
     ) {
-        return this.commentService.createCommentWithText(text,topicId);
+        return this.commentService.createCommentWithText(text,topicId,forReply);
     }
 }

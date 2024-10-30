@@ -39,28 +39,31 @@ export class CommentService {
         })
     }
 
-    async createCommentWithText(text: string, topicId: number) {
+    async createCommentWithText(text: string, topicId: number,forReply: string) {
         return this.prisma.comment.create({
             data: {
                 text: text,
-                topic: {connect:{id:topicId}}
+                topic: {connect:{id:topicId}},
+                forReplyId:forReply
             },
         });
     }
 
-    async createCommentWithTextAndMedia(topicId:number) {
+    async createCommentWithTextAndMedia(topicId:number,forReply: string) {
         return this.prisma.comment.create({
             data: {
-                topic:{connect:{id:topicId}}
+                topic:{connect:{id:topicId}},
+                forReplyId:forReply
             }
         })
     }
 
 
-    async createCommentWithMedia(topicId:number) {
+    async createCommentWithMedia(topicId:number,forReply:string) {
         return this.prisma.comment.create({
             data: {
-                topic:{connect:{id:topicId}}
+                topic:{connect:{id:topicId}},
+                forReplyId:forReply
             }
         })
     }
