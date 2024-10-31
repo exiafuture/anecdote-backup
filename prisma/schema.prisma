@@ -80,7 +80,7 @@ model content {
   medias    media[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  tags      label[]
+  tags      label[]   @relation("content_labels")
   price     Float?
   purchase  purchase?
 }
@@ -133,7 +133,7 @@ model topic {
   comments    comment[] // Each topic can have multiple comments
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  labels      label[]
+  labels      label[]   @relation("topic_labels")
 }
 
 model comment {
@@ -151,12 +151,10 @@ model comment {
 }
 
 model label {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique @db.VarChar(105)
-  topic     topic?   @relation(fields: [topicId], references: [id])
-  topicId   Int?
-  content   content? @relation(fields: [contentId], references: [id])
-  contentId Int?
+  id      Int       @id @default(autoincrement())
+  name    String    @unique @db.VarChar(105)
+  topic   topic[]   @relation("topic_labels")
+  content content[] @relation("content_labels")
 }
 
 model media {

@@ -172,8 +172,6 @@ CREATE TABLE `comment` (
 CREATE TABLE `label` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(105) NOT NULL,
-    `topicId` INTEGER NULL,
-    `contentId` INTEGER NULL,
 
     UNIQUE INDEX `label_name_key`(`name`),
     PRIMARY KEY (`id`)
@@ -218,6 +216,24 @@ CREATE TABLE `plagiarism` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `_content_labels` (
+    `A` INTEGER NOT NULL,
+    `B` INTEGER NOT NULL,
+
+    UNIQUE INDEX `_content_labels_AB_unique`(`A`, `B`),
+    INDEX `_content_labels_B_index`(`B`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `_topic_labels` (
+    `A` INTEGER NOT NULL,
+    `B` INTEGER NOT NULL,
+
+    UNIQUE INDEX `_topic_labels_AB_unique`(`A`, `B`),
+    INDEX `_topic_labels_B_index`(`B`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `purchase` ADD CONSTRAINT `purchase_contentId_fkey` FOREIGN KEY (`contentId`) REFERENCES `content`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -246,12 +262,6 @@ ALTER TABLE `topic` ADD CONSTRAINT `topic_subforumId_fkey` FOREIGN KEY (`subforu
 ALTER TABLE `comment` ADD CONSTRAINT `comment_topicId_fkey` FOREIGN KEY (`topicId`) REFERENCES `topic`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `label` ADD CONSTRAINT `label_topicId_fkey` FOREIGN KEY (`topicId`) REFERENCES `topic`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `label` ADD CONSTRAINT `label_contentId_fkey` FOREIGN KEY (`contentId`) REFERENCES `content`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `media` ADD CONSTRAINT `media_contentId_fkey` FOREIGN KEY (`contentId`) REFERENCES `content`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -259,3 +269,15 @@ ALTER TABLE `media` ADD CONSTRAINT `media_commentId_fkey` FOREIGN KEY (`commentI
 
 -- AddForeignKey
 ALTER TABLE `report` ADD CONSTRAINT `report_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_content_labels` ADD CONSTRAINT `_content_labels_A_fkey` FOREIGN KEY (`A`) REFERENCES `content`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_content_labels` ADD CONSTRAINT `_content_labels_B_fkey` FOREIGN KEY (`B`) REFERENCES `label`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_topic_labels` ADD CONSTRAINT `_topic_labels_A_fkey` FOREIGN KEY (`A`) REFERENCES `label`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_topic_labels` ADD CONSTRAINT `_topic_labels_B_fkey` FOREIGN KEY (`B`) REFERENCES `topic`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
