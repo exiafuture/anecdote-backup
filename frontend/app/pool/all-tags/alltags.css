@@ -1,0 +1,36 @@
+.alltag-collection-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding:6rem 8rem;
+    margin-bottom: 1.5rem;
+    height: 80vh;
+}
+  
+.alltag-collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.along-tag {
+    background-color: #ddd;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 0.75rem;
+    color: #333;
+    text-align: center;
+    font-size:1rem;
+    font-weight:800;
+}
+
+.alltag-expanding {
+    margin-bottom: 40rem;
+}
+
+@media (max-width: 510px) {
+    .alltag-collection-container {
+        padding: 1rem 4rem;
+    }
+}

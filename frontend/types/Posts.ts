@@ -15,3 +15,8 @@ export interface DetailedPost {
     image: {url:string}[]; // URL of the image
     videos: {url:string}[];
 }
+
+export interface TagType {
+    id: number;
+    name: string;
+}

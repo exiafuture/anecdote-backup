@@ -37,7 +37,7 @@ const CreatorCollectionPage = () => {
 
   return (
     <div className="author-collection-container">
-      <h1>Posts From: {username}</h1>
+      <h1>Posts From: {username} | # posts: {posts.length}</h1>
       {loading ? (
         <p className="author-expanding">Loading posts...</p>
       ) : posts.length > 0 ? (
