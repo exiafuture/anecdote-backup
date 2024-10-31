@@ -38,7 +38,7 @@ const TagCollectionPage = () => {
 
   return (
     <div className="tag-collection-container">
-      <h1>Posts Tagged With: {tagName}</h1>
+      <h1>Posts Tagged With: {tagName} | Amount = {posts.length}</h1>
       {loading ? (
         <p className="tag-expanding">Loading posts...</p>
       ) : posts.length > 0 ? (
