@@ -1,17 +1,22 @@
 .subforums-summary-labler-page-container {
-    max-width: 84vw;
     padding: 6.5rem 4rem;
     height: 90vh;
     display: flex;
     flex-direction: row;
+    gap: 4rem;
 }
 
 .subforums-summary-labler-left-down {
-    width: 60vw;
+    width: 55vw;
 }
 
 .subforums-summary-labler-right-up {
-    width: 30vw;
+    width: 35vw;
+    background-color: rgba(200, 200, 200, 0.098);
+}
+
+.dark .subforums-summary-labler-right-up {
+    background-color: rgba(28, 28, 28, 0.098);
 }
 
 .subforums-summary-labler-header {
@@ -23,6 +28,9 @@
 .subforums-summary-labler-list {
     margin-top: 1rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .subforums-summary-labler-item {
@@ -31,16 +39,20 @@
     border-radius: 2rem;
     height: 15vh;
     gap: 1rem;
-    padding: 0.5rem 0.75rem;
+    padding: 1.5rem 1.75rem;
     background-color: rgba(214, 214, 213, 0.935);
 }
 
 .dark .subforums-summary-labler-item {
-    background-color: rgba(31, 31, 30, 0.754);
+    background-color: rgba(28, 28, 27, 0.63);
 }
 
 .dark .subforums-summary-labler-item-title {
     text-shadow: 1px 3px 5px rgba(233, 230, 230, 0.55);
+}
+
+.subforums-summary-labler-item-title {
+    text-shadow: 1px 3px 5px rgba(63, 62, 62, 0.55);
 }
 
 .subforums-summary-labler-item-leading {
@@ -54,6 +66,6 @@
 
 @media (max-width:935px) {
     .subforums-summary-labler-page-container {
-        padding: 1rem 3.5rem;
+        padding: 1rem 1.4rem;
     }
 }

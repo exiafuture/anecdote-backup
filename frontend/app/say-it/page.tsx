@@ -3,6 +3,7 @@
 import "./subforums.css";
 import { useEffect, useState } from 'react';
 import React from "react";
+import axios from "axios";
 
 interface Subforum {
     id: number;
@@ -15,9 +16,8 @@ export default function Subforums() {
     const [subforums, setSubforums] = useState<Subforum[]>([]);
 
     useEffect(() => {
-        fetch('http://localhost:3030/subforum')
-            .then((response) => response.json())
-            .then((data) => setSubforums(data))
+        axios.get('http://localhost:3030/subforum')
+            .then((response) => setSubforums(response.data))
             .catch((error) => console.error('Error fetching subforums:', error));
     }, []);
 
