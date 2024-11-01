@@ -223,7 +223,106 @@ async function main() {
     },
   });
 
-  console.log(`Created subforums: ${subforum1.name}, ${subforum2.name}, ${subforum3.name}`);
+  const subforum4 = await prisma.subforum.create({
+    data: {
+      name: 'Horseshit',
+      forumId: mainForum.id,
+      description: 'my fart is basic',
+    },
+  });
+
+  const subforum5 = await prisma.subforum.create({
+    data: {
+      name: 'change me',
+      forumId: mainForum.id,
+      description: 'This is the subforum',
+    },
+  });
+
+  const subforum6 = await prisma.subforum.create({
+    data: {
+      name: 'the east is stubborn but west haha room for whataever change',
+      forumId: mainForum.id,
+      description: 'This subforum',
+    },
+  });
+
+  const subforum7 = await prisma.subforum.create({
+    data: {
+      name: 'crypto is nothing but shit loader',
+      forumId: mainForum.id,
+      description: 'This is it',
+    },
+  });
+
+  const subforum8 = await prisma.subforum.create({
+    data: {
+      name: 'bdjfffg',
+      forumId: mainForum.id,
+      description: 'cambridge is chess master that oxford beats in go',
+    },
+  });
+
+  const subforum9 = await prisma.subforum.create({
+    data: {
+      name: 'Subforum Three',
+      forumId: mainForum.id,
+      description: 'television vicious bish',
+    },
+  });
+
+  const subforum10 = await prisma.subforum.create({
+    data: {
+      name: 'too much do',
+      forumId: mainForum.id,
+      description: 'music moves too fast',
+    },
+  });
+
+  console.log(
+    `Created subforums: ${subforum1.name}, ${subforum2.name}, ${subforum3.name}
+    , ${subforum4.name}, ${subforum5.name}, ${subforum6.name}, ${subforum7.name}
+    , ${subforum8.name}, ${subforum9.name}, ${subforum10.name}
+    `
+  );
+
+  // Assigning tags to topic
+  const assignTagsToTopic = async (topic, tags) => {
+    await prisma.topic.update({
+      where: { id: topic.id },
+      data: {
+        labels: {
+          connect: tags.map(tag => ({ id: tag.id })),
+        },
+      },
+    });
+  };
+
+  const createCustomTags = async () => {
+    const topicTags= [
+      "Amazing SpiderMan",
+      "Fantastic Babe",
+      "Doctor Who is Shaw",
+      "novella",
+      "violin",
+      "viola potter",
+      "crismon sage",
+      "best fighter in mma"
+    ];
+    const tags = [];
+    for (const tagname of topicTags) {
+      const prob = Math.random();
+      if (prob > 0.3) {
+        const tag = await prisma.label.upsert({
+          where: { name: tagname },
+          update: {},
+          create: { name: tagname },
+        });
+        tags.push(tag);
+      }
+    }
+    return tags;
+  };
 
   // Create Topics
   const topicsSubforum1 = [];
