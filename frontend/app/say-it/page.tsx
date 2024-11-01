@@ -6,7 +6,7 @@ import React from "react";
 
 interface Subforum {
     id: number;
-    title: string;
+    name: string;
     description: string;
     createdAt: string;
 }
@@ -15,8 +15,7 @@ export default function Subforums() {
     const [subforums, setSubforums] = useState<Subforum[]>([]);
 
     useEffect(() => {
-        // Fetch Subforums
-        fetch('http://localhost:3030/subforums')
+        fetch('http://localhost:3030/subforum')
             .then((response) => response.json())
             .then((data) => setSubforums(data))
             .catch((error) => console.error('Error fetching subforums:', error));
@@ -32,7 +31,7 @@ export default function Subforums() {
           <ul>
             {subforums.map((subforum) => (
               <li key={subforum.id}>
-                <h3>{subforum.title}</h3>
+                <h3>{subforum.name}</h3>
                 <p>{subforum.description}</p>
               </li>
             ))}

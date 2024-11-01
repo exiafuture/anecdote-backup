@@ -10,7 +10,8 @@ export class SubforumService {
             select: {
                 id: true,
                 name: true,
-                description: true
+                description: true,
+                createdAt: true,
             },
         });
     }
