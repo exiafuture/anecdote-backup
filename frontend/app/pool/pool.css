@@ -14,6 +14,25 @@
     top:2rem;
 }
 
+.binary {
+    display: flex;
+    flex-direction: row;
+    gap:0.5rem;
+}
+
+.dark .binary .tags {
+    color: rgb(206, 198, 198)
+}
+
+.binary .tags {
+    color: rgb(98, 94, 94)
+}
+
+.binary .tags:hover {
+    cursor: pointer;
+    color:#7c7c7c;
+}
+
 .pool-filter-form {
     display: flex;
     flex-direction: column;

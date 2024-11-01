@@ -5,6 +5,7 @@ import axios from "axios";
 import ContentCard from "../components/contentCard"; // Importing the ContentCard component
 import { PreviewPost } from "@/types/Posts";
 import './pool.css'; // Import CSS for styling
+import { useRouter } from "next/navigation";
 
 interface FilteredFormData {
   username?: string;
@@ -16,6 +17,7 @@ interface FilteredFormData {
 const PoolPage = () => {
   const [posts, setPosts] = useState<PreviewPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const [filters, setFilters] = useState<FilteredFormData>({
     name: "",
     after:"",
@@ -31,6 +33,10 @@ const PoolPage = () => {
       before: "",
     });
     fetchAllPosts();
+  };
+
+  const handleTagsClick = () => {
+    router.push("/pool/all-tags");
   };
 
   const fetchFilteredPosts = async () => {
@@ -95,7 +101,11 @@ const PoolPage = () => {
   return (
     <div className="pool-container">
       <div className="pool-left">
-        <h2>Filter Search</h2>
+        <div className="binary">
+          <h2>Filter Search</h2>
+          <h2>/</h2>
+          <h2 onClick={()=>handleTagsClick()} className="tags">All Tags</h2>
+        </div>
         <form onSubmit={handleFilterSubmit} className="pool-filter-form">
           <div className="pool-form-group">
             <label htmlFor="username">
