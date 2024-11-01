@@ -1,19 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { SpacesConfig } from './dzero-spaces.config';
-import { Express } from 'express';
 import { S3 } from "aws-sdk";
-
 
 @Injectable()
 export class DzeroSpacesService {
-    private readonly s3;
-    private readonly bucketName = `${process.env.DIGITALOCEAN_SPACES_NAME}/${process.env.DIGITALOCEAN_SPACES_BUCKET}` || 'your-space-name';
+    private readonly s3: S3;
+    private readonly bucketName: string;
 
     constructor(private readonly spacesConfig: SpacesConfig) {
         this.s3 = this.spacesConfig.getS3();
+        this.bucketName = process.env.DIGITALOCEAN_SPACES_NAME;
     }
 
-    async uploadFile(file: Express.Multer.File, filePath: string): Promise<string> {
+    async uploadFile(
+        file: { buffer: Buffer; mimetype: string }, 
+        filePath: string): Promise<string> {
         const params = {
             Bucket: this.bucketName,
             Key: filePath,
