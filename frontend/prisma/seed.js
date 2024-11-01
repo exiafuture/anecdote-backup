@@ -265,7 +265,7 @@ async function main() {
 
   const subforum9 = await prisma.subforum.create({
     data: {
-      name: 'Subforum Three',
+      name: 'Subforum gfdsg',
       forumId: mainForum.id,
       description: 'television vicious bish',
     },
@@ -327,6 +327,7 @@ async function main() {
   // Create Topics
   const topicsSubforum1 = [];
   for (let i = 1; i <= 3; i++) {
+    const tagsForTopic = await createCustomTags();
     const topic = await prisma.topic.create({
       data: {
         title: `Topic ${i} in Subforum One`,
@@ -334,11 +335,13 @@ async function main() {
         subforumId: subforum1.id, // Connect to Subforum One
       },
     });
+    await assignTagsToTopic(topic, tagsForTopic);
     topicsSubforum1.push(topic);
   }
 
   const topicsSubforum2 = [];
   for (let i = 1; i <= 4; i++) {
+    const tagsForTopic = await createCustomTags();
     const topic = await prisma.topic.create({
       data: {
         title: `Topic ${i} in Subforum Two`,
@@ -346,11 +349,13 @@ async function main() {
         subforumId: subforum2.id, // Connect to Subforum Two
       },
     });
+    await assignTagsToTopic(topic, tagsForTopic);
     topicsSubforum2.push(topic);
   }
 
   const topicsSubforum3 = [];
   for (let i = 1; i <= 111; i++) {
+    const tagsForTopic = await createCustomTags();
     const topic = await prisma.topic.create({
       data: {
         title: `Topic ${i} in Subforum Three`,
@@ -358,13 +363,13 @@ async function main() {
         subforumId: subforum3.id, // Connect to Subforum Three
       },
     });
+    await assignTagsToTopic(topic, tagsForTopic);
     topicsSubforum3.push(topic);
   }
 
   console.log(`Created topics for Subforum One, Two, and Three`);
 
   // Create Comments
-  // One comment for each topic in Subforum One
   for (const topic of topicsSubforum1) {
     await prisma.comment.create({
       data: {
@@ -375,7 +380,6 @@ async function main() {
     });
   }
 
-  // One comment for each topic in Subforum Two
   for (const topic of topicsSubforum2) {
     await prisma.comment.create({
       data: {
