@@ -69,3 +69,20 @@
         padding: 1rem 1.4rem;
     }
 }
+
+@media (max-width:675px) {
+    .subforums-summary-labler-page-container {
+        padding: 0.5rem 1rem;
+        flex-direction: column-reverse;
+    }
+
+    .subforums-summary-labler-right-up {
+        height: 30vh;
+        width: 90vw;
+    }
+
+    .subforums-summary-labler-left-down {
+        height: auto;
+        width: 90vw;
+    }
+}
