@@ -26,13 +26,16 @@ export default function Subforums() {
     }
 
     return (
-        <div>
-          <h2>Subforums</h2>
-          <ul>
+        <div className="">
+          <h2 className="">All the Subforums in Anecdote | SayIt</h2>
+          <ul className="">
             {subforums.map((subforum) => (
-              <li key={subforum.id}>
-                <h3>{subforum.name}</h3>
-                <p>{subforum.description}</p>
+              <li key={subforum.id} className="">
+                <h3 className="">{subforum.name}</h3>
+                <p className="">{subforum.description}</p>
+                <small className="">
+                    {new Date(subforum.createdAt).toLocaleDateString()}
+                </small>
               </li>
             ))}
           </ul>
