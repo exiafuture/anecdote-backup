@@ -26,19 +26,24 @@ export default function Subforums() {
     }
 
     return (
-        <div className="">
-          <h2 className="">All the Subforums in Anecdote | SayIt</h2>
-          <ul className="">
-            {subforums.map((subforum) => (
-              <li key={subforum.id} className="">
-                <h3 className="">{subforum.name}</h3>
-                <p className="">{subforum.description}</p>
-                <small className="">
-                    {new Date(subforum.createdAt).toLocaleDateString()}
-                </small>
-              </li>
-            ))}
-          </ul>
+        <div className="subforums-summary-labler-page-container">
+            <div className="subforums-summary-labler-left-down">
+                <h2 className="subforums-summary-labler-header">All the Subforums in Anecdote @ Say-It</h2>
+                <ul className="subforums-summary-labler-list">
+                    {subforums.map((subforum) => (
+                    <li key={subforum.id} className="subforums-summary-labler-item">
+                        <h3 className="subforums-summary-labler-item-title">{subforum.name}</h3>
+                        <p className="subforums-summary-labler-item-leading">{subforum.description}</p>
+                        <small className="subforums-summary-labler-item-date">
+                            {new Date(subforum.createdAt).toLocaleDateString()}
+                        </small>
+                    </li>
+                    ))}
+                </ul>
+            </div>
+            <div className="subforums-summary-labler-right-up">
+
+            </div>
         </div>
     );
 }
