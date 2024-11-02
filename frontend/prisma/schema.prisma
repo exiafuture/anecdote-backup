@@ -83,6 +83,8 @@ model content {
   tags      label[]   @relation("content_labels")
   price     Float?
   purchase  purchase?
+  yes       Int       @default(0)
+  view      Int       @default(0) // unique?
 }
 
 model writing {
@@ -93,6 +95,8 @@ model writing {
   text      String   @db.MediumText
   story     story    @relation(fields: [storyId], references: [id])
   storyId   Int
+  live      Boolean  @default(false)
+  attention Int      @default(0) // unique?
 }
 
 model story {
@@ -104,6 +108,7 @@ model story {
   chapters    writing[]
   author      user      @relation(fields: [userId], references: [id])
   userId      Int
+  re          Int       @default(0)
 }
 
 model forum {
@@ -119,9 +124,10 @@ model subforum {
   description String   @db.VarChar(200)
   forum       forum    @relation(fields: [forumId], references: [id])
   forumId     Int
-  topics      topic[] // Each subforum has multiple topics
+  topics      topic[]  // Each subforum has multiple topics
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  hot         Int      @default(0)
 }
 
 model topic {
@@ -134,6 +140,7 @@ model topic {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   labels      label[]   @relation("topic_labels")
+  heat        Int       @default(0)
 }
 
 model comment {
@@ -146,7 +153,8 @@ model comment {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   replyToId  String?  @db.VarChar(140)
-
+  support    Int      @default(0)
+  reject     Int      @default(0)
   @@unique([forReplyId, topicId])
 }
 
@@ -202,6 +210,8 @@ enum payment_method {
 }
 
 enum media_type {
-  video
-  image
+  video // mov mp4
+  image // png jpg gif svg
+  file  // docx excel ppt txt csv pdf
+  // only 12 types
 }
