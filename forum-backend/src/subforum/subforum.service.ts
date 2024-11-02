@@ -1,5 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { create } from 'domain';
 
 @Injectable()
 export class SubforumService {
@@ -13,6 +14,28 @@ export class SubforumService {
                 description: true,
                 createdAt: true,
             },
+            orderBy: { createdAt: 'desc' },
+        });
+    }
+
+    async getAllSubForumsThatFitFilter(
+        name?: string,
+        createdAt?: Date
+    ) {
+        return this.prisma.subforum.findMany({
+            where: {
+                AND: [
+                    name ? {name:{contains:name}}:{},
+                    createdAt ? {createdAt: { gte: createdAt }}:{}
+                ]
+            },
+            select: {
+                id:true,
+                name:true,
+                description:true,
+                createdAt:true
+            },
+            orderBy:{createdAt:"desc"}
         });
     }
 

@@ -3,7 +3,7 @@
     height: 100vh;
     display: flex;
     flex-direction: row;
-    gap: 6rem;
+    gap: 3.5rem;
 }
 
 .subforums-summary-labler-left-down {
@@ -12,13 +12,14 @@
 
 .subforums-summary-labler-right-up {
     width: 45vw;
-    background-color: rgba(200, 200, 200, 0.098);
+    background-color: rgba(159, 159, 159, 0.098);
     height: 45vh;
+    border-radius: 15px;
     margin: 2rem 0rem;
 }
 
 .dark .subforums-summary-labler-right-up {
-    background-color: rgba(47, 46, 46, 0.098);
+    background-color: rgba(3, 3, 3, 0.098);
 }
 
 .subforums-summary-labler-header {
@@ -118,18 +119,22 @@
 
 @media (max-width:675px) {
     .subforums-summary-labler-page-container {
-        padding: 0.5rem 1rem;
+        padding: 0rem 1rem;
         flex-direction: column-reverse;
+        gap:1rem;
+        height: auto;
     }
 
     .subforums-summary-labler-right-up {
-        height: 30vh;
         width: 90vw;
+        margin: 1.5rem 0rem;
+        max-height: 30vh;
     }
 
     .subforums-summary-labler-left-down {
-        height: auto;
         width: 90vw;
+        margin: 0rem 0rem 5rem 0rem;
+        text-align: center;
     }
 
     .subforums-summary-labler-item-mob {
@@ -137,13 +142,37 @@
         list-style-type: none;
         border: none;
         border-radius: 2rem;
-        height: 15vh;
         gap: 1rem;
         padding: 1.5rem 1.75rem;
+        background-color: rgba(214, 214, 213, 0.935);
+    }
+
+    .subforums-summary-labler-item-leading-mob {
+        font-style:oblique;
+        font-weight: 500;
+    }
+    
+    .subforums-summary-labler-item-date-mob {
+        font-weight: 300;
+    }
+
+    .dark .subforums-summary-labler-item-mob {
+        background-color: rgba(28, 28, 27, 0.63);
     }
 
     .subforums-summary-labler-item-title-mob {
         display: block;
+        text-shadow: 1px 3px 5px rgba(63, 62, 62, 0.55);
+    }
+
+    .dark .subforums-summary-labler-item-title-mob {
+        text-shadow: 1px 3px 5px rgba(233, 230, 230, 0.55);
+    }
+
+    .subforums-summary-labler-list {
+        max-height: 80vh;
+        overflow-y: auto;
+        scrollbar-width: none;
     }
 
     .subforums-summary-labler-item-leading-mob {
