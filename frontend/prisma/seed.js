@@ -312,7 +312,7 @@ async function main() {
     const tags = [];
     for (const tagname of topicTags) {
       const prob = Math.random();
-      if (prob > 0.3) {
+      if (prob <= 0.3) {
         const tag = await prisma.label.upsert({
           where: { name: tagname },
           update: {},
