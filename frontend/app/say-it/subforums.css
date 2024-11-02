@@ -13,7 +13,7 @@
 .subforums-summary-labler-right-up {
     width: 45vw;
     background-color: rgba(159, 159, 159, 0.098);
-    height: 45vh;
+    height: 32vh;
     border-radius: 15px;
     margin: 2rem 0rem;
 }
@@ -118,7 +118,7 @@
 }
 
 .sub-form-group {
-    margin-bottom: 1rem;
+    margin: 1rem 3rem;
 }
 
 .sub-form-group label {
@@ -134,18 +134,18 @@
     box-sizing: border-box; /* Make width include padding */
 }
 
-.sub-filter-action-btn-group {
+.sub-filter-btn-group {
     display: flex;
-    gap: 3rem;                  /* Space between buttons */
-    margin-top: 1rem;           /* Margin on top of the button group */
-    justify-content: center; /* Align buttons to the left */
+    flex-direction: row;
+    gap: 3rem;
+    margin: 0rem 5rem;
 }
 
 .sub-filter-button,
 .sub-reset-button {
   padding: 0.7rem 1.2rem;     /* Padding for the buttons */
   border: none;               /* Remove default border */
-  width: 40%;
+  width: 50%;
   border-radius: 4px;        /* Rounded corners */
   cursor: pointer;            /* Pointer cursor on hover */
   font-size: 1rem;           /* Font size */

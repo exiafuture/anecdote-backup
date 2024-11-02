@@ -1,6 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { create } from 'domain';
 
 @Injectable()
 export class SubforumService {
