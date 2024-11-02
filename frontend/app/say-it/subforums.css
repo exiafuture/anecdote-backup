@@ -111,6 +111,65 @@
 }
 /*mobile only: end*/
 
+.sub-filter-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.sub-form-group {
+    margin-bottom: 1rem;
+}
+
+.sub-form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.sub-form-group input[type="text"], .sub-form-group input[type="date"] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box; /* Make width include padding */
+}
+
+.sub-filter-action-btn-group {
+    display: flex;
+    gap: 3rem;                  /* Space between buttons */
+    margin-top: 1rem;           /* Margin on top of the button group */
+    justify-content: center; /* Align buttons to the left */
+}
+
+.sub-filter-button,
+.sub-reset-button {
+  padding: 0.7rem 1.2rem;     /* Padding for the buttons */
+  border: none;               /* Remove default border */
+  width: 40%;
+  border-radius: 4px;        /* Rounded corners */
+  cursor: pointer;            /* Pointer cursor on hover */
+  font-size: 1rem;           /* Font size */
+  transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.sub-filter-button {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;               /* White text */
+}
+
+.sub-filter-button:hover {
+  background-color: #0056b3;  /* Darker blue on hover */
+}
+
+.sub-reset-button {
+  background-color: #dc3545; /* Bootstrap danger color */
+  color: white;               /* White text */
+}
+
+.sub-reset-button:hover {
+  background-color: #c82333;  /* Darker red on hover */
+}
+
 @media (max-width:935px) {
     .subforums-summary-labler-page-container {
         padding: 1rem 1.4rem;

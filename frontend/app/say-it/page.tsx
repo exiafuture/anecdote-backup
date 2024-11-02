@@ -75,6 +75,11 @@ export default function Subforums() {
         }
     };
 
+    const handleFilterSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        fetchFilteredSub();
+    };
+
     const resetFilters = () => {
         setFilters({
           name: "",
@@ -139,7 +144,26 @@ export default function Subforums() {
                 )}
             </div>
             <div className="subforums-summary-labler-right-up">
-
+                <form onSubmit={handleFilterSubmit} className="sub-filter-form">
+                    <div className="sub-form-group">
+                        <label htmlFor="name">
+                            Name:
+                        </label>
+                        <input type="text" name="name" id="name"
+                            value={filters.name} onChange={handleSubFilterChange}/>
+                    </div>
+                    <div className="sub-form-group">
+                        <label htmlFor="after">
+                            After Date:
+                        </label>
+                        <input type="date" name="after" id="after" value={filters.after}
+                            onChange={handleSubFilterChange}/>
+                    </div>
+                    <div className="sub-filter-btn-group">
+                        <button type="submit" className="sub-filter-button">Apply</button>
+                        <button type="button" className="sub-reset-button" onClick={resetFilters}>Reset</button>
+                    </div>
+                </form>
             </div>
         </div>
     );
