@@ -1,10 +1,10 @@
 // app/pool/page.tsx
-"use client"; // Using client components
+"use client"; 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ContentCard from "../components/contentCard"; // Importing the ContentCard component
+import ContentCard from "../components/contentCard"; 
 import { PreviewPost } from "@/types/Posts";
-import './pool.css'; // Import CSS for styling
+import './pool.css'; 
 import { useRouter } from "next/navigation";
 
 interface FilteredFormData {
