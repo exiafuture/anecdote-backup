@@ -12,16 +12,44 @@ interface Subforum {
     createdAt: string;
 }
 
+interface FilteredSubForumFormData {
+    name?: string;
+    after?: string;
+}
+
 export default function Subforums() {
     const [subforums, setSubforums] = useState<Subforum[]>([]);
     const [currentChunk, setCurrentChunk] = useState(0);
+    const [loading, setLoading] = useState(true);
     const chunkSize = 4;
+    const [filters, setFilters] = useState<FilteredSubForumFormData>({
+        name: "",
+        after:"",
+    });
 
     useEffect(() => {
-        axios.get('http://localhost:3030/subforum')
+        fetchAllForums();
+    }, []);
+
+    const fetchAllForums = async () => {
+        try {
+            axios.get('http://localhost:3030/subforum')
             .then((response) => setSubforums(response.data))
             .catch((error) => console.error('Error fetching subforums:', error));
-    }, []);
+        } catch(error) {
+            console.error("Error fetching:", error);
+      } finally {
+            setLoading(false);
+      }
+    }
+
+    const resetFilters = () => {
+        setFilters({
+          name: "",
+          after: "",
+        });
+        fetchAllForums();
+    };
 
     const totalChunks = Math.ceil(subforums.length / chunkSize);
 
