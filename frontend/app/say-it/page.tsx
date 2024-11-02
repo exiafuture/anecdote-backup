@@ -14,7 +14,7 @@ interface Subforum {
 
 interface FilteredSubForumFormData {
     name?: string;
-    after?: string;
+    createdAt?: string;
 }
 
 export default function Subforums() {
@@ -24,7 +24,7 @@ export default function Subforums() {
     const chunkSize = 4;
     const [filters, setFilters] = useState<FilteredSubForumFormData>({
         name: "",
-        after:"",
+        createdAt:"",
     });
 
     useEffect(() => {
@@ -55,12 +55,12 @@ export default function Subforums() {
         setLoading(true);
         try {
           const { 
-            name, after
+            name, createdAt
           } = filters;
           const response = await axios.get('http://localhost:3030/subforum/filter', {
             params: {
               name,
-              after,
+              createdAt,
             },
           });
           if (response.status === 200) {
@@ -83,7 +83,7 @@ export default function Subforums() {
     const resetFilters = () => {
         setFilters({
           name: "",
-          after: "",
+          createdAt: "",
         });
         fetchAllForums();
     };
@@ -153,10 +153,10 @@ export default function Subforums() {
                             value={filters.name} onChange={handleSubFilterChange}/>
                     </div>
                     <div className="sub-form-group">
-                        <label htmlFor="after">
+                        <label htmlFor="createdAt">
                             After Date:
                         </label>
-                        <input type="date" name="after" id="after" value={filters.after}
+                        <input type="date" name="createdAt" id="createdAt" value={filters.createdAt}
                             onChange={handleSubFilterChange}/>
                     </div>
                     <div className="sub-filter-btn-group">

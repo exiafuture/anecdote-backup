@@ -24,6 +24,9 @@ export class SubforumController {
         @Query('createdAt') createdAt?: string,
     ) {
         const parsedDate = createdAt ? new Date(createdAt) : undefined;
+        if (parsedDate && isNaN(parsedDate.getTime())) {
+            throw new ConflictException('Invalid date format');
+        }
         return this.subforumService.getAllSubForumsThatFitFilter(name, parsedDate);
     }
 }
