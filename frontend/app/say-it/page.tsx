@@ -34,7 +34,7 @@ export default function Subforums() {
     }, []);
 
     const handleSubForwardClick = (id:number) => {
-        router.push(`/say-it/subforums/${id}`); // Navigate to post detail page
+        router.push(`/say-it/subforums/${id}`); 
     };
 
     const fetchAllForums = async () => {
@@ -44,9 +44,9 @@ export default function Subforums() {
             .catch((error) => console.error('Error fetching subforums:', error));
         } catch(error) {
             console.error("Error fetching:", error);
-      } finally {
-            setLoading(false);
-      }
+        } finally {
+                setLoading(false);
+        }
     }
 
     const handleSubFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -114,7 +114,7 @@ export default function Subforums() {
                         <h2 className="subforums-summary-labler-header">All the Subforums in Anecdote @ Say-It</h2>
                         <ul className="subforums-summary-labler-list">
                             {subforums.map((subforum) => (
-                            <li key={subforum.id} className="subforums-summary-labler-item-mob">
+                            <li key={subforum.id} className="subforums-summary-labler-item-mob" onClick={()=>handleSubForwardClick(subforum.id)}>
                                 <h3 className="subforums-summary-labler-item-title-mob">{subforum.name}</h3>
                                 <p className="subforums-summary-labler-item-leading-mob">{subforum.description}</p>
                                 <small className="subforums-summary-labler-item-date-mob">
@@ -123,7 +123,7 @@ export default function Subforums() {
                             </li>
                             ))}
                             {subforumsToDisplay.map((subforum)=>(
-                                <li key={subforum.id} className="subforums-summary-labler-item">
+                                <li key={subforum.id} className="subforums-summary-labler-item" onClick={()=>handleSubForwardClick(subforum.id)}>
                                     <h3 className="subforums-summary-labler-item-title">{subforum.name}</h3>
                                     <p className="subforums-summary-labler-item-leading">{subforum.description}</p>
                                     <small className="subforums-summary-labler-item-date">
