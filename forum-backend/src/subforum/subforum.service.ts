@@ -18,7 +18,8 @@ export class SubforumService {
                         id:true,
                         title:true,
                         createdAt:true,
-                        description:true
+                        description:true,
+                        labels: true,
                     },
                     orderBy: {createdAt:"desc"}
                 }

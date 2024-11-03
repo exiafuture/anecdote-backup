@@ -5,11 +5,17 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 
+interface Marker {
+    id: number;
+    name: string;
+}
+
 interface Topic {
     id: number;
     title: string;
     createdAt: Date;
     description: string;
+    labels: Marker[];
 }
 
 interface SubForumWithAllTop {
@@ -60,6 +66,16 @@ export default function OneSub() {
                                 <li className="that-sub-only-sub-list-item" key={top.id}>
                                     <h3 className="that-sub-only-sub-list-item-header">{top.title}</h3>
                                     <p className="that-sub-only-sub-list-item-subheader">{top.description}</p>
+                                    <ul>
+                                        {top.labels.map((tagger)=>(
+                                            <li
+                                            className="tagger-list" 
+                                            key={tagger.id}>
+                                                <p>{tagger.name}</p>
+                                                <span>{top.labels.indexOf(tagger)!==top.labels.length-1 && ","}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
                                     <span className="that-sub-only-sub-list-item-date">
                                         {new Date(top.createdAt).toLocaleDateString()}
                                     </span>

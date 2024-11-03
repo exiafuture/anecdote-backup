@@ -4,6 +4,27 @@
     padding-top: 5.75rem;
 }
 
+.that-sub-only-sub-list-item ul {
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem;
+}
+
+.tagger-list {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.tagger-list p {
+    font-size: x-small;
+    font-style: italic;
+}
+
+.tagger-list span {
+    font-size: xx-small;
+}
+
 .that-sub-only-content-container {
     display: flex;
     flex-direction: column;
