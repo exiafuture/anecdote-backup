@@ -4,6 +4,7 @@ import "./subforums.css";
 import { useEffect, useState } from 'react';
 import React from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface Subforum {
     id: number;
@@ -21,6 +22,7 @@ export default function Subforums() {
     const [subforums, setSubforums] = useState<Subforum[]>([]);
     const [currentChunk, setCurrentChunk] = useState(0);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
     const chunkSize = 4;
     const [filters, setFilters] = useState<FilteredSubForumFormData>({
         name: "",
@@ -30,6 +32,10 @@ export default function Subforums() {
     useEffect(() => {
         fetchAllForums();
     }, []);
+
+    const handleSubForwardClick = (id:number) => {
+        router.push(`/say-it/subforums/${id}`); // Navigate to post detail page
+    };
 
     const fetchAllForums = async () => {
         try {

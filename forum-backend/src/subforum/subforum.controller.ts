@@ -1,4 +1,8 @@
-import { Controller, Get, Post, Query, Body, ConflictException } from '@nestjs/common';
+import { 
+    Controller, Get, Post, Query, 
+    Body, ConflictException, 
+    Param, NotFoundException 
+} from '@nestjs/common';
 import { SubforumService } from './subforum.service';
 
 @Controller('subforum')
@@ -8,6 +12,15 @@ export class SubforumController {
     @Get()
     async findAll() {
         return this.subforumService.getAllSubForums();
+    }
+
+    @Get(":id")
+    async justOneSubforumById(@Param("id") id:string) {
+        const pa = parseInt(id,10);
+        if (isNaN(pa)) {
+            throw new NotFoundException("invalid sub id");
+        }
+        return this.subforumService.getSubForumByItsId(pa);
     }
 
     @Post()

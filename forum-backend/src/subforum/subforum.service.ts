@@ -1,9 +1,35 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class SubforumService {
     private prisma = new PrismaClient();
+
+    async getSubForumByItsId(id:number) {
+        const thatSubForum = await this.prisma.subforum.findUnique({
+            where: {id},
+            select: {
+                id:true,
+                name:true,
+                description:true,
+                createdAt:true,
+                topics: {
+                    select:{
+                        id:true,
+                        title:true,
+                        createdAt:true,
+                        description:true
+                    },
+                    orderBy: {createdAt:"desc"}
+                }
+            },
+        })
+
+        if (!thatSubForum) {
+            throw new NotFoundException("no such subforum");
+        }
+        return thatSubForum;
+    }
 
     async getAllSubForums() {
         return this.prisma.subforum.findMany({
