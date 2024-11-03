@@ -27,10 +27,37 @@
 .checker-topics-list {
     list-style-type: none;
     display: flex;
-    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding: 0.25rem 0rem;
+    white-space: nowrap;
+}
+
+.checker-topics-list::-webkit-scrollbar {
+    height: 8px;
+    background-color: #f1f1f1; /* Optional: Adds color */
+}
+
+.checker-topics-list::-webkit-scrollbar-thumb {
+    background-color: #888; /* Optional: Colors the scroll thumb */
 }
 
 .unique-label-item {
+    font-size: x-small;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.unique-label-item label {
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.unique-label-item label input {
+    margin-right:4px;
 }
 
 .tagger-list {
@@ -48,6 +75,38 @@
 
 .tagger-list span {
     font-size: xx-small;
+}
+
+.filter-section {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    margin-bottom: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.filter-section input[type="text"] {
+    margin-bottom: 5px;
+    padding: 2px;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 6px;
+}
+
+.filter-section button {
+    padding: 4px 8px;
+    margin: 0.5rem 4rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    border:none;
+    border-radius: 3.5px;
+    background-color: rgba(129, 129, 129, 0.15);
+    color:white;
+}
+
+.filter-section button:last-of-type {
+    background-color: blue;
 }
 
 .tagger-list-container p {
@@ -94,6 +153,14 @@
     margin-top: 20px;
 }
 
+.pp {
+    margin-left: 1rem;
+    font-size: x-large;
+    font-weight: 800;
+    font-style: oblique;
+    margin-bottom: 0.85rem;
+}
+
 .that-sub-only-sub-list-item {
     border: none;
     border-radius: 6px;
@@ -138,5 +205,13 @@
 @media (max-width: 525px) {
     .that-sub-only-content-container {
         margin: 2.5rem 3.3rem;
+    }
+}
+
+@media (min-width:800px) {
+    .filter-section {
+        padding: 2rem 5rem;
+        width: 50vw;
+        margin: 0 auto;
     }
 }

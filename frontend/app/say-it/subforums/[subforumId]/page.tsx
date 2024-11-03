@@ -50,6 +50,36 @@ export default function OneSub() {
         fetchSubforum();
     };
 
+    const filterOutIn = async () => {
+        setLoading(true);
+        try {
+            const {
+                title,
+                labels
+            } = filters;
+            const resp = await axios.get(
+                `http://localhost:3030/subforum/${subforumId}/filter`,
+                {
+                    params: {
+                        title,
+                        labels,
+                    }
+                }
+            );
+            if (resp.status===200) {
+                setSubWithTop(resp.data);
+            } else {
+                console.error("failed to filter",resp.status);
+                resetFilters();
+                setLoading(false);
+            }
+        } catch(error) {
+            console.error("error in retreieving filteried data",error)
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const fetchSubforum = async () => {
         try {
             const resp = await axios.get(`http://localhost:3030/subforum/${subforumId}`);
@@ -65,6 +95,19 @@ export default function OneSub() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFilters({ ...filters, title: e.target.value });
+    };
+
+    const handleLabelChange = (label: string) => {
+        setFilters(prevFilters => {
+            const newLabels = prevFilters.labels?.includes(label)
+                ? prevFilters.labels.filter(l => l !== label)
+                : [...(prevFilters.labels || []), label];
+            return { ...prevFilters, labels: newLabels };
+        });
     };
 
     useEffect(() => {
@@ -84,12 +127,32 @@ export default function OneSub() {
                             <figcaption className="that-sub-only-sub-date">formed at {new Date(subWithTop.createdAt).toLocaleDateString()}</figcaption>
                         </div>
                         <hr/>
-                        <ul className="checker-topics-list">
-                            {uniqueLabels.map((label) => (
-                                <li key={label} className="unique-label-item">{label}</li>
-                            ))}
-                        </ul>
+                        <div className="filter-section">
+                            <input
+                                type="text"
+                                placeholder="Filter by title"
+                                value={filters.title}
+                                onChange={handleTitleChange}
+                            />
+                            <button onClick={filterOutIn}>Apply</button>
+                            <button onClick={resetFilters}>Reset</button>
+                            <ul className="checker-topics-list">
+                                {uniqueLabels.map(label => (
+                                    <li key={label} className="unique-label-item">
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                checked={filters.labels?.includes(label) || false}
+                                                onChange={() => handleLabelChange(label)}
+                                            />
+                                            {label}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                         <ul className="that-sub-only-sub-list">
+                            <p className="pp"># {subWithTop.topics.length} topics met your need</p>
                             {subWithTop.topics.map((top)=>(
                                 <li className="that-sub-only-sub-list-item" key={top.id}>
                                     <h3 className="that-sub-only-sub-list-item-header">{top.title}</h3>

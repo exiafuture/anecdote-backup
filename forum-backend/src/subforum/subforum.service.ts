@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client';
 export class SubforumService {
     private prisma = new PrismaClient();
 
-    async getFilterSubforumAllRelated(id:number, labels: string[], topicName: string) {
+    async getFilterSubforumAllRelated(id:number, labels: string[], title: string) {
         const whereConditions: any = {
             subforumId: id,
         };
@@ -20,9 +20,9 @@ export class SubforumService {
             }
         }
 
-        if (topicName) {
+        if (title) {
             whereConditions.title = {
-                contains: topicName
+                contains: title
             }
         }
 
