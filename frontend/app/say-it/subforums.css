@@ -39,15 +39,19 @@
 .subforums-summary-labler-item {
     list-style-type: none;
     border: none;
-    border-radius: 2rem;
+    border-radius: 0.51rem;
     height: 15vh;
     gap: 1rem;
     padding: 1.5rem 1.75rem;
-    background-color: rgba(214, 214, 213, 0.935);
+    background-color: transparent;
 }
 
-.dark .subforums-summary-labler-item {
-    background-color: rgba(28, 28, 27, 0.63);
+.subforums-summary-labler-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dark .subforums-summary-labler-item:hover {
+    box-shadow: 0 4px 8px rgba(228, 228, 228, 0.15);
 }
 
 .dark .subforums-summary-labler-item-title {
@@ -203,7 +207,7 @@
         border-radius: 2rem;
         gap: 1rem;
         padding: 1.5rem 1.75rem;
-        background-color: rgba(214, 214, 213, 0.935);
+        background-color: rgba(230, 230, 230, 0.451);
     }
 
     .subforums-summary-labler-item-leading-mob {
@@ -216,7 +220,7 @@
     }
 
     .dark .subforums-summary-labler-item-mob {
-        background-color: rgba(28, 28, 27, 0.63);
+        background-color: rgba(0, 0, 0, 0.192);
     }
 
     .subforums-summary-labler-item-title-mob {
