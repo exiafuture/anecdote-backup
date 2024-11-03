@@ -26,17 +26,40 @@ interface SubForumWithAllTop {
     topics:Topic[];
 }
 
+interface FilteredSubTopicsFormData {
+    title?: string;
+    labels?: string[];
+}
+
 export default function OneSub() {
     const router = useRouter();
     const {subforumId} = useParams();
     const [subWithTop, setSubWithTop] = useState<SubForumWithAllTop|null>(null);
     const [loading, setLoading] = useState(true);
+    const [uniqueLabels, setUniqueLabels] = useState<string[]>([]);
+    const [filters,setFilters] = useState<FilteredSubTopicsFormData>({
+        title: "",
+        labels: []
+    });
+
+    const resetFilters = () => {
+        setFilters({
+          title: "",
+          labels: [],
+        });
+        fetchSubforum();
+    };
 
     const fetchSubforum = async () => {
         try {
-            axios.get(`http://localhost:3030/subforum/${subforumId}`)
-            .then((response) => setSubWithTop(response.data))
-            .catch((error) => console.error('Error fetching subforums:', error));
+            const resp = await axios.get(`http://localhost:3030/subforum/${subforumId}`);
+            setSubWithTop(resp.data);
+
+            const taggingInstances = resp.data.topics.flatMap((topic: Topic) =>
+                topic.labels.map((label: Marker) => label.name)
+            );
+            const uniqueLabelSet = Array.from(new Set(taggingInstances))as string[];
+            setUniqueLabels(uniqueLabelSet);
         } catch(error) {
             console.error("Error fetching:", error);
         } finally {
@@ -61,12 +84,18 @@ export default function OneSub() {
                             <figcaption className="that-sub-only-sub-date">formed at {new Date(subWithTop.createdAt).toLocaleDateString()}</figcaption>
                         </div>
                         <hr/>
+                        <ul className="checker-topics-list">
+                            {uniqueLabels.map((label) => (
+                                <li key={label} className="unique-label-item">{label}</li>
+                            ))}
+                        </ul>
                         <ul className="that-sub-only-sub-list">
                             {subWithTop.topics.map((top)=>(
                                 <li className="that-sub-only-sub-list-item" key={top.id}>
                                     <h3 className="that-sub-only-sub-list-item-header">{top.title}</h3>
                                     <p className="that-sub-only-sub-list-item-subheader">{top.description}</p>
-                                    <ul>
+                                    <ul className="tagger-list-container">
+                                        <p>tags: </p>
                                         {top.labels.map((tagger)=>(
                                             <li
                                             className="tagger-list" 

@@ -10,6 +10,29 @@
     gap: 0.2rem;
 }
 
+.tagger-list-container {
+    display: flex;
+    overflow-x: auto; /* Allows horizontal scroll */
+    scroll-behavior: smooth; /* Smooth scrolling */
+    padding: 0.5rem 0;
+    gap: 0.5rem;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.tagger-list-container::-webkit-scrollbar {
+    display: none; /* Hides scrollbar in WebKit browsers */
+}
+
+.checker-topics-list {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.unique-label-item {
+}
+
 .tagger-list {
     list-style-type: none;
     display: flex;
@@ -19,9 +42,15 @@
 .tagger-list p {
     font-size: x-small;
     font-style: italic;
+    max-lines: 1;
+    text-wrap: nowrap;
 }
 
 .tagger-list span {
+    font-size: xx-small;
+}
+
+.tagger-list-container p {
     font-size: xx-small;
 }
 

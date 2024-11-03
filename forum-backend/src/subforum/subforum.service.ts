@@ -5,6 +5,51 @@ import { PrismaClient } from '@prisma/client';
 export class SubforumService {
     private prisma = new PrismaClient();
 
+    async getFilterSubforumAllRelated(id:number, labels: string[], topicName: string) {
+        const whereConditions: any = {
+            subforumId: id,
+        };
+
+        if (labels.length) {
+            whereConditions.labels = {
+                some: {
+                    name: {
+                        in: labels,
+                    }
+                }
+            }
+        }
+
+        if (topicName) {
+            whereConditions.title = {
+                contains: topicName
+            }
+        }
+
+        const filtered = await this.prisma.subforum.findUnique({
+            where: {id:id},
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                createdAt: true,
+                topics: {
+                    where: whereConditions,
+                    select: {
+                        id: true,
+                        title: true,
+                        createdAt: true,
+                        description: true,
+                        labels: true,
+                    },
+                    orderBy: { createdAt: "desc" },
+                },
+            },
+        })
+
+        return filtered;
+    }
+
     async getSubForumByItsId(id:number) {
         const thatSubForum = await this.prisma.subforum.findUnique({
             where: {id},

@@ -14,6 +14,21 @@ export class SubforumController {
         return this.subforumService.getAllSubForums();
     }
 
+    @Get(":id/filter")
+    async oneSubByIdAndByFilter(
+        @Param("id") id:string,
+        @Query('labels') labels: string[],
+        @Query('topicName') topicName: string,
+    ) {
+        const pa = parseInt(id,10);
+        if (isNaN(pa)) {
+            throw new NotFoundException("invalid sub id");
+        }
+        return this.subforumService.getFilterSubforumAllRelated(
+            pa,labels,topicName
+        )
+    }
+
     @Get(":id")
     async justOneSubforumById(@Param("id") id:string) {
         const pa = parseInt(id,10);

@@ -45,7 +45,7 @@ export default function Subforums() {
         } catch(error) {
             console.error("Error fetching:", error);
         } finally {
-                setLoading(false);
+            setLoading(false);
         }
     }
 
