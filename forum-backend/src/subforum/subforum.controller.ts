@@ -18,7 +18,7 @@ export class SubforumController {
     async oneSubByIdAndByFilter(
         @Param("id") id:string,
         @Query('labels') labels: string[],
-        @Query('topicName') topicName: string,
+        @Query('topicName') topicName?: string,
     ) {
         const pa = parseInt(id,10);
         if (isNaN(pa)) {

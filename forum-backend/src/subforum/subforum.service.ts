@@ -1,31 +1,12 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { title } from 'process';
 
 @Injectable()
 export class SubforumService {
     private prisma = new PrismaClient();
 
-    async getFilterSubforumAllRelated(id:number, labels: string[], topicName: string) {
-        const whereConditions: any = {
-            subforumId: id,
-        };
-
-        if (labels.length>0) {
-            whereConditions.labels = {
-                some: {
-                    name: {
-                        in: labels,
-                    }
-                }
-            }
-        }
-
-        if (topicName && topicName.trim() !== "") {
-            whereConditions.title = {
-                contains: topicName
-            };
-        }
-
+    async getFilterSubforumAllRelated(id:number, labels: string[], topicName?: string) {
         const filtered = await this.prisma.subforum.findUnique({
             where: {id:id},
             select: {
@@ -34,7 +15,12 @@ export class SubforumService {
                 description: true,
                 createdAt: true,
                 topics: {
-                    where: whereConditions,
+                    where: {
+                        AND: [
+                            title ? {title:{contains:topicName}}:{},
+                            labels ? {labels:{some:{name:{in:labels}}}}:{}
+                        ],
+                    },
                     select: {
                         id: true,
                         title: true,
