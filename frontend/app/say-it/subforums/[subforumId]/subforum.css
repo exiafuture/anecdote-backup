@@ -12,7 +12,7 @@
 }
 
 .that-sub-only-sub-content {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(158, 158, 158, 0.1);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -21,6 +21,7 @@
 
 .dark .that-sub-only-sub-content {
     background-color: rgba(129, 129, 129, 0.15);
+    box-shadow: 0 4px 6px rgba(205, 204, 204, 0.817);
 }
 
 .that-sub-only-sub-heading {
@@ -44,7 +45,6 @@
 }
 
 .that-sub-only-sub-list-item {
-    background-color: #fff;
     border: none;
     border-radius: 6px;
     padding: 15px;
@@ -54,6 +54,10 @@
 
 .that-sub-only-sub-list-item:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dark .that-sub-only-sub-list-item:hover {
+    box-shadow: 0 4px 8px rgba(228, 228, 228, 0.15);
 }
 
 .that-sub-only-sub-list-item-header {
