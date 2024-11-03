@@ -5,12 +5,12 @@ import { PrismaClient } from '@prisma/client';
 export class SubforumService {
     private prisma = new PrismaClient();
 
-    async getFilterSubforumAllRelated(id:number, labels: string[], title: string) {
+    async getFilterSubforumAllRelated(id:number, labels: string[], topicName: string) {
         const whereConditions: any = {
             subforumId: id,
         };
 
-        if (labels.length) {
+        if (labels.length>0) {
             whereConditions.labels = {
                 some: {
                     name: {
@@ -20,10 +20,10 @@ export class SubforumService {
             }
         }
 
-        if (title) {
+        if (topicName && topicName.trim() !== "") {
             whereConditions.title = {
-                contains: title
-            }
+                contains: topicName
+            };
         }
 
         const filtered = await this.prisma.subforum.findUnique({

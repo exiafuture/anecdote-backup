@@ -27,7 +27,7 @@ interface SubForumWithAllTop {
 }
 
 interface FilteredSubTopicsFormData {
-    title?: string;
+    topicName?: string;
     labels?: string[];
 }
 
@@ -38,13 +38,13 @@ export default function OneSub() {
     const [loading, setLoading] = useState(true);
     const [uniqueLabels, setUniqueLabels] = useState<string[]>([]);
     const [filters,setFilters] = useState<FilteredSubTopicsFormData>({
-        title: "",
+        topicName: "",
         labels: []
     });
 
     const resetFilters = () => {
         setFilters({
-          title: "",
+          topicName: "",
           labels: [],
         });
         fetchSubforum();
@@ -54,15 +54,16 @@ export default function OneSub() {
         setLoading(true);
         try {
             const {
-                title,
+                topicName,
                 labels
             } = filters;
+            console.log(topicName,labels);
             const resp = await axios.get(
                 `http://localhost:3030/subforum/${subforumId}/filter`,
                 {
                     params: {
-                        title,
-                        labels,
+                        topicName:topicName?.trim()||"",
+                        labels:labels?.length ? labels : [],
                     }
                 }
             );
@@ -98,7 +99,12 @@ export default function OneSub() {
     };
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFilters({ ...filters, title: e.target.value });
+        const { name, value } = e.target;
+        setFilters(prevFilers=>({
+            ...prevFilers,
+            [name]:value
+        }))
+        // setFilters({ ...filters, topicName: e.target.value });
     };
 
     const handleLabelChange = (label: string) => {
@@ -130,8 +136,10 @@ export default function OneSub() {
                         <div className="filter-section">
                             <input
                                 type="text"
+                                name="topicName"
+                                id="topicName"
                                 placeholder="Filter by title"
-                                value={filters.title}
+                                value={filters.topicName}
                                 onChange={handleTitleChange}
                             />
                             <button onClick={filterOutIn}>Apply</button>

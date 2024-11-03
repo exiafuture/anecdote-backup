@@ -18,14 +18,15 @@ export class SubforumController {
     async oneSubByIdAndByFilter(
         @Param("id") id:string,
         @Query('labels') labels: string[],
-        @Query('title') title: string,
+        @Query('topicName') topicName: string,
     ) {
         const pa = parseInt(id,10);
         if (isNaN(pa)) {
             throw new NotFoundException("invalid sub id");
         }
+        console.log("Title received:", topicName);
         return this.subforumService.getFilterSubforumAllRelated(
-            pa,labels,title
+            pa,labels,topicName
         )
     }
 
