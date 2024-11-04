@@ -3,50 +3,34 @@ const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
 const axios = require("axios");
 
-async function HN() {
-  const topicsUrl = 'https://your-api-endpoint/topics'; // Replace with your actual API endpoint for topics
-  const commentsUrl = topicId => `https://your-api-endpoint/topics/${topicId}/comments`; // Replace with your actual API endpoint for comments
-
-  try {
-    // Fetch all topics
-    const topicsResponse = await axios.get(topicsUrl);
-    const topics = topicsResponse.data;
-
-    if (topics.length === 0) {
-      console.log('No topics found.');
-      return;
-    }
-
-    // Select a random topic
-    const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-
-    // Fetch comments for the selected topic
-    const commentsResponse = await axios.get(commentsUrl(randomTopic.id));
-    const comments = commentsResponse.data;
-
-    if (comments.length === 0) {
-      console.log(`No comments found for topic: ${randomTopic.title}`);
-      return;
-    }
-
-    // Select a random comment
-    const randomComment = comments[Math.floor(Math.random() * comments.length)];
-
-    console.log(`Topic: ${randomTopic.title}`);
-    console.log(`Comment: ${randomComment.text}`);
-    return randomComment;
-  } catch (error) {
-    console.error('Error fetching random comment:', error);
-  }
-}
-
 async function main() {
   // Hash the passwords
   const hashedPassword1 = await bcrypt.hash('password123', 10);
   const hashedPassword2 = await bcrypt.hash('password456', 10);
   const hashedPasswordAdmin = await bcrypt.hash(
-    "thisisaplatformforaspirationandcontinuationtoprosperity",10
+    "thisisitisthat",10
   );
+
+  const HackerN = async() => {
+    const topStoriesUrl = 'https://hacker-news.firebaseio.com/v0/topstories.json';
+    const itemUrl = id => `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
+  
+    try {
+      // Fetch top stories
+      const topStoriesResponse = await axios.get(topStoriesUrl);
+      const topStories = topStoriesResponse.data;
+  
+      // Select a random story
+      var randomStoryId = topStories[Math.floor(Math.random() * topStories.length)];
+      var storyResponse = await axios.get(itemUrl(randomStoryId));
+      var story = storyResponse.data;
+  
+      console.log(`Story: ${story.title}`);
+      return story.title.toString();
+    } catch (error) {
+      console.error('Error fetching random comment:', error);
+    }
+  }
 
   await prisma.admin.create({
     data: {
@@ -416,6 +400,8 @@ async function main() {
   console.log(`Created topics for Subforum One, Two, and Three`);
 
   // Create Comments
+  var kwe =0;
+
   for (const topic of topicsSubforum1) {
     await prisma.comment.create({
       data: {
@@ -424,6 +410,7 @@ async function main() {
         forReplyId: `${topic.title} ${topic.id}`
       },
     });
+    kwe+=1;
   }
 
   for (const topic of topicsSubforum2) {
@@ -435,28 +422,34 @@ async function main() {
         forReplyId: forr
       },
     });
+    kwe+=1;
     const proo = Math.random();
-    if (proo >= 0.3 && proo <= 0.4) {
+    if (proo >= 0.1) {
       const forrk = `${topic.title} HN ${Math.random()}`;
+      const d = await HackerN();
+      console.log(typeof d, d);
       await prisma.comment.create({
         data: {
-          text: HN(),
+          text: d,
           topicId:topic.id,
           forReplyId: forrk,
           replyToId: forr
         }
       })
+      kwe+=1;
       const koko = Math.random();
-      if (koko > 0.599999999999) {
+      if (koko > 0.2599999999999) {
         const fooorr = `dollar sign ${topic.description} HN ${Math.random()}`;
+        const dd = await HackerN();
         await prisma.comment.create({
           data: {
-            text: HN()+"/"+`${topic.description}`,
+            text: dd+"/"+`${topic.description}`,
             topicId:topic.id,
             forReplyId:fooorr,
             replyToId:forrk
           }
         })
+        kwe+=1;
       }
     }
   }
@@ -470,46 +463,55 @@ async function main() {
         forReplyId: firstfor
       },
     });
+    kwe+=1;
     const firstPro = Math.random();
-    if (firstPro < 0.15) {
+    if (firstPro < 0.65) {
       const secondFor = `${Math.random()} +HN ${Math.random()}`;
+      const eee = await HackerN()
       await prisma.comment.create({
         data: {
-          text:HN(),
+          text:eee,
           topicId:topic.id,
           forReplyId:secondFor,
           replyToId:firstfor
         }
       })
+      kwe+=1;
       const secondPro = Math.random();
       if (secondPro > 0.88 && secondPro < 0.99) {
         const thirdT = `${Math.random()} ${topic.description} HN ${Math.random()}`;
+        const lp = await HackerN()
         await prisma.comment.create({
           data: {
-            text: "奇淫怪巧 "+HN()+" 外強中乾",
+            text: "奇淫怪巧 "+lp+" 外強中乾",
             topicId: topic.id,
             forReplyId:thirdT,
             replyToId:secondFor
           }
         })
+        kwe+=1;
         const ffT = `${Math.random()} / HN ${Math.random()+2}`;
+        const opo = await HackerN()
         await prisma.comment.create({
           data: {
-            text: "司馬光 "+HN()+" 砸GANG 如別墅",
+            text: "司馬光 "+opo+" 砸GANG 如別墅",
             topicId: topic.id,
             forReplyId:ffT,
             replyToId:secondFor
           }
         })
+        kwe+=1;
         const fiT = `${topic.description} HN ${Math.random()+Math.random()}`;
+        const kji = await HackerN()
         await prisma.comment.create({
           data: {
-            text: HN()+"Giant Luffery",
+            text: kji+"Giant Luffery",
             topicId: topic.id,
             forReplyId:fiT,
             replyToId:secondFor
           }
         })
+        kwe+=1;
       }
     }
   }
@@ -520,12 +522,14 @@ async function main() {
     return Math.floor(Math.random() * (max - min)) + min;
   }  
 
-  for (let g = 0;g<getRanIntFromMinMax(100,112);g++) {
+  const bbh = "apslidkfjghtyurewqzmxncbv";
+
+  for (let g = 0;g<getRanIntFromMinMax(10,92);g++) {
     const randomTopicIndex = Math.floor(Math.random() * topicsSubforum1.length);
     const randomTopic = topicsSubforum1[randomTopicIndex];
 
     for (let i = 1; i <= getRanIntFromMinMax(3,15); i++) {
-      const ranFirstFor = `${randomTopic.id} ${i}`
+      const ranFirstFor = `${getRanIntFromMinMax(21,222)}${bbh[getRanIntFromMinMax(0,26)]}${getRanIntFromMinMax(1000,2222)}`
       await prisma.comment.create({
         data: {
           text: `Additional Comment ${i} for ${randomTopic.title}`,
@@ -533,31 +537,37 @@ async function main() {
           forReplyId: ranFirstFor
         },
       });
+      kwe+=1;
       const mamath = getRanIntFromMinMax(1,3)+Math.random();
       if (mamath<=1.8) {
         const ranSecFor = `${Math.random>(getRanIntFromMinMax(1,2)-Math.random)} math is hard as fun ${getRanIntFromMinMax(1,1000)}`;
+        const gt = await HackerN()
         await prisma.comment.create({
           data: {
-            text:HN()+"open fire rollar cooastter",
+            text:gt+"open fire rollar cooastter",
             topicId:randomTopic.id,
             forReplyId: ranSecFor,
             replyToId:ranFirstFor
           }
         })
+        kwe+=1;
         const laslasl = getRanIntFromMinMax(
           getRanIntFromMinMax(1,51),
           getRanIntFromMinMax(51,101)
         );
-        const running = getRanIntFromMinMax(1,101);
+        var running = getRanIntFromMinMax(1,101);
         if (running < laslasl) {
           while (running!==laslasl) {
+            const gggi = `${getRanIntFromMinMax(1000,1343000)}${getRanIntFromMinMax(1,23)}`;
             await prisma.comment.create({
               data: {
                 text: `${i} for ${randomTopic.description}`,
                 topicId: randomTopic.id,
-                forReplyId: `ranFirstFor${i}+_${Math.random}`
+                forReplyId: gggi
               },
             });
+            kwe+=1;
+            running+=1;
           }
         }
 
@@ -579,6 +589,7 @@ async function main() {
   }
 
   console.log(`Created comments for topics in all subforums`);
+  console.log(`total comments: ${kwe}`);
 }
 
 main()
