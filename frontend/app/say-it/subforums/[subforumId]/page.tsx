@@ -177,7 +177,7 @@ export default function OneSub() {
                                         ))}
                                     </ul>
                                     <span className="that-sub-only-sub-list-item-date">
-                                        {new Date(top.createdAt).toLocaleDateString()}
+                                        {new Date(top.createdAt).toLocaleDateString()}{" "}{new Date(top.createdAt).toLocaleTimeString()}
                                     </span>
                                 </li>
                             ))}
