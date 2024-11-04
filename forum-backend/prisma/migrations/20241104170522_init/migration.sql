@@ -87,6 +87,8 @@ CREATE TABLE `content` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `price` DOUBLE NULL,
+    `yes` INTEGER NOT NULL DEFAULT 0,
+    `view` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `content_content_key`(`content`),
     PRIMARY KEY (`id`)
@@ -100,6 +102,8 @@ CREATE TABLE `writing` (
     `updatedAt` DATETIME(3) NOT NULL,
     `text` MEDIUMTEXT NOT NULL,
     `storyId` INTEGER NOT NULL,
+    `live` BOOLEAN NOT NULL DEFAULT false,
+    `attention` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `writing_title_key`(`title`),
     PRIMARY KEY (`id`)
@@ -113,6 +117,7 @@ CREATE TABLE `story` (
     `updatedAt` DATETIME(3) NOT NULL,
     `description` VARCHAR(220) NOT NULL,
     `userId` INTEGER NOT NULL,
+    `re` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `story_title_key`(`title`),
     UNIQUE INDEX `story_description_key`(`description`),
@@ -136,6 +141,7 @@ CREATE TABLE `subforum` (
     `forumId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `hot` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `subforum_name_key`(`name`),
     PRIMARY KEY (`id`)
@@ -149,6 +155,7 @@ CREATE TABLE `topic` (
     `subforumId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `heat` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `topic_title_key`(`title`),
     PRIMARY KEY (`id`)
@@ -163,6 +170,8 @@ CREATE TABLE `comment` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `replyToId` VARCHAR(140) NULL,
+    `support` INTEGER NOT NULL DEFAULT 0,
+    `reject` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `comment_forReplyId_topicId_key`(`forReplyId`, `topicId`),
     PRIMARY KEY (`id`)
@@ -183,7 +192,7 @@ CREATE TABLE `media` (
     `url` VARCHAR(191) NOT NULL,
     `contentId` INTEGER NULL,
     `commentId` INTEGER NULL,
-    `type` ENUM('video', 'image') NOT NULL,
+    `type` ENUM('video', 'image', 'file') NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
