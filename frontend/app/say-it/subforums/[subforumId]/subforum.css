@@ -101,8 +101,12 @@
     cursor: pointer;
     border:none;
     border-radius: 3.5px;
-    background-color: rgba(129, 129, 129, 0.15);
+    background-color: rgba(18, 17, 17, 0.601);
     color:white;
+}
+
+.dark .filter-section button {
+    background-color: rgba(129, 129, 129, 0.15);
 }
 
 .filter-section button:last-of-type {
