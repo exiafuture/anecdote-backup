@@ -1,6 +1,44 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
+const axios = require("axios");
+
+async function HN() {
+  const topicsUrl = 'https://your-api-endpoint/topics'; // Replace with your actual API endpoint for topics
+  const commentsUrl = topicId => `https://your-api-endpoint/topics/${topicId}/comments`; // Replace with your actual API endpoint for comments
+
+  try {
+    // Fetch all topics
+    const topicsResponse = await axios.get(topicsUrl);
+    const topics = topicsResponse.data;
+
+    if (topics.length === 0) {
+      console.log('No topics found.');
+      return;
+    }
+
+    // Select a random topic
+    const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+
+    // Fetch comments for the selected topic
+    const commentsResponse = await axios.get(commentsUrl(randomTopic.id));
+    const comments = commentsResponse.data;
+
+    if (comments.length === 0) {
+      console.log(`No comments found for topic: ${randomTopic.title}`);
+      return;
+    }
+
+    // Select a random comment
+    const randomComment = comments[Math.floor(Math.random() * comments.length)];
+
+    console.log(`Topic: ${randomTopic.title}`);
+    console.log(`Comment: ${randomComment.text}`);
+    return randomComment;
+  } catch (error) {
+    console.error('Error fetching random comment:', error);
+  }
+}
 
 async function main() {
   // Hash the passwords
@@ -300,19 +338,27 @@ async function main() {
 
   const createCustomTags = async () => {
     const topicTags= [
-      "Amazing SpiderMan",
-      "Fantastic Babe",
+      "SpiderMan",
+      "Fantastic Doll",
       "Doctor Who is Shaw",
       "novella",
       "violin",
+      "grandma pie made from green apple",
       "viola potter",
       "crismon sage",
-      "best fighter in mma"
+      "best fighter in mma",
+      "shit",
+      "pretentious shit",
+      "lovely pie of green",
+      "yuni space flighter",
+      "sfw anti-nsfw",
+      "girls are more rational",
+      "boys are more logical"
     ];
     const tags = [];
     for (const tagname of topicTags) {
       const prob = Math.random();
-      if (prob <= 0.3) {
+      if (prob <= 0.1) {
         const tag = await prisma.label.upsert({
           where: { name: tagname },
           update: {},
@@ -381,36 +427,153 @@ async function main() {
   }
 
   for (const topic of topicsSubforum2) {
+    const forr = `${topic.title} ${topic.id}`;
     await prisma.comment.create({
       data: {
         text: `Comment for ${topic.title}`,
         topicId: topic.id,
-        forReplyId: `${topic.title} ${topic.id}`
+        forReplyId: forr
       },
     });
+    const proo = Math.random();
+    if (proo >= 0.3 && proo <= 0.4) {
+      const forrk = `${topic.title} HN ${Math.random()}`;
+      await prisma.comment.create({
+        data: {
+          text: HN(),
+          topicId:topic.id,
+          forReplyId: forrk,
+          replyToId: forr
+        }
+      })
+      const koko = Math.random();
+      if (koko > 0.599999999999) {
+        const fooorr = `dollar sign ${topic.description} HN ${Math.random()}`;
+        await prisma.comment.create({
+          data: {
+            text: HN()+"/"+`${topic.description}`,
+            topicId:topic.id,
+            forReplyId:fooorr,
+            replyToId:forrk
+          }
+        })
+      }
+    }
   }
 
   for (const topic of topicsSubforum3) {
+    const firstfor = `${topic.title} ${topic.id}`;
     await prisma.comment.create({
       data: {
         text: `Comment for ${topic.title}`,
         topicId: topic.id,
-        forReplyId: `${topic.title} ${topic.id}`
+        forReplyId: firstfor
       },
     });
+    const firstPro = Math.random();
+    if (firstPro < 0.15) {
+      const secondFor = `${Math.random()} +HN ${Math.random()}`;
+      await prisma.comment.create({
+        data: {
+          text:HN(),
+          topicId:topic.id,
+          forReplyId:secondFor,
+          replyToId:firstfor
+        }
+      })
+      const secondPro = Math.random();
+      if (secondPro > 0.88 && secondPro < 0.99) {
+        const thirdT = `${Math.random()} ${topic.description} HN ${Math.random()}`;
+        await prisma.comment.create({
+          data: {
+            text: "奇淫怪巧 "+HN()+" 外強中乾",
+            topicId: topic.id,
+            forReplyId:thirdT,
+            replyToId:secondFor
+          }
+        })
+        const ffT = `${Math.random()} / HN ${Math.random()+2}`;
+        await prisma.comment.create({
+          data: {
+            text: "司馬光 "+HN()+" 砸GANG 如別墅",
+            topicId: topic.id,
+            forReplyId:ffT,
+            replyToId:secondFor
+          }
+        })
+        const fiT = `${topic.description} HN ${Math.random()+Math.random()}`;
+        await prisma.comment.create({
+          data: {
+            text: HN()+"Giant Luffery",
+            topicId: topic.id,
+            forReplyId:fiT,
+            replyToId:secondFor
+          }
+        })
+      }
+    }
   }
 
-  // One comment for each topic in Subforum Three
-  const randomTopicIndex = Math.floor(Math.random() * topicsSubforum3.length);
-  const randomTopic = topicsSubforum3[randomTopicIndex];
+  function getRanIntFromMinMax(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }  
 
-  // Create 10 additional comments for a randomly selected topic in Subforum Three
-  for (let i = 1; i <= 10; i++) {
+  for (let g = 0;g<getRanIntFromMinMax(100,112);g++) {
+    const randomTopicIndex = Math.floor(Math.random() * topicsSubforum1.length);
+    const randomTopic = topicsSubforum1[randomTopicIndex];
+
+    for (let i = 1; i <= getRanIntFromMinMax(3,15); i++) {
+      const ranFirstFor = `${randomTopic.id} ${i}`
+      await prisma.comment.create({
+        data: {
+          text: `Additional Comment ${i} for ${randomTopic.title}`,
+          topicId: randomTopic.id,
+          forReplyId: ranFirstFor
+        },
+      });
+      const mamath = getRanIntFromMinMax(1,3)+Math.random();
+      if (mamath<=1.8) {
+        const ranSecFor = `${Math.random>(getRanIntFromMinMax(1,2)-Math.random)} math is hard as fun ${getRanIntFromMinMax(1,1000)}`;
+        await prisma.comment.create({
+          data: {
+            text:HN()+"open fire rollar cooastter",
+            topicId:randomTopic.id,
+            forReplyId: ranSecFor,
+            replyToId:ranFirstFor
+          }
+        })
+        const laslasl = getRanIntFromMinMax(
+          getRanIntFromMinMax(1,51),
+          getRanIntFromMinMax(51,101)
+        );
+        const running = getRanIntFromMinMax(1,101);
+        if (running < laslasl) {
+          while (running!==laslasl) {
+            await prisma.comment.create({
+              data: {
+                text: `${i} for ${randomTopic.description}`,
+                topicId: randomTopic.id,
+                forReplyId: `ranFirstFor${i}+_${Math.random}`
+              },
+            });
+          }
+        }
+
+      }
+    }
+  }
+
+  const randomTopicIndexqwe = Math.floor(Math.random() * topicsSubforum3.length);
+  const randomTopicw = topicsSubforum3[randomTopicIndexqwe];
+
+  for (let i = 1; i <= getRanIntFromMinMax(2,17); i++) {
     await prisma.comment.create({
       data: {
-        text: `Additional Comment ${i} for ${randomTopic.title}`,
-        topicId: randomTopic.id,
-        forReplyId: `${randomTopic.id} ${i}`
+        text: `Add Comment ${i} for ${randomTopicw.title}`,
+        topicId: randomTopicw.id,
+        forReplyId: `${randomTopicw.id} ${i} ${getRanIntFromMinMax(1,3)-getRanIntFromMinMax(1,2)}`
       },
     });
   }

@@ -40,7 +40,6 @@ export class SubforumController {
         if (isNaN(pa)) {
             throw new NotFoundException("invalid sub id");
         }
-        console.log("Title received:", topicName);
         return this.subforumService.getFilterSubforumAllRelated(
             pa,labels,topicName
         )
