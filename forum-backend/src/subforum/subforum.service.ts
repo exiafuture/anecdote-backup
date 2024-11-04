@@ -6,6 +6,59 @@ import { title } from 'process';
 export class SubforumService {
     private prisma = new PrismaClient();
 
+    async getSpecificTopicById(subid: number, topid:number) {
+        const pic = await this.prisma.topic.findFirst({
+            where: {
+                id: topid,
+                subforumId:subid
+            },
+            select: {
+                id:true,
+                title:true,
+                description:true,
+                createdAt:true,
+                labels:true,
+                comments: {
+                    where: {topicId:topid},
+                    select: {
+                        id:true,
+                        forReplyId:true,
+                        text:true,
+                        media:true,
+                        createdAt:true,
+                        replyToId:true,
+                    },
+                    orderBy:{createdAt:"desc"}
+                }
+            },
+            orderBy:{createdAt:"desc"}
+        })
+
+        if (!pic) {
+            throw new NotFoundException("no such topic");
+        }
+
+        const commentMap = new Map();
+        const rootComments = [];
+
+        pic.comments.forEach((cc)=>{
+            commentMap.set(cc.forReplyId,{...cc, replies: []})
+        });
+
+        pic.comments.forEach((cc)=>{
+            if (cc.replyToId) {
+                const parent = commentMap.get(cc.replyToId);
+                if (parent) {
+                    parent.replies.unshift(commentMap.get(cc.replyToId));
+                }
+            } else {
+                rootComments.push(commentMap.get(cc.forReplyId));
+            }
+        });
+
+        return {...pic, comments:rootComments,};
+    }
+
     async getFilterSubforumAllRelated(id:number, labels: string[], topicName?: string) {
         const filtered = await this.prisma.subforum.findUnique({
             where: {id:id},

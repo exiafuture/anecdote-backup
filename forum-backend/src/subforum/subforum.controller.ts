@@ -14,6 +14,22 @@ export class SubforumController {
         return this.subforumService.getAllSubForums();
     }
 
+    @Get(":id/topics/:topicid")
+    async getOneTopicwithAllContent(
+        @Param("id") id:string,
+        @Param("topicid") topicid:string,
+    ) {
+        const pa = parseInt(id,10);
+        if (isNaN(pa)) {
+            throw new NotFoundException("invalid sub id");
+        }
+        const papadamian = parseInt(topicid,10);
+        if (isNaN(papadamian)) {
+            throw new NotFoundException("invalid top id");
+        }
+        return this.subforumService.getSpecificTopicById(pa,papadamian);
+    }
+
     @Get(":id/filter")
     async oneSubByIdAndByFilter(
         @Param("id") id:string,
