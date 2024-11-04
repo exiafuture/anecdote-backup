@@ -3,7 +3,7 @@ import "./topic.css";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 interface Comment {
     id: number;
@@ -35,7 +35,6 @@ interface CommentNodeProps {
 }
 
 export default function TopIsOne() {
-    const router = useRouter();
     const {subforumId,topicId} = useParams();
     const [topAndItsCom,setTopAndItsCom] = useState<Topic|null>(null);
     const [nestedComments, setNestedComments] = useState<NestedComment[]>([]);

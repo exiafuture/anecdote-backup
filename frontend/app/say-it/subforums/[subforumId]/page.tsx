@@ -81,6 +81,10 @@ export default function OneSub() {
         }
     }
 
+    const handleTopForwardClick = (id:number,top:number) => {
+        router.push(`/say-it/subforums/${id}/topics/${top}`); 
+    };
+
     const fetchSubforum = async () => {
         try {
             const resp = await axios.get(`http://localhost:3030/subforum/${subforumId}`);
@@ -162,7 +166,7 @@ export default function OneSub() {
                         <ul className="that-sub-only-sub-list">
                             <p className="pp"># {subWithTop.topics.length} topics met your need</p>
                             {subWithTop.topics.map((top)=>(
-                                <li className="that-sub-only-sub-list-item" key={top.id}>
+                                <li className="that-sub-only-sub-list-item" key={top.id} onClick={()=>handleTopForwardClick(subWithTop.id,top.id)}>
                                     <h3 className="that-sub-only-sub-list-item-header">{top.title}</h3>
                                     <p className="that-sub-only-sub-list-item-subheader">{top.description}</p>
                                     <ul className="tagger-list-container">
