@@ -56,7 +56,8 @@ export class SubforumService {
             }
         });
 
-        return {...pic, comments:rootComments,};
+        // return {...pic, comments:rootComments};
+        return pic;
     }
 
     async getFilterSubforumAllRelated(id:number, labels: string[], topicName?: string) {
