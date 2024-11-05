@@ -3,111 +3,7 @@ const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
 const axios = require("axios");
 
-async function main() {
-  // Hash the passwords
-  const hashedPassword1 = await bcrypt.hash('password123', 10);
-  const hashedPassword2 = await bcrypt.hash('password456', 10);
-  const hashedPasswordAdmin = await bcrypt.hash(
-    "thisisitisthat",10
-  );
-
-  const HackerN = async() => {
-    const topStoriesUrl = 'https://hacker-news.firebaseio.com/v0/topstories.json';
-    const itemUrl = id => `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
-  
-    try {
-      // Fetch top stories
-      const topStoriesResponse = await axios.get(topStoriesUrl);
-      const topStories = topStoriesResponse.data;
-  
-      // Select a random story
-      var randomStoryId = topStories[Math.floor(Math.random() * topStories.length)];
-      var storyResponse = await axios.get(itemUrl(randomStoryId));
-      var story = storyResponse.data;
-  
-      console.log(`Story: ${story.title}`);
-      return story.title.toString();
-    } catch (error) {
-      console.error('Error fetching random comment:', error);
-    }
-  }
-
-  await prisma.admin.create({
-    data: {
-      email:"admin@proton.murduck",
-      username:"con4lighting",
-      password: hashedPasswordAdmin,
-    },
-  });
-
-  const basicPlan = await prisma.plan.create({
-    data: {
-      name: 'Basic',
-      price: 27.99,
-    },
-  });
-
-  const proPlan = await prisma.plan.create({
-    data: {
-      name: 'Pro',
-      price: 33.99,
-    },
-  });
-
-  const premiumPlan = await prisma.plan.create({
-    data: {
-      name: 'Premium',
-      price: 48.99,
-    },
-  });
-  
-  const createCreatorWithSubscription = async (
-    email, username, hashedPassword, planId) => {
-    // Create the creator and the subscription in the same transaction
-    const { creator, subscription } = await prisma.$transaction(
-      async (prisma) => {
-      const newCreator = await prisma.user.create({
-        data: {
-          email,
-          username,
-          password: hashedPassword,
-        },
-      });
-
-      const now = new Date();
-      const later = new Date(now);
-      later.setMonth(now.getMonth()+1);
-      const newSubscription = await prisma.subscription.create({
-        data: {
-          status: 'active',
-          paymentMethod: 'stripe',
-          planChosen: {
-            connect: { id: planId },
-          },
-          startDateThisRound: now,
-          endDateThisRound: later,
-          userId: newCreator.id
-        },
-      });
-
-      await prisma.user.update({
-        where: {id:newCreator.id},
-        data: {
-          subscriptionId: newSubscription.id,
-        }
-      })
-      return { creator: newCreator, subscription: newSubscription };
-    });
-
-    console.log(`Created user ${creator.username} with subscription ${subscription.id}`);
-  };
-
-  // Create creators with their associated subscriptions
-  await createCreatorWithSubscription('test1@example.com', 'test1', hashedPassword1, proPlan.id);
-  await createCreatorWithSubscription('test2@example.com', 'test2', hashedPassword2, premiumPlan.id);
-  await createCreatorWithSubscription('test3@example.com', 'test3', hashedPassword1, basicPlan.id);
-  await createCreatorWithSubscription('test4@example.com', 'test4', hashedPassword2, premiumPlan.id);
-
+async function newContentIdea() {
   // Helper function to create tags
   const createTags = async (numTags) => {
     const tags = [];
@@ -215,7 +111,94 @@ async function main() {
   }
 
   console.log(`4 test creators and their content created`);
+}
 
+async function newUserRegister() {
+  // Hash the passwords
+  const hashedPassword1 = await bcrypt.hash('password123', 10);
+  const hashedPassword2 = await bcrypt.hash('password456', 10);
+  const hashedPasswordAdmin = await bcrypt.hash(
+    "thisisitisthat",10
+  );
+
+  await prisma.admin.create({
+    data: {
+      email:"admin@proton.murduck",
+      username:"con4lighting",
+      password: hashedPasswordAdmin,
+    },
+  });
+
+  const basicPlan = await prisma.plan.create({
+    data: {
+      name: 'Basic',
+      price: 27.99,
+    },
+  });
+
+  const proPlan = await prisma.plan.create({
+    data: {
+      name: 'Pro',
+      price: 33.99,
+    },
+  });
+
+  const premiumPlan = await prisma.plan.create({
+    data: {
+      name: 'Premium',
+      price: 48.99,
+    },
+  });
+  
+  const createCreatorWithSubscription = async (
+    email, username, hashedPassword, planId) => {
+    // Create the creator and the subscription in the same transaction
+    const { creator, subscription } = await prisma.$transaction(
+      async (prisma) => {
+      const newCreator = await prisma.user.create({
+        data: {
+          email,
+          username,
+          password: hashedPassword,
+        },
+      });
+
+      const now = new Date();
+      const later = new Date(now);
+      later.setMonth(now.getMonth()+1);
+      const newSubscription = await prisma.subscription.create({
+        data: {
+          status: 'active',
+          paymentMethod: 'stripe',
+          planChosen: {
+            connect: { id: planId },
+          },
+          startDateThisRound: now,
+          endDateThisRound: later,
+          userId: newCreator.id
+        },
+      });
+
+      await prisma.user.update({
+        where: {id:newCreator.id},
+        data: {
+          subscriptionId: newSubscription.id,
+        }
+      })
+      return { creator: newCreator, subscription: newSubscription };
+    });
+
+    console.log(`Created user ${creator.username} with subscription ${subscription.id}`);
+  };
+
+  // Create creators with their associated subscriptions
+  await createCreatorWithSubscription('test1@example.com', 'test1', hashedPassword1, proPlan.id);
+  await createCreatorWithSubscription('test2@example.com', 'test2', hashedPassword2, premiumPlan.id);
+  await createCreatorWithSubscription('test3@example.com', 'test3', hashedPassword1, basicPlan.id);
+  await createCreatorWithSubscription('test4@example.com', 'test4', hashedPassword2, premiumPlan.id);
+}
+
+async function newSub() {
   const mainForum = await prisma.forum.create({
     data:{}
   });
@@ -384,7 +367,7 @@ async function main() {
   }
 
   const topicsSubforum3 = [];
-  for (let i = 1; i <= 111; i++) {
+  for (let i = 1; i <= 81; i++) {
     const tagsForTopic = await createCustomTags();
     const topic = await prisma.topic.create({
       data: {
@@ -398,20 +381,127 @@ async function main() {
   }
 
   console.log(`Created topics for Subforum One, Two, and Three`);
+  return {topicsSubforum1,topicsSubforum2,topicsSubforum3};
+}
 
+async function newHN() {
+  var allSS = [];
+  async function HackerN() {
+    const topStoriesUrl = 'https://hacker-news.firebaseio.com/v0/topstories.json';
+    const itemUrl = id => `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
+  
+    const topStoriesResponse = await axios.get(topStoriesUrl);
+    const topStories = topStoriesResponse.data;
+
+    // Select a random story
+    var randomStoryId = topStories[Math.floor(Math.random() * topStories.length)];
+    var storyResponse = await axios.get(itemUrl(randomStoryId));
+    var story = storyResponse.data;
+    console.log(`Story: ${story.title}`);
+    
+    return story.title.toString();
+  }
+  while (allSS.length != 24) {
+    var instnace = await HackerN();
+    allSS.push(instnace);
+  }
+  return allSS;
+}
+
+async function main() {
+  function getRanIntFromMinMax(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }  
+  await newUserRegister();
+  await newContentIdea();
+  var {topicsSubforum1,topicsSubforum2,topicsSubforum3}=await newSub();
+  var allS = await newHN();
+  var lllee = allS.length;
   // Create Comments
   var kwe =0;
 
   for (const topic of topicsSubforum1) {
+    // test nested tree comments for ui
+    const sub1forthistop = `${topic.title} ${topic.id}`;
     await prisma.comment.create({
       data: {
         text: `Comment for ${topic.title}`,
         topicId: topic.id,
-        forReplyId: `${topic.title} ${topic.id}`
+        forReplyId: sub1forthistop
       },
     });
     kwe+=1;
+    const stt = "azbycxdefuvwghijqrstjklmnop";
+    const tts = "ABCDEFGHJIKLMNZYXWVUTSROPQ";
+    const mandari = "這是個好東西 真不賴！來來來，一起吃。"
+    var sub1forloop = 0;
+    var tgh = 0;
+    var arrOfFors= [];
+    while (tgh<6) {
+      var iid=`${stt[getRanIntFromMinMax(0,stt.length)]}${
+        Math.random()+getRanIntFromMinMax(0,2)*Math.random()+getRanIntFromMinMax(1,4)
+      }${stt[getRanIntFromMinMax(0,stt.length)]}${tts[getRanIntFromMinMax(0,15)]}${mandari[getRanIntFromMinMax(0,mandari.length)]}`;
+      console.log(tgh,iid);
+      await prisma.comment.create({
+        data: {
+          text: `${allS[getRanIntFromMinMax(0,lllee)]}`+"_"+"man"+`${Math.random()}`,
+          topicId: topic.id,
+          forReplyId: iid,
+        },
+      });
+      kwe+=1;
+      arrOfFors.push(iid);
+      tgh+=1;
+    }
+    while (sub1forloop<14) {
+      var eitherColumnOrTree = Math.random();
+      var iid=`${tts[getRanIntFromMinMax(5,16)]}${
+        Math.round(Math.random()+getRanIntFromMinMax(0,2)*Math.random()+getRanIntFromMinMax(1,4))
+      -0.999999}_${mandari[getRanIntFromMinMax(0,mandari.length)]}${stt[getRanIntFromMinMax(0,stt.length)]}`;
+      var seconmdArr = [];
+      if (eitherColumnOrTree<=0.5) {
+        await prisma.comment.create({
+          data: {
+            text: `${allS[getRanIntFromMinMax(0,lllee)]}`+"_"+"man"+`${Math.random()}`,
+            topicId: topic.id,
+            forReplyId: iid,
+            replyToId:sub1forthistop
+          },
+        });
+        seconmdArr.push(iid);
+        kwe+=1;
+      } else if (eitherColumnOrTree>0.5&&eitherColumnOrTree<=0.7) {
+        var recurfor = arrOfFors[getRanIntFromMinMax(0,arrOfFors.length)];
+        await prisma.comment.create({
+          data: {
+            text: `${allS[getRanIntFromMinMax(0,lllee)]}`+"_"+"consant"+`${Math.random()}`,
+            topicId: topic.id,
+            forReplyId: iid,
+            replyToId:recurfor
+          },
+        });
+        seconmdArr.push(iid);
+        kwe+=1;
+      } else {
+        var recurfor = seconmdArr[getRanIntFromMinMax(0,seconmdArr.length)];
+        await prisma.comment.create({
+          data: {
+            text: `${mandari[0]}`+`${allS[getRanIntFromMinMax(0,lllee)]}`+`${Math.random()}`+"consant"+`${tts[getRanIntFromMinMax(1,14)]}`,
+            topicId: topic.id,
+            forReplyId: iid,
+            replyToId:recurfor
+          },
+        });
+        seconmdArr.push(iid);
+        kwe+=1;
+      }
+      sub1forloop+=1;
+    }
   }
+
+  console.log("all done for sub 1");
 
   for (const topic of topicsSubforum2) {
     const forr = `${topic.title} ${topic.id}`;
@@ -426,8 +516,7 @@ async function main() {
     const proo = Math.random();
     if (proo >= 0.1) {
       const forrk = `${topic.title} HN ${Math.random()}`;
-      const d = await HackerN();
-      console.log(typeof d, d);
+      const d = `${allS[getRanIntFromMinMax(0,lllee)]}`;
       await prisma.comment.create({
         data: {
           text: d,
@@ -440,10 +529,10 @@ async function main() {
       const koko = Math.random();
       if (koko > 0.2599999999999) {
         const fooorr = `dollar sign ${topic.description} HN ${Math.random()}`;
-        const dd = await HackerN();
+        const dd = `${allS[getRanIntFromMinMax(0,lllee)]}`;
         await prisma.comment.create({
           data: {
-            text: dd+"/"+`${topic.description}`,
+            text: dd+"99"+`${topic.description}`,
             topicId:topic.id,
             forReplyId:fooorr,
             replyToId:forrk
@@ -453,6 +542,7 @@ async function main() {
       }
     }
   }
+  console.log("all done for sub 2");
 
   for (const topic of topicsSubforum3) {
     const firstfor = `${topic.title} ${topic.id}`;
@@ -467,7 +557,7 @@ async function main() {
     const firstPro = Math.random();
     if (firstPro < 0.65) {
       const secondFor = `${Math.random()} +HN ${Math.random()}`;
-      const eee = await HackerN()
+      const eee = `${allS[getRanIntFromMinMax(0,lllee)]}`
       await prisma.comment.create({
         data: {
           text:eee,
@@ -480,7 +570,7 @@ async function main() {
       const secondPro = Math.random();
       if (secondPro > 0.88 && secondPro < 0.99) {
         const thirdT = `${Math.random()} ${topic.description} HN ${Math.random()}`;
-        const lp = await HackerN()
+        const lp = `${allS[getRanIntFromMinMax(0,lllee)]}`
         await prisma.comment.create({
           data: {
             text: "奇淫怪巧 "+lp+" 外強中乾",
@@ -490,8 +580,8 @@ async function main() {
           }
         })
         kwe+=1;
-        const ffT = `${Math.random()} / HN ${Math.random()+2}`;
-        const opo = await HackerN()
+        const ffT = `${Math.random()} omm HN ${Math.random()+2}`;
+        const opo = `${allS[getRanIntFromMinMax(0,lllee)]}`
         await prisma.comment.create({
           data: {
             text: "司馬光 "+opo+" 砸GANG 如別墅",
@@ -502,7 +592,7 @@ async function main() {
         })
         kwe+=1;
         const fiT = `${topic.description} HN ${Math.random()+Math.random()}`;
-        const kji = await HackerN()
+        const kji = `${allS[getRanIntFromMinMax(0,lllee)]}`
         await prisma.comment.create({
           data: {
             text: kji+"Giant Luffery",
@@ -515,21 +605,16 @@ async function main() {
       }
     }
   }
-
-  function getRanIntFromMinMax(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-  }  
+  console.log("all done for sub 3");
 
   const bbh = "apslidkfjghtyurewqzmxncbv";
 
-  for (let g = 0;g<getRanIntFromMinMax(10,92);g++) {
+  for (let g = 0;g<4;g++) {
     const randomTopicIndex = Math.floor(Math.random() * topicsSubforum1.length);
     const randomTopic = topicsSubforum1[randomTopicIndex];
 
-    for (let i = 1; i <= getRanIntFromMinMax(3,15); i++) {
-      const ranFirstFor = `${getRanIntFromMinMax(21,222)}${bbh[getRanIntFromMinMax(0,26)]}${getRanIntFromMinMax(1000,2222)}`
+    for (let i = 1; i <= 3; i++) {
+      const ranFirstFor = `${getRanIntFromMinMax(2,22)}${bbh[getRanIntFromMinMax(0,26)]}${getRanIntFromMinMax(10,222)}`
       await prisma.comment.create({
         data: {
           text: `Additional Comment ${i} for ${randomTopic.title}`,
@@ -540,8 +625,8 @@ async function main() {
       kwe+=1;
       const mamath = getRanIntFromMinMax(1,3)+Math.random();
       if (mamath<=1.8) {
-        const ranSecFor = `${Math.random>(getRanIntFromMinMax(1,2)-Math.random)} math is hard as fun ${getRanIntFromMinMax(1,1000)}`;
-        const gt = await HackerN()
+        const ranSecFor = `${Math.random>(getRanIntFromMinMax(1,2)-Math.random)} mathishardasfun ${getRanIntFromMinMax(1,1000)}`;
+        const gt = `${allS[getRanIntFromMinMax(0,lllee)]}`
         await prisma.comment.create({
           data: {
             text:gt+"open fire rollar cooastter",
@@ -552,13 +637,15 @@ async function main() {
         })
         kwe+=1;
         const laslasl = getRanIntFromMinMax(
-          getRanIntFromMinMax(1,51),
-          getRanIntFromMinMax(51,101)
+          getRanIntFromMinMax(1,21),
+          getRanIntFromMinMax(21,31)
         );
-        var running = getRanIntFromMinMax(1,101);
+        var fefejef="abchdjdhjkdiodkslsJAjsjd$3&8920活動🉑馬";
+        var running = getRanIntFromMinMax(1,50);
         if (running < laslasl) {
           while (running!==laslasl) {
-            const gggi = `${getRanIntFromMinMax(1000,1343000)}${getRanIntFromMinMax(1,23)}`;
+            const gggi = `${fefejef[getRanIntFromMinMax(0,fefejef.length)]}${
+              getRanIntFromMinMax(0,100)}${getRanIntFromMinMax(1,23)}${fefejef[getRanIntFromMinMax(0,fefejef.length)]}`;
             await prisma.comment.create({
               data: {
                 text: `${i} for ${randomTopic.description}`,
@@ -577,15 +664,17 @@ async function main() {
 
   const randomTopicIndexqwe = Math.floor(Math.random() * topicsSubforum3.length);
   const randomTopicw = topicsSubforum3[randomTopicIndexqwe];
+  var kdlsjfldsf="BNHJSDFABJfh3w2jdhnjwdfhw";
 
-  for (let i = 1; i <= getRanIntFromMinMax(2,17); i++) {
+  for (let i = 0; i <= getRanIntFromMinMax(3,10); i++) {
     await prisma.comment.create({
       data: {
         text: `Add Comment ${i} for ${randomTopicw.title}`,
         topicId: randomTopicw.id,
-        forReplyId: `${randomTopicw.id} ${i} ${getRanIntFromMinMax(1,3)-getRanIntFromMinMax(1,2)}`
+        forReplyId: `${kdlsjfldsf[getRanIntFromMinMax(0,kdlsjfldsf.length)]}${randomTopicw.id} ${i} ${getRanIntFromMinMax(3,9)-getRanIntFromMinMax(1,2)}${randomTopicw.title}`
       },
     });
+    kwe+=1;
   }
 
   console.log(`Created comments for topics in all subforums`);
