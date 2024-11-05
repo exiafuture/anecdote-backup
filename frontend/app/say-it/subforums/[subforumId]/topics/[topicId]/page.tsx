@@ -92,11 +92,12 @@ export default function TopIsOne() {
         <div>
             {topAndItsCom && (
                 <>
-                <h1>{topAndItsCom.title}</h1>
-                <p>{topAndItsCom.description}</p>
-                {nestedComments.map(comment => (
-                    <CommentNode key={comment.id} comment={comment} />
-                ))}
+                    <h1>{topAndItsCom.title}</h1>
+                    <p>{topAndItsCom.description}</p>
+                    <hr/>
+                    {nestedComments.map(comment => (
+                        <CommentNode key={comment.id} comment={comment} />
+                    ))}
                 </>
             )}
         </div>

@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node --max-old-space-size=8000 prisma/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^5.21.1",

@@ -170,7 +170,7 @@ export default function OneSub() {
                                     <h3 className="that-sub-only-sub-list-item-header">{top.title}</h3>
                                     <p className="that-sub-only-sub-list-item-subheader">{top.description}</p>
                                     <ul className="tagger-list-container">
-                                        <p>tags: </p>
+                                        {top.labels.length!==0 && (<p>tags: </p>)}
                                         {top.labels.map((tagger)=>(
                                             <li
                                             className="tagger-list" 
