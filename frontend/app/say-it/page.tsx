@@ -63,6 +63,7 @@ export default function Subforums() {
           const { 
             name, createdAt
           } = filters;
+          console.log(name,createdAt);
           const response = await axios.get('http://localhost:3030/subforum/filter', {
             params: {
               name,

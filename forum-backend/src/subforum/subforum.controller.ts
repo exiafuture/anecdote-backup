@@ -14,6 +14,19 @@ export class SubforumController {
         return this.subforumService.getAllSubForums();
     }
 
+    @Get("filter")
+    async findSlect(
+        @Query('name') name?: string,
+        @Query('createdAt') createdAt?: string,
+    ) {
+        const parsedDate = createdAt ? new Date(createdAt) : undefined;
+        const parsedN = name ? name.toString() : undefined;
+        if (parsedDate && isNaN(parsedDate.getTime())) {
+            throw new ConflictException('Invalid date format');
+        }
+        return this.subforumService.getAllSubForumsThatFitFilter(parsedN, parsedDate);
+    }
+
     @Get(":id/topics/:topicid")
     async getOneTopicwithAllContent(
         @Param("id") id:string,
@@ -60,17 +73,5 @@ export class SubforumController {
         @Body("description") description: string
     ) {
         return this.subforumService.createOneSubForum(name,description)
-    }
-
-    @Get("filter")
-    async findSlect(
-        @Query('name') name?: string,
-        @Query('createdAt') createdAt?: string,
-    ) {
-        const parsedDate = createdAt ? new Date(createdAt) : undefined;
-        if (parsedDate && isNaN(parsedDate.getTime())) {
-            throw new ConflictException('Invalid date format');
-        }
-        return this.subforumService.getAllSubForumsThatFitFilter(name, parsedDate);
     }
 }

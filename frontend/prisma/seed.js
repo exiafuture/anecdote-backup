@@ -443,7 +443,6 @@ async function main() {
       var iid=`${stt[getRanIntFromMinMax(0,stt.length)]}${
         Math.random()+getRanIntFromMinMax(0,2)*Math.random()+getRanIntFromMinMax(1,4)
       }${stt[getRanIntFromMinMax(0,stt.length)]}${tts[getRanIntFromMinMax(0,15)]}${mandari[getRanIntFromMinMax(0,mandari.length)]}`;
-      console.log(tgh,iid);
       await prisma.comment.create({
         data: {
           text: `${allS[getRanIntFromMinMax(0,lllee)]}`+"_"+"man"+`${Math.random()}`,

@@ -44,7 +44,7 @@ export default function TopIsOne() {
     },[])
 
     const CommentNode: React.FC<CommentNodeProps> = ({ comment }) => (
-        <div style={{ marginLeft: comment.replyToId ? "20px" : "0", padding: "10px", border: "1px solid #ddd" }}>
+        <div style={{ marginLeft: comment.replyToId ? "4rem" : "0", padding: "23px", border: "1px solid #ddd" }}>
             {comment.media && comment.media.map(media => (
                 <div key={media.id}>
                     <a href={media.url} target="_blank" rel="noopener noreferrer">View Media</a>
@@ -57,8 +57,9 @@ export default function TopIsOne() {
                     </div>
                     )
                 }
+                <hr/>
                 <p>{comment.text}</p>
-                <strong>{comment.forReplyId}</strong>
+                <strong>at {comment.forReplyId}</strong>
             </div>
             {comment.children.map(child => (
                 <CommentNode key={child.id} comment={child} />
