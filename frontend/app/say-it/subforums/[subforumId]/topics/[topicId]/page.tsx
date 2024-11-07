@@ -14,6 +14,11 @@ interface Comment {
     media?: Media[]
 }
 
+interface Label {
+    id: number;
+    name: string;
+}
+
 interface Media {
     id: number;
     url: string;
@@ -24,6 +29,7 @@ interface Topic {
     title: string;
     description: string;
     comments: Comment[];
+    labels: Label[];
 }
 
 interface NestedComment extends Comment {
@@ -38,13 +44,22 @@ export default function TopIsOne() {
     const {subforumId,topicId} = useParams();
     const [topAndItsCom,setTopAndItsCom] = useState<Topic|null>(null);
     const [nestedComments, setNestedComments] = useState<NestedComment[]>([]);
+    const [uniqueFor,setUniqueFor] = useState<string[]>([]);
 
     useEffect(()=> {
         fetchAllCom();
     },[])
 
+    const extractUniqueForReplyIds = (comments: Comment[]): string[] => {
+        const uniqueIds = new Set<string>();
+        comments.forEach(comment => {
+            uniqueIds.add(comment.forReplyId);
+        });
+        return Array.from(uniqueIds);
+    };
+
     const CommentNode: React.FC<CommentNodeProps> = ({ comment }) => (
-        <div style={{ marginLeft: comment.replyToId ? "4rem" : "0", padding: "23px", border: "1px solid #ddd" }}>
+        <div style={{ marginLeft: comment.replyToId ? "0.75rem" : "0", padding: "13px 15px", border: "0px solid #ddd" }}>
             {comment.media && comment.media.map(media => (
                 <div key={media.id}>
                     <a href={media.url} target="_blank" rel="noopener noreferrer">View Media</a>
@@ -57,7 +72,7 @@ export default function TopIsOne() {
                     </div>
                     )
                 }
-                <hr/>
+                {comment.replyToId&&(<hr/>)}
                 <p>{comment.text}</p>
                 <strong>at {comment.forReplyId}</strong>
             </div>
@@ -88,22 +103,25 @@ export default function TopIsOne() {
 
     const fetchAllCom = async () => {
         try {
-          const response = await axios.get(`http://localhost:3030/subforum/${subforumId}/topics/${topicId}`);
-          const data: Topic = response.data;
-          setTopAndItsCom(data);
-          const nested = buildNestedComments(data.comments);
-          setNestedComments(nested);
+            const response = await axios.get(`http://localhost:3030/subforum/${subforumId}/topics/${topicId}`);
+            const data: Topic = response.data;
+            setTopAndItsCom(data);
+            const nested = buildNestedComments(data.comments);
+            setNestedComments(nested);
+            const uniqueIds = extractUniqueForReplyIds(data.comments);
+            setUniqueFor(uniqueIds);
+            console.log(uniqueFor);
         } catch (error) {
           console.error("Error fetching topic data:", error);
         }
     };
 
     return (
-        <div>
+        <div className="specific-chat-page">
             {topAndItsCom && (
                 <>
                     <h1>{topAndItsCom.title}</h1>
-                    <p>{topAndItsCom.description}</p>
+                    <p className="dep-p">{topAndItsCom.description}</p>
                     <hr/>
                     {nestedComments.map(comment => (
                         <CommentNode key={comment.id} comment={comment} />
