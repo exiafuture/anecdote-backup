@@ -12,3 +12,22 @@
     margin-top: 0.15rem;
     margin-left: 1.35rem;
 }
+
+.connect-to {
+    font-weight: 800;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.content-p {
+    font-weight: 200;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.connect-from {
+    font-weight: 500;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.entire-ho:hover {
+    box-shadow: 0 4px 6px rgba(0,0,0,1.0);
+}

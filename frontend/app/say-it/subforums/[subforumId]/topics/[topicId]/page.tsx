@@ -58,8 +58,19 @@ export default function TopIsOne() {
         return Array.from(uniqueIds);
     };
 
+    const extractUniqueLabels = (comments: Comment[]): string[] => {
+        const uniqueIds = new Set<string>();
+        comments.forEach(comment => {
+            uniqueIds.add(comment.forReplyId);
+        });
+        return Array.from(uniqueIds);
+    };
+
     const CommentNode: React.FC<CommentNodeProps> = ({ comment }) => (
-        <div style={{ marginLeft: comment.replyToId ? "0.75rem" : "0", padding: "13px 15px", border: "0px solid #ddd" }}>
+        <div 
+            className="entire-ho"
+            style={{ marginLeft: comment.replyToId ? "0.75rem" : "0", 
+            padding: "13px 15px", border: "0px solid #ddd" }}>
             {comment.media && comment.media.map(media => (
                 <div key={media.id}>
                     <a href={media.url} target="_blank" rel="noopener noreferrer">View Media</a>
@@ -68,13 +79,13 @@ export default function TopIsOne() {
             <div>
                 {comment.replyToId&&(
                     <div>
-                        <strong>[</strong><em>@{comment.replyToId}</em><strong>]</strong>
+                        <strong>[</strong><em className="connect-to">{comment.replyToId}</em><strong>]</strong>
                     </div>
                     )
                 }
                 {comment.replyToId&&(<hr/>)}
-                <p>{comment.text}</p>
-                <strong>at {comment.forReplyId}</strong>
+                <p className="content-p">{comment.text}</p>
+                <strong className="connect-from">\ {comment.forReplyId} |</strong>
             </div>
             {comment.children.map(child => (
                 <CommentNode key={child.id} comment={child} />
@@ -122,6 +133,13 @@ export default function TopIsOne() {
                 <>
                     <h1>{topAndItsCom.title}</h1>
                     <p className="dep-p">{topAndItsCom.description}</p>
+                    {/* <ul>
+                        {
+                            uniqueFor.map((f4)=>(
+                                <li>{f4}</li>
+                            ))
+                        }
+                    </ul> */}
                     <hr/>
                     {nestedComments.map(comment => (
                         <CommentNode key={comment.id} comment={comment} />
