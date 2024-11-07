@@ -27,20 +27,13 @@ export class SubforumController {
         return this.subforumService.getAllSubForumsThatFitFilter(parsedN, parsedDate);
     }
 
-    @Get(":id/topics/:topicid")
-    async getOneTopicwithAllContent(
-        @Param("id") id:string,
-        @Param("topicid") topicid:string,
-    ) {
+    @Get(":id")
+    async justOneSubforumById(@Param("id") id:string) {
         const pa = parseInt(id,10);
         if (isNaN(pa)) {
             throw new NotFoundException("invalid sub id");
         }
-        const papadamian = parseInt(topicid,10);
-        if (isNaN(papadamian)) {
-            throw new NotFoundException("invalid top id");
-        }
-        return this.subforumService.getSpecificTopicById(pa,papadamian);
+        return this.subforumService.getSubForumByItsId(pa);
     }
 
     @Get(":id/filter")
@@ -58,13 +51,20 @@ export class SubforumController {
         )
     }
 
-    @Get(":id")
-    async justOneSubforumById(@Param("id") id:string) {
+    @Get(":id/topics/:topicid")
+    async getOneTopicwithAllContent(
+        @Param("id") id:string,
+        @Param("topicid") topicid:string,
+    ) {
         const pa = parseInt(id,10);
         if (isNaN(pa)) {
             throw new NotFoundException("invalid sub id");
         }
-        return this.subforumService.getSubForumByItsId(pa);
+        const papadamian = parseInt(topicid,10);
+        if (isNaN(papadamian)) {
+            throw new NotFoundException("invalid top id");
+        }
+        return this.subforumService.getSpecificTopicById(pa,papadamian);
     }
 
     @Post()
