@@ -12,7 +12,7 @@
     "seed": "node --max-old-space-size=8000 prisma/seed.js"
   },
   "dependencies": {
-    "@prisma/client": "^5.21.1",
+    "@prisma/client": "^5.22.0",
     "aws-sdk": "^2.1691.0",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
@@ -23,7 +23,7 @@
     "mysql2": "^3.11.3",
     "nestjs-rate-limiter": "^3.1.0",
     "next": "14.2.10",
-    "prisma": "^5.21.1",
+    "prisma": "^5.22.0",
     "qrcode": "^1.5.4",
     "react": "^18",
     "react-dom": "^18",

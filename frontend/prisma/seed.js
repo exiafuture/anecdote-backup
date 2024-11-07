@@ -199,6 +199,11 @@ async function newUserRegister() {
 }
 
 async function newSub() {
+  function getRanIntFromMinMax(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }  
   const mainForum = await prisma.forum.create({
     data:{}
   });
@@ -308,19 +313,16 @@ async function newSub() {
       "SpiderMan",
       "Fantastic Doll",
       "Doctor Who is Shaw",
+      "咖哩波特",
       "novella",
       "violin",
       "grandma pie made from green apple",
       "viola potter",
       "crismon sage",
       "best fighter in mma",
-      "shit",
-      "pretentious shit",
+      "til",
       "lovely pie of green",
-      "yuni space flighter",
       "sfw anti-nsfw",
-      "girls are more rational",
-      "boys are more logical"
     ];
     const tags = [];
     for (const tagname of topicTags) {
@@ -380,8 +382,62 @@ async function newSub() {
     topicsSubforum3.push(topic);
   }
 
-  console.log(`Created topics for Subforum One, Two, and Three`);
-  return {topicsSubforum1,topicsSubforum2,topicsSubforum3};
+  console.log(`Created topics for Subforums`);
+  
+  var chinese="不會接受對方不是大家回覆不是的話就法院的文件你的手機費得到喔法國i違法你房間看到色人呢度色人手機電話費"
+  var chinees ="脂肪含量超標的公司是不是不是你係唔好睇佢你的咁晏你的電話因為我你哋可以我哋兩樣東西方8節日你哋可以因為";
+  var enen = "WhenthecastfoundoutaboutSnapetrueloyaltiesaftertheDeathlyHallows";
+  var iiiiiiid=[
+    subforum1.id,
+    subforum2.id,
+    subforum3.id,
+    subforum4.id,
+    subforum5.id,
+    subforum6.id,
+    subforum7.id,
+    subforum8.id,
+    subforum9.id,
+    subforum10.id
+  ]
+  var tttt=[];
+  for (i=0;i<7;i++){
+    var frfrfr=[];
+    for (let u = 1; u <= getRanIntFromMinMax(2,17); u++) {
+      const tagsForTopic = await createCustomTags();
+
+      var jobs=`${enen[getRanIntFromMinMax(0,enen.length)]}${chinees[getRanIntFromMinMax(0,chinees.length)]}${chinese[getRanIntFromMinMax(0,chinese.length)]}${enen[getRanIntFromMinMax(0,enen.length)]}${chinees[getRanIntFromMinMax(0,chinees.length)]}${chinese[getRanIntFromMinMax(0,chinese.length)]}${enen[getRanIntFromMinMax(0,enen.length)]}`;
+
+      const topic = await prisma.topic.create({
+        data: {
+          title: jobs,
+          description: `Description ${u} in Subforum ${i+4}`,
+          subforumId: iiiiiiid[i+3], // Connect
+        },
+      });
+      await assignTagsToTopic(topic, tagsForTopic);
+      frfrfr.push(topic);
+    }
+    tttt.push(frfrfr);
+  }     
+  var topicsSubforum4 = tttt[0];
+  var topicsSubforum5 = tttt[1];
+  var topicsSubforum6 = tttt[2];
+  var topicsSubforum7 = tttt[3];
+  var topicsSubforum8 = tttt[4];
+  var topicsSubforum9 = tttt[5];
+  var topicsSubforum10 = tttt[6];
+  return {
+    topicsSubforum1,
+    topicsSubforum2,
+    topicsSubforum3,
+    topicsSubforum4,
+    topicsSubforum5,
+    topicsSubforum6,
+    topicsSubforum7,
+    topicsSubforum8,
+    topicsSubforum9,
+    topicsSubforum10
+  };
 }
 
 async function newHN() {
@@ -401,7 +457,7 @@ async function newHN() {
     
     return story.title.toString();
   }
-  while (allSS.length != 24) {
+  while (allSS.length != 67) {
     var instnace = await HackerN();
     allSS.push(instnace);
   }
@@ -416,11 +472,234 @@ async function main() {
   }  
   await newUserRegister();
   await newContentIdea();
-  var {topicsSubforum1,topicsSubforum2,topicsSubforum3}=await newSub();
+  var {
+    topicsSubforum1,topicsSubforum2,topicsSubforum3,
+    topicsSubforum4,topicsSubforum5,topicsSubforum6,
+    topicsSubforum7,topicsSubforum8,topicsSubforum9,
+    topicsSubforum10
+  }=await newSub();
   var allS = await newHN();
   var lllee = allS.length;
   // Create Comments
   var kwe =0;
+
+  var overall="TheoutcomeisthatMollydoesnotjustdefendherdaughterbutsheensuresBellatrixwillneverharmanyoneagain";
+  overall+="彈性化23938484747考媽咪話佢哋唔好213猪我哋買到野餐5579999皆我都係咁樣嘅時候你自己睇到嘅時候就算32";
+  overall+="把環境打掃荒誕不經啊說不定就啊說不定就阿克蘇的巴斯克大聲的巴哈介紹的凱森啊可是覺得你看完但看似簡單";
+
+  var rererearr = [
+    topicsSubforum5,topicsSubforum6,
+    topicsSubforum7,topicsSubforum8,topicsSubforum9,
+    topicsSubforum10
+  ];
+
+  for (y=0;y<6;y++) {
+    var specialTop = [];
+    var specialTopId = [];
+    while (specialTop.length!=rererearr[y].length*5) {
+      var generated = "";
+      while (generated.length!=10) {
+        generated+=overall[getRanIntFromMinMax(0,overall.length)]
+      }
+      if (!specialTop.includes(generated)) {
+        specialTop.push(generated);
+      }
+    }
+    while (specialTopId.length!=rererearr[y].length*5) {
+      var generated = "";
+      while (generated.length!=24) {
+        generated+=overall[getRanIntFromMinMax(0,overall.length)]
+      }
+      if (!specialTopId.includes(generated)) {
+        specialTopId.push(generated);
+      }
+    }
+    for (const topic of rererearr[y]) {
+      var s = rererearr[y].indexOf(topic)*5;
+      await prisma.comment.create({
+        data: {
+          text: specialTop[s],
+          topicId: topic.id,
+          forReplyId: specialTopId[s]
+        },
+      });
+      kwe+=1;
+      var isthere=false;
+      if (Math.random()<0.3) {
+        await prisma.comment.create({
+          data: {
+            text: specialTop[s+1],
+            topicId: topic.id,
+            forReplyId: specialTopId[s+1],
+            replyToId:specialTopId[s]
+          },
+        });
+        isthere=true;
+        kwe+=1;
+      } else {
+        await prisma.comment.create({
+          data: {
+            text: specialTop[s+1],
+            topicId: topic.id,
+            forReplyId: specialTopId[s+1]
+          },
+        });
+        kwe+=1;
+        isthere=false;
+      }
+      await prisma.comment.create({
+        data: {
+          text: specialTop[s+2],
+          topicId: topic.id,
+          forReplyId: specialTopId[s+2],
+          replyToId: Math.random()<0.7 ? specialTopId[s+1] : null 
+        },
+      });
+      kwe+=1;
+      const thirddd = Math.random();
+      await prisma.comment.create({
+        data: {
+          text: specialTop[s+3],
+          topicId: topic.id,
+          forReplyId: specialTopId[s+3],
+          replyToId: thirddd < 0.41 ? 
+          specialTopId[s+1] : 
+          thirddd >=0.41 && thirddd < 0.64 ? 
+          specialTopId[s+2]:null 
+        },
+      });
+      isthere = thirddd >=0.64 ? false : true;
+      kwe+=1;
+      if (Math.random() > 0.88) {
+        await prisma.comment.create({
+          data: {
+            text: specialTop[s+4],
+            topicId: topic.id,
+            forReplyId: specialTopId[s+4],
+            replyToId: specialTopId[s+2] 
+          },
+        });
+        kwe+=1;
+      } else {
+        const jcndffs = Math.random()
+        await prisma.comment.create({
+          data: {
+            text: specialTop[s+4],
+            topicId: topic.id,
+            forReplyId: specialTopId[s+4],
+            replyToId: jcndffs < 0.41 ? 
+            specialTopId[s+1] : 
+            jcndffs >=0.41 && jcndffs < 0.64 ? 
+            specialTopId[s+3]:specialTopId[s] 
+          },
+        });
+        kwe+=1;
+      }
+      if (isthere===true) {
+        console.log(topic.id)
+      }
+    }
+  }
+
+  for (const topic of topicsSubforum4) {
+    var sub4tophigh = ""
+    var sub4tophightop = ""
+    for (p=0;p<13;p++){
+      var tqwww="";
+      while (true){
+        var jshsh = overall[getRanIntFromMinMax(0,overall.length)];
+        if (jshsh!==" "){
+          tqwww=jshsh;
+          break
+        }
+      }
+      sub4tophigh+=tqwww
+      sub4tophightop+=overall[getRanIntFromMinMax(0,overall.length)];
+      sub4tophightop+=`${Math.random()}`
+    }
+    await prisma.comment.create({
+      data: {
+        text: sub4tophightop,
+        topicId: topic.id,
+        forReplyId: sub4tophigh
+      },
+    });
+    kwe+=1;
+    var tratt12r = Math.random();
+    var all4iid = [];
+    var sub4tophighnext=""
+    var sub4tophightopnext = ""
+    for (p=0;p<13;p++){
+      var tqwww="";
+      while (true){
+        var jshsh = overall[getRanIntFromMinMax(0,overall.length)];
+        if (jshsh!==" "){
+          tqwww=jshsh;
+          break
+        }
+      }
+      sub4tophighnext+=tqwww
+      sub4tophightopnext+=overall[getRanIntFromMinMax(0,overall.length)];
+      sub4tophightopnext+=`${Math.random()}`
+    }
+    all4iid.push(sub4tophighnext);
+    if (tratt12r<0.4) {
+      await prisma.comment.create({
+        data: {
+          text: sub4tophightopnext,
+          topicId: topic.id,
+          forReplyId: sub4tophighnext,
+        },
+      });
+      kwe+=1;
+    } else {
+      await prisma.comment.create({
+        data: {
+          text: sub4tophightopnext,
+          topicId: topic.id,
+          forReplyId: sub4tophighnext,
+          replyToId:sub4tophigh
+        },
+      });
+      kwe+=1;
+    }
+    var sub4tophighnextt=""
+    var sub4tophightopnextt = ""
+    for (p=0;p<11;p++){
+      var tqwww="";
+      while (true){
+        var jshsh = overall[getRanIntFromMinMax(0,overall.length)];
+        if (jshsh!==" ") {
+          tqwww=jshsh;
+          break;
+        }
+      }
+      sub4tophighnextt+=tqwww
+      sub4tophightopnextt+=overall[getRanIntFromMinMax(0,overall.length)];
+      sub4tophightopnextt+=`${Math.random()}`
+    }
+    if (Math.random()<0.15) {
+      await prisma.comment.create({
+        data: {
+          text: sub4tophightopnextt,
+          topicId: topic.id,
+          forReplyId: sub4tophighnextt,
+        },
+      });
+      all4iid.push(sub4tophighnextt);
+      kwe+=1;
+    } else {
+      await prisma.comment.create({
+        data: {
+          text: sub4tophightopnextt,
+          topicId: topic.id,
+          forReplyId: sub4tophighnextt,
+          replyToId:Math.random() > 0.25 ? sub4tophigh:all4iid[getRanIntFromMinMax(0,all4iid.length)] 
+        },
+      });
+      kwe+=1;
+    }
+  }
 
   for (const topic of topicsSubforum1) {
     // test nested tree comments for ui
@@ -639,12 +918,11 @@ async function main() {
           getRanIntFromMinMax(1,21),
           getRanIntFromMinMax(21,31)
         );
-        var fefejef="abchdjdhjkdiodkslsJAjsjd$3&8920活動🉑馬";
+        var fefejef="abchdjdhjkdiodkslsJAjsjd38920活動馬";
         var running = getRanIntFromMinMax(1,50);
         if (running < laslasl) {
           while (running!==laslasl) {
-            const gggi = `${fefejef[getRanIntFromMinMax(0,fefejef.length)]}${
-              getRanIntFromMinMax(0,100)}${getRanIntFromMinMax(1,23)}${fefejef[getRanIntFromMinMax(0,fefejef.length)]}`;
+            const gggi = `${fefejef[getRanIntFromMinMax(0,fefejef.length)]}${overall[getRanIntFromMinMax(0,overall.length)]}${getRanIntFromMinMax(0,100)}${getRanIntFromMinMax(1,23)}${fefejef[getRanIntFromMinMax(0,fefejef.length)]}`;
             await prisma.comment.create({
               data: {
                 text: `${i} for ${randomTopic.description}`,
