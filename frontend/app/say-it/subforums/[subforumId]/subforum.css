@@ -173,11 +173,11 @@
     transition: box-shadow 0.3s ease;
 }
 
-.that-sub-only-sub-list-item:hover {
+.that-sub-only-sub-list-item:hover,.that-sub-only-sub-list-item:active {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.dark .that-sub-only-sub-list-item:hover {
+.dark .that-sub-only-sub-list-item:hover,.dark .that-sub-only-sub-list-item:active {
     box-shadow: 0 4px 8px rgba(228, 228, 228, 0.15);
 }
 

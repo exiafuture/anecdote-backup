@@ -45,6 +45,7 @@ export default function TopIsOne() {
     const [topAndItsCom,setTopAndItsCom] = useState<Topic|null>(null);
     const [nestedComments, setNestedComments] = useState<NestedComment[]>([]);
     const [uniqueFor,setUniqueFor] = useState<string[]>([]);
+    const [uniqueBadge,setUniqueBadge] = useState<Label[]>([]);
 
     useEffect(()=> {
         fetchAllCom();
@@ -58,19 +59,19 @@ export default function TopIsOne() {
         return Array.from(uniqueIds);
     };
 
-    const extractUniqueLabels = (comments: Comment[]): string[] => {
-        const uniqueIds = new Set<string>();
-        comments.forEach(comment => {
-            uniqueIds.add(comment.forReplyId);
+    const extractUniqueLabels = (topic: Topic): Label[] => {
+        const uniqueLab = new Set<Label>();
+        topic.labels.forEach(l => {
+            uniqueLab.add(l);
         });
-        return Array.from(uniqueIds);
+        return Array.from(uniqueLab);
     };
 
     const CommentNode: React.FC<CommentNodeProps> = ({ comment }) => (
         <div 
             className="entire-ho"
-            style={{ marginLeft: comment.replyToId ? "0.75rem" : "0", 
-            padding: "13px 15px", border: "0px solid #ddd" }}>
+            style={{ marginLeft: comment.replyToId ? "0.25rem" : "0", 
+            padding: "13px 13px", border: "none" }}>
             {comment.media && comment.media.map(media => (
                 <div key={media.id}>
                     <a href={media.url} target="_blank" rel="noopener noreferrer">View Media</a>
@@ -121,7 +122,8 @@ export default function TopIsOne() {
             setNestedComments(nested);
             const uniqueIds = extractUniqueForReplyIds(data.comments);
             setUniqueFor(uniqueIds);
-            console.log(uniqueFor);
+            const allLab = extractUniqueLabels(data);
+            setUniqueBadge(allLab);
         } catch (error) {
           console.error("Error fetching topic data:", error);
         }
@@ -133,13 +135,14 @@ export default function TopIsOne() {
                 <>
                     <h1>{topAndItsCom.title}</h1>
                     <p className="dep-p">{topAndItsCom.description}</p>
-                    {/* <ul>
+                    <ul className="previous-page-filter">
                         {
-                            uniqueFor.map((f4)=>(
-                                <li>{f4}</li>
+                            uniqueBadge.map((f4)=>(
+                                <li key={f4.id}>#{f4.name}{
+                                    uniqueBadge.indexOf(f4)!==uniqueBadge.length-1 && ","}</li>
                             ))
                         }
-                    </ul> */}
+                    </ul>
                     <hr/>
                     {nestedComments.map(comment => (
                         <CommentNode key={comment.id} comment={comment} />

@@ -1,5 +1,6 @@
 .specific-chat-page {
     margin: 0.25rem 0.5rem;
+    height: 90vh;
 }
 
 .specific-chat-page h1 {
@@ -28,6 +29,23 @@
     font-family:'Times New Roman', Times, serif;
 }
 
-.entire-ho:hover {
+.entire-ho:hover,.entire-ho:active {
     box-shadow: 0 4px 6px rgba(0,0,0,1.0);
+}
+
+.previous-page-filter {
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    border-radius: 2.75px;
+    background-color: rgba(10, 10, 10, 0.186);
+    list-style-type: none;
+    margin-top:0.2rem;
+    margin-bottom: 0.275rem;
+    margin-left:1.3rem;
+    padding-left: 5px;
+    white-space: nowrap;
+    scrollbar-width: none;
+    overflow-x: auto; /* Allows horizontal scroll */
+    scroll-behavior: smooth; /* Smooth scrolling */
 }
