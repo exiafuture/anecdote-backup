@@ -149,6 +149,32 @@ export default function TopIsOne() {
                     {nestedComments.map(comment => (
                         <CommentNode key={comment.id} comment={comment} />
                     ))}
+                    <div className="sticky-input-bar">
+                        <div className="input-container">
+                            <textarea
+                            className="big-text-input"
+                            placeholder="Type your comment here..."
+                            rows={4}
+                            ></textarea>
+                            <div className="forReplyId-section">
+                            <input
+                                type="text"
+                                className="reply-id-input"
+                                placeholder="Enter unique forReplyId"
+                            />
+                            <span className="validity-check">✅</span>
+                            </div>
+                            <select className="reply-dropdown">
+                            <option value="">Choose replyToId (optional)</option>
+                            {uniqueFor.map((id) => (
+                                <option key={id} value={id}>
+                                {id}
+                                </option>
+                            ))}
+                            </select>
+                            <button className="submit-btn">Submit</button>
+                        </div>
+                    </div>
                 </>
             )}
         </div>
