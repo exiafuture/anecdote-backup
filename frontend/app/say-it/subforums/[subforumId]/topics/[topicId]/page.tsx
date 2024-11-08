@@ -11,7 +11,9 @@ interface Comment {
     createdAt: Date;
     forReplyId: string;
     replyToId?: string | null;
-    media?: Media[]
+    media?: Media[];
+    support:number;
+    reject:number;
 }
 
 interface Label {
@@ -86,7 +88,7 @@ export default function TopIsOne() {
                 }
                 {comment.replyToId&&(<hr/>)}
                 <p className="content-p">{comment.text}</p>
-                <strong className="connect-from">\ {comment.forReplyId} |</strong>
+                <strong className="connect-from">\ {comment.forReplyId} | {comment.support} vs {comment.reject}</strong>
             </div>
             {comment.children.map(child => (
                 <CommentNode key={child.id} comment={child} />
@@ -133,7 +135,7 @@ export default function TopIsOne() {
         <div className="specific-chat-page">
             {topAndItsCom && (
                 <>
-                    <h1>{topAndItsCom.title}</h1>
+                    <h1 className="dep-hone">{topAndItsCom.title}</h1>
                     <p className="dep-p">{topAndItsCom.description}</p>
                     <ul className="previous-page-filter">
                         {

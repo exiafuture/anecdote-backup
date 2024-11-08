@@ -27,6 +27,8 @@ export class SubforumService {
                         media:true,
                         createdAt:true,
                         replyToId:true,
+                        support:true,
+                        reject:true
                     },
                     orderBy:{createdAt:"desc"}
                 }
