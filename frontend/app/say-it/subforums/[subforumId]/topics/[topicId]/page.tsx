@@ -40,6 +40,7 @@ interface NestedComment extends Comment {
 
 interface CommentNodeProps {
     comment: NestedComment;
+    onId: (forId:string)=>void;
 }
 
 export default function TopIsOne() {
@@ -48,6 +49,7 @@ export default function TopIsOne() {
     const [nestedComments, setNestedComments] = useState<NestedComment[]>([]);
     const [uniqueFor,setUniqueFor] = useState<string[]>([]);
     const [uniqueBadge,setUniqueBadge] = useState<Label[]>([]);
+    const [selectedReplyToId,setSelectedReplyToId] = useState<string>("");
 
     useEffect(()=> {
         fetchAllCom();
@@ -69,32 +71,56 @@ export default function TopIsOne() {
         return Array.from(uniqueLab);
     };
 
-    const CommentNode: React.FC<CommentNodeProps> = ({ comment }) => (
-        <div 
-            className="entire-ho"
-            style={{ marginLeft: comment.replyToId ? "0.25rem" : "0", 
-            padding: "13px 13px", border: "none" }}>
-            {comment.media && comment.media.map(media => (
-                <div key={media.id}>
-                    <a href={media.url} target="_blank" rel="noopener noreferrer">View Media</a>
-                </div>
-            ))}
-            <div>
-                {comment.replyToId&&(
-                    <div>
-                        <strong>[</strong><em className="connect-to">{comment.replyToId}</em><strong>]</strong>
+    const selectReplyToWhich = (forId:string) => {
+        setSelectedReplyToId(forId);
+    };
+
+    const CommentNode: React.FC<CommentNodeProps> = ({ comment,onId }) => {
+        const [lastTouchEnd, setLastTouchEnd] = useState(0);
+
+        const handleDoubleClick = (event: React.MouseEvent) => {
+            event.stopPropagation();
+            selectReplyToWhich(comment.forReplyId);
+        };
+
+        const handleDoublePress = (event: React.TouchEvent) => {
+            event.stopPropagation();
+            const currentTime = new Date().getTime();
+            if (currentTime - lastTouchEnd < 300) {
+                selectReplyToWhich(comment.forReplyId);
+            }
+            setLastTouchEnd(currentTime);
+        };
+
+        return (
+            <div 
+                onDoubleClick={handleDoubleClick}
+                onTouchEnd={handleDoublePress}
+                className="entire-ho"
+                style={{ marginLeft: comment.replyToId ? "0.25rem" : "0", 
+                padding: "13px 13px", border: "none" }}>
+                {comment.media && comment.media.map(media => (
+                    <div key={media.id}>
+                        <a href={media.url} target="_blank" rel="noopener noreferrer">View Media</a>
                     </div>
-                    )
-                }
-                {comment.replyToId&&(<hr/>)}
-                <p className="content-p">{comment.text}</p>
-                <strong className="connect-from">\ {comment.forReplyId} | {comment.support} vs {comment.reject}</strong>
+                ))}
+                <div>
+                    {comment.replyToId&&(
+                        <div>
+                            <strong>[</strong><em className="connect-to">{comment.replyToId}</em><strong>]</strong>
+                        </div>
+                        )
+                    }
+                    {comment.replyToId&&(<hr/>)}
+                    <p className="content-p">{comment.text}</p>
+                    <strong className="connect-from">\ {comment.forReplyId} | {comment.support} vs {comment.reject}</strong>
+                </div>
+                {comment.children.map(child => (
+                    <CommentNode key={child.id} comment={child} onId={onId} />
+                ))}
             </div>
-            {comment.children.map(child => (
-                <CommentNode key={child.id} comment={child} />
-            ))}
-        </div>
-    );
+        )
+    };
 
     const buildNestedComments = (comments: Comment[]): NestedComment[] => {
         const commentMap = new Map<string, NestedComment>();
@@ -147,7 +173,7 @@ export default function TopIsOne() {
                     </ul>
                     <hr/>
                     {nestedComments.map(comment => (
-                        <CommentNode key={comment.id} comment={comment} />
+                        <CommentNode key={comment.id} comment={comment} onId={selectReplyToWhich} />
                     ))}
                     <div className="sticky-input-bar">
                         <div className="input-container">
@@ -157,18 +183,21 @@ export default function TopIsOne() {
                             rows={4}
                             ></textarea>
                             <div className="forReplyId-section">
-                            <input
-                                type="text"
-                                className="reply-id-input"
-                                placeholder="Enter unique forReplyId"
-                            />
-                            <span className="validity-check">✅</span>
+                                <input
+                                    type="text"
+                                    className="reply-id-input"
+                                    placeholder="Enter unique forReplyId"
+                                />
+                                <span className="validity-check">✅</span>
                             </div>
-                            <select className="reply-dropdown">
-                            <option value="">Choose replyToId (optional)</option>
+                            <select className="reply-dropdown"
+                                value={selectedReplyToId} // Set the value to controlled state
+                                onChange={(e) => setSelectedReplyToId(e.target.value)}
+                            >
+                            <option value="">Need A ReplyId?</option>
                             {uniqueFor.map((id) => (
                                 <option key={id} value={id}>
-                                {id}
+                                    {id}
                                 </option>
                             ))}
                             </select>
