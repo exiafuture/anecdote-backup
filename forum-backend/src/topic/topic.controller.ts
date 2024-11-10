@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { TopicService } from './topic.service';
 
 @Controller('topic')
@@ -13,6 +13,19 @@ export class TopicController {
     @Get(":subforumId")
     async findAllTopicsInOneSubforum(@Param("subforumId") subforumId: string) {
         return this.topicService.getTopicsBySubformId(+subforumId);
+    }
+
+    @Get(":topicId/checkId")
+    async findThere(
+        @Param("topicId") topicId:string,
+        @Query("forfor") forfor: string,
+    ):Promise<{isValidthere: boolean}> {
+        const pa = parseInt(topicId,10);
+        if (isNaN(pa)) {
+            throw new NotFoundException("invalid sub id");
+        }
+        const isOnor = await this.topicService.isForThere(pa,forfor);
+        return {isValidthere:isOnor};
     }
 
     @Post()

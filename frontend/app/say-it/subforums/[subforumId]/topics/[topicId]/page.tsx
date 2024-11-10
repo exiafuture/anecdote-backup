@@ -50,10 +50,38 @@ export default function TopIsOne() {
     const [uniqueFor,setUniqueFor] = useState<string[]>([]);
     const [uniqueBadge,setUniqueBadge] = useState<Label[]>([]);
     const [selectedReplyToId,setSelectedReplyToId] = useState<string>("");
+    const [newForReplyId, setNewForReplyId] = useState<string>("");
+    const [isForReplyIdValid, setIsForReplyIdValid] = useState<boolean | null>(null);
 
     useEffect(()=> {
         fetchAllCom();
     },[])
+
+    const checkForReplyIdValidity = async (forfor:string) => {
+        try {
+            const resppp = await axios.get(
+                `http://localhost:3030/topic/${topicId}/checkId`,{
+                    params:{forfor:forfor}
+                }
+            )
+            setIsForReplyIdValid(resppp.data.isValidthere);
+        } catch(error) {
+            console.error("omg good gracious: ",error);
+            setIsForReplyIdValid(false);
+        }
+    }
+
+    const handleForReplyIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let input = e.target.value;
+        let sanitizedInput = input.replace(/[^\w_\- \t]/g, "").replace(/\s+/g, ' ').trim();
+        setNewForReplyId(sanitizedInput);
+
+        if (sanitizedInput.length > 0) {
+            checkForReplyIdValidity(sanitizedInput);
+        } else {
+            setIsForReplyIdValid(null); // Reset validity status when input is empty
+        }
+    };
 
     const extractUniqueForReplyIds = (comments: Comment[]): string[] => {
         const uniqueIds = new Set<string>();
@@ -178,23 +206,27 @@ export default function TopIsOne() {
                     <div className="sticky-input-bar">
                         <div className="input-container">
                             <textarea
-                            className="big-text-input"
-                            placeholder="Type your comment here..."
-                            rows={4}
+                                className="big-text-input"
+                                placeholder="Type your comment here..."
+                                rows={4}
                             ></textarea>
                             <div className="forReplyId-section">
                                 <input
                                     type="text"
+                                    value={newForReplyId}
+                                    onChange={handleForReplyIdChange}
                                     className="reply-id-input"
-                                    placeholder="Enter unique forReplyId"
+                                    placeholder="unique CommentId; x symbols x emoji"
                                 />
-                                <span className="validity-check">✅</span>
+                                <span className="validity-check">
+                                    {isForReplyIdValid === null ? "" : isForReplyIdValid ? "✅" : "❌"}
+                                </span>
                             </div>
                             <select className="reply-dropdown"
                                 value={selectedReplyToId} // Set the value to controlled state
                                 onChange={(e) => setSelectedReplyToId(e.target.value)}
                             >
-                            <option value="">Need A ReplyId?</option>
+                            <option value="">Need A Reply Id? (OPT)</option>
                             {uniqueFor.map((id) => (
                                 <option key={id} value={id}>
                                     {id}

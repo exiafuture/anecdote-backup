@@ -5,6 +5,18 @@ import { PrismaClient } from '@prisma/client';
 export class TopicService {
     private prisma = new PrismaClient();
 
+    async isForThere(topicId:number,forfor:string):Promise<boolean>{
+        const ex=await this.prisma.comment.findFirst({
+            where:{
+                topicId:topicId,
+                forReplyId:{
+                    equals:forfor
+                }
+            }
+        });
+        return !ex;
+    }
+
     async getTopicsBySubformId(subforumId: number) {
         return this.prisma.topic.findMany({
             where: {subforumId},
