@@ -13,13 +13,13 @@ const NavBar: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  let navClass = "navbar";
-  if (pathname.startsWith("/forum")) {
-    navClass += " navbar-forum";
-  } else if (pathname.startsWith("/story")) {
-    navClass += " navbar-story";
+  let navClass;
+  if (pathname.startsWith("/say-it")) {
+    navClass = <li><Link href="/say-it" className="nav-link">SayIt</Link></li>;
+  } else if (pathname.startsWith("/inker")) {
+    navClass = <li><Link href="/inker" className="nav-link">Stories</Link></li>;
   } else {
-    navClass += " navbar-home";
+    navClass = <li><Link href="/pool" className="nav-link">Ideas</Link></li>;
   }
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,7 +51,7 @@ const NavBar: React.FC = () => {
 
         <ul className="nav-links">
           <li><Link href="/" className="nav-link mobile-home">Home</Link></li>
-          <li><Link href="/pool" className="nav-link">Pool</Link></li>
+          {navClass}
           <li><Link href="/about" className="nav-link extra">About</Link></li>
           <li><Link href="/pricing-plans" className="nav-link">Pricing</Link></li>
           {!user ? (
@@ -103,6 +103,9 @@ const NavBar: React.FC = () => {
                 <button onClick={toggleTheme}>Light Mode</button>
               }
             </li>
+            <li className='drop-up-item'><button><Link href="/pool" className="drop-up-item">Ideas</Link></button></li>;
+            <li className='drop-up-item'><button><Link href="/say-it" className="drop-up-item">SayIt</Link></button></li>;
+            <li className='drop-up-item'><button><Link href="/inker" className="drop-up-item">Stories</Link></button></li>;
             <li className='drop-up-item'>
               {
                 !user ?

@@ -24,7 +24,9 @@ const Footer = () => {
 
       <div className="footer-nav-links">
         <Link href="/" className="footer-nav-link">Home</Link>
-        <Link href="/pool" className="footer-nav-link">Pool</Link>
+        <Link href="/pool" className="footer-nav-link">Ideas</Link>
+        <Link href="/say-it" className="footer-nav-link">SayIt</Link>
+        <Link href="/inker" className="footer-nav-link">Stories</Link>
         <Link href="/pricing-plans" className="footer-nav-link">Pricing</Link>
         <Link href="/about" className="footer-nav-link">About</Link>
       </div>
